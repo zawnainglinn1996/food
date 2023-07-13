@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="hr_expense_view_form_employee" model="ir.ui.view">
+            <field name="name">hr.expense.view.form.employee</field>
+            <field name="model">hr.expense</field>
+            <field name="inherit_id" ref="hr_expense.hr_expense_view_form"/>
+            <field name="arch" type="xml">
+                <field name="employee_id" position="after">
+                     <field name="login_employee_id" readonly="1"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_hr_expense_sheet_form_login-employee" model="ir.ui.view">
+            <field name="name">hr.expense.sheet.form.login-employee</field>
+            <field name="model">hr.expense.sheet</field>
+            <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_form"/>
+            <field name="arch" type="xml">
+                <group name="employee_details" position="after">
+                    <group>
+                        <field name="login_employee_id" readonly="1"/>
+                    </group>
+                </group>
+            </field>
+        </record>
+
+        <record id="view_expenses_tree_employee-login" model="ir.ui.view">
+            <field name="name">hr.expense.tree.employee-login</field>
+            <field name="model">hr.expense</field>
+            <field name="inherit_id" ref="hr_expense.view_expenses_tree"/>
+            <field name="arch" type="xml">
+                <field name="employee_id" position="after">
+                    <field name="login_employee_id"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_hr_expense_sheet_tree_employee-login" model="ir.ui.view">
+            <field name="name">hr.expense.sheet.tree.employee-login</field>
+            <field name="model">hr.expense.sheet</field>
+            <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_tree"/>
+            <field name="arch" type="xml">
+                <field name="employee_id" position="after">
+                    <field name="login_employee_id"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_product_template_form_inherit" model="ir.ui.view">
+        <field name="name">product.template.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='options']//span[last()]" position="inside">
+                <span class="d-inline-block">
+                    <field name="can_pack"/>
+                    <label for="can_pack"/>
+                </span>
+            </xpath>
+            <xpath expr="//group[@name='operations']" position="after">
+                <group string="Packing" attrs="{'invisible': [('can_pack', '!=', True)]}">
+                    <field name="parent_product_id"/>
+                    <field name="child_product_qty"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

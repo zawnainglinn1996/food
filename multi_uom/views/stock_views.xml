@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- PICKING FORMs -->
+    <record id="view_picking_form_inherit" model="ir.ui.view">
+        <field name="name">stock.picking.form.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='move_ids_without_package']/tree//field[@name='product_uom_qty']" position="replace">
+                <field name="product_uom_qty" invisible="1"/>
+                <field name="multi_uom_qty"
+                       string="Demand"
+                       attrs="{'column_invisible': [('parent.immediate_transfer', '=', True)], 'readonly': ['|', ('is_initial_demand_editable', '=', False), '&amp;', '&amp;', ('show_operations', '=', True), ('is_locked', '=', True), ('is_initial_demand_editable', '=', False)]}"/>
+            </xpath>
+            <xpath expr ="//field[@name='move_ids_without_package']//tree//field[@name='forecast_availability']" position="replace">
+                <field name="forecast_availability" invisible="1"/>
+                <field name="multi_forecast_availability"
+                       string="Reserved"
+                       attrs="{'column_invisible': ['|', '|', ('parent.state', 'in', ['draft', 'done']), ('parent.picking_type_code', '!=', 'outgoing'), ('parent.immediate_transfer', '=', True)]}"/>
+            </xpath>
+            <xpath expr="//field[@name='move_ids_without_package']/tree//field[@name='reserved_availability']" position="replace">
+                <field name="reserved_availability" invisible="1"/>
+                <field name="multi_reserved_availability" string="Reserved" attrs="{'column_invisible': ['|', '|', ('parent.state', 'in', ['draft', 'done']), ('parent.picking_type_code', 'in', ['incoming', 'outgoing']), ('parent.immediate_transfer', '=', True)]}"/>
+            </xpath>
+            <xpath expr="//field[@name='move_ids_without_package']//tree//field[@name='quantity_done']" position="attributes">
+               <attribute name="invisible">1</attribute>
+
+            </xpath>
+           <xpath expr="//field[@name='move_ids_without_package']//tree//field[@name='quantity_done']" position="after">
+                <field name="multi_quantity_done" string="Done" attrs="{'column_invisible':[('parent.state', '=', 'draft'), ('parent.immediate_transfer', '=', False)]}"/>
+           </xpath>
+            <xpath expr="//field[@name='move_ids_without_package']/tree//field[@name='product_uom']" position="replace">
+                <field name="multi_uom_line_ids" invisible="1"/>
+                <field name="product_uom" invisible="1"/>
+                <field name="multi_uom_line_id"
+                       domain="[('id', 'in', multi_uom_line_ids)]"
+                       attrs="{'readonly': [('state', '!=', 'draft'), ('additional', '=', False)]}"
+                       options="{'no_open': True, 'no_create': True}"
+                       string="Unit of Measure"
+                       groups="uom.group_uom"/>
+                <field name="uom_ratio_remark" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- STOCK MOVE FORMs -->
+    <record id="view_move_form_inherit" model="ir.ui.view">
+        <field name="name">stock.move.form.inherit</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_move_form"/>
+        <field name="arch" type="xml">
+<!--            <xpath expr="//label[@for='product_uom_qty']" position="replace">-->
+<!--                <label for="multi_uom_qty"/>-->
+<!--            </xpath>-->
+            <xpath expr="//field[@name='product_uom_qty']/.." position="after">
+                    <field name="multi_uom_qty"/>
+            </xpath>
+            <xpath expr="//field[@name='product_uom']/.." position="after">
+                    <field name="multi_uom_line_id" options="{'no_open': True, 'no_create': True}" groups="uom.group_uom"/>
+            </xpath>
+            <xpath expr="//field[@name='product_uom']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='product_uom_qty']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_stock_move_operation_form_inherit" model="ir.ui.view">
+        <field name="name">stock.move.kanban.inherit</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_stock_move_operations"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='move_line_ids']" position="attributes">
+                <attribute name="context">
+                    {
+                        'tree_view_ref': 'stock.view_stock_move_line_operation_tree',
+                        'default_multi_uom_line_id': multi_uom_line_id ,
+                        'default_product_uom_id': product_uom,
+                        'default_picking_id': picking_id,
+                        'default_move_id': id,
+                        'default_product_id': product_id,
+                        'default_location_id': location_id,
+                        'default_location_dest_id': location_dest_id,
+                        'default_company_id': company_id
+                    }
+                </attribute>
+            </xpath>
+<!--            <xpath expr="//label[@for='product_uom_qty']" position="replace">-->
+<!--                <label for="multi_uom_qty" attrs="{'invisible': [('from_immediate_transfer', '=', True)]}"/>-->
+<!--            </xpath>-->
+            <xpath expr="//field[@name='product_uom_qty']/.." position="after">
+                    <field name="multi_uom_qty" readonly="1" nolabel="1"/>
+            </xpath>
+            <xpath expr="//field[@name='product_uom']/.." position="after">
+                    <field name="multi_uom_line_id" readonly="1" nolabel="1"/>
+            </xpath>
+            <xpath expr="//field[@name='product_uom']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='product_uom_qty']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+<!--            <xpath expr="//label[@for='quantity_done']" position="replace">-->
+<!--                <label for="multi_quantity_done"/>-->
+<!--            </xpath>-->
+            <xpath expr="//field[@name='quantity_done']/../.." position="replace">
+                <div class="o_row">
+                    <field name="quantity_done" invisible="1"/>
+                    <span><field name="multi_quantity_done" readonly="1" nolabel="1"/></span>
+                    <span attrs="{'invisible': ['|', ('state', '=', 'done'), ('from_immediate_transfer', '=', True)]}"> / </span>
+                    <span><field name="multi_reserved_availability" nolabel="1" attrs="{'invisible': ['|', ('state', '=', 'done'), ('from_immediate_transfer', '=', True)]}" /></span>
+                    <span><field name="multi_uom_line_id" readonly="1" nolabel="1" attrs="{'invisible': [('from_immediate_transfer', '=', True)]}"/></span>
+                </div>
+            </xpath>
+
+            <xpath expr="//field[@name='product_uom_category_id']" position="after">
+                <field name="product_uom" invisible="1"/>
+                <field name="product_uom_qty" invisible="1"/>
+                <field name="reserved_availability" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_stock_move_nosuggest_operations_inherit" model="ir.ui.view">
+        <field name="name">stock.move.kanban.inherit</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_stock_move_nosuggest_operations"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='move_line_nosuggest_ids']" position="attributes">
+                <attribute name="context">
+                    {
+                        'tree_view_ref': 'stock.view_stock_move_line_operation_tree',
+                        'default_picking_id': picking_id,
+                        'default_move_id': id,
+                        'default_product_id': product_id,
+                        'default_location_id': location_id,
+                        'default_location_dest_id': location_dest_id,
+                        'default_company_id': company_id,
+                        'default_multi_uom_line_id': multi_uom_line_id,
+                    }
+                </attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- STOCK MOVE TREEs -->
+    <record id="view_move_tree_receipt_picking_inherit" model="ir.ui.view">
+        <field name="name">stock.move.form.receipt.inherit</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_move_tree_receipt_picking"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_uom_qty']" position="replace">
+                <field name="product_uom_qty" invisible="1"/>
+                <field name="multi_uom_qty"/>
+            </xpath>
+            <xpath expr="//field[@name='product_uom_qty']" position="replace">
+                <field name="multi_uom_line_id"
+                       options="{'no_open': True, 'no_create': True}"
+                       string="Unit of Measure"
+                       domain="[('id', 'in', multi_uom_line_ids)]"
+                       groups="uom.group_uom"/>
+                <field name="multi_uom_line_ids" invisible="1"/>
+                <field name="product_uom" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_move_tree_inherit" model="ir.ui.view">
+        <field name="name">stock.move.form.inherit</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_move_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_uom_qty']" position="replace">
+                <field name="multi_uom_qty"/>
+                <field name="product_uom_qty" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='product_uom']" position="after">
+                <field name="multi_uom_line_id"
+                       options="{'no_open': True, 'no_create': True}"
+                       string="Unit of Measure"
+                       domain="[('id', 'in', multi_uom_line_ids)]"
+                       groups="uom.group_uom"/>
+                <field name="multi_uom_line_ids" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='product_uom']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_stock_move_picking_tree_inherit" model="ir.ui.view">
+        <field name="name">stock.move.tree.inherit</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_picking_move_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_uom_qty']" position="replace">
+                <field name="multi_uom_qty" string="Demand" attrs="{'readonly': [('is_initial_demand_editable', '=', False)]}"/>
+                <field name="product_uom_qty" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='reserved_availability']" position="replace">
+                <field name="multi_reserved_availability" string="Reserved"/>
+                <field name="reserved_availability" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='quantity_done']" position="replace">
+                <field name="multi_quantity_done" string="Done" attrs="{'readonly': [('is_quantity_done_editable', '=', False)]}"/>
+                <field name="quantity_done" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='product_uom']" position="after">
+                <field name="multi_uom_line_id"
+                       attrs="{'readonly': [('state', '!=', 'draft'), ('id', '!=', False)]}"
+                       options="{'no_open': True, 'no_create': True}"
+                       string="Unit of Measure"
+                       domain="[('id', 'in', multi_uom_line_ids)]"
+                       groups="uom.group_uom"/>
+                <field name="multi_uom_line_ids" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='product_uom']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+    <record id="stock_enterprise_move_tree_view_inherit" model="ir.ui.view">
+        <field name="name">stock.move.form.inherit</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock_enterprise.stock_enterprise_move_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_uom_qty']" position="replace">
+                <field name="multi_uom_qty" string="Quantity"/>
+                <field name="product_uom_qty" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='product_uom']" position="replace">
+                <field name="multi_uom_line_id" domain="[('id', 'in', multi_uom_line_ids)]" groups="uom.group_uom"/>
+                <field name="multi_uom_line_ids" invisible="1"/>
+                <field name="product_uom" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- STOCK MOVE LINE FORMs -->
+    <record id="view_move_line_form_inherit" model="ir.ui.view">
+        <field name="name">stock.move.line.form.inherit</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_move_line_form"/>
+        <field name="arch" type="xml">
+<!--            <xpath expr="//label[@for='product_uom_qty']" position="replace">-->
+<!--                <label for="multi_uom_qty" string="Quantity Reserved" attrs="{'invisible': [('state', '=', 'done')]}"/>-->
+<!--            </xpath>-->
+             <xpath expr="//field[@name='product_uom_qty']/.." position="after">
+                    <field name="multi_uom_qty" readonly="1"/>
+            </xpath>
+            <xpath expr="//field[@name='product_uom_id']/.." position="after">
+                    <field name="multi_uom_line_id" options="{'no_create': True}" string="Unit of Measure" groups="uom.group_uom"/>
+            </xpath>
+            <xpath expr="//field[@name='product_uom_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='product_uom_qty']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//label[@for='qty_done']" position="replace">
+                <label for="multi_qty_done" string="Quantity Done"/>
+            </xpath>
+            <xpath expr="//field[@name='qty_done']/.." position="replace">
+                <div class="o_row">
+                    <field name="multi_qty_done"/>
+                    <field name="multi_uom_line_id" options="{'no_create': True}" string="Unit of Measure" groups="uom.group_uom"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- STOCK MOVE LINE TREEs -->
+    <record id="view_move_line_tree_inherit" model="ir.ui.view">
+        <field name="name">stock.move.line.tree.inherit</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_move_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='qty_done']" position="replace">
+                <field name="multi_qty_done" string="Quantity Done"/>
+                <field name="qty_done" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='product_uom_id']" position="replace">
+                <field name="multi_uom_line_id" options="{'no_open': True, 'no_create': True}" string="Unit of Measure" groups="uom.group_uom"/>
+                <field name="product_uom_id" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_move_line_tree_detailed_inherit" model="ir.ui.view">
+        <field name="name">stock.move.line.form.inherit</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_move_line_tree_detailed"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='qty_done']" position="replace">
+                <field name="multi_qty_done" string="Quantity Done" optional="hide"/>
+                <field name="qty_done" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='product_uom_id']" position="replace">
+                <field name="multi_uom_line_id" options="{'no_open': True, 'no_create': True}" optional="hide" string="Unit of Measure" groups="uom.group_uom"/>
+                <field name="product_uom_id" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_stock_move_line_operation_tree_inherit" model="ir.ui.view">
+        <field name="name">stock.move.line.form.inherit</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_stock_move_line_operation_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_uom_qty']" position="replace">
+                <field name="multi_uom_qty" invisible="not context.get('show_reserved_quantity')" readonly="1"/>
+                <field name="product_uom_qty" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='qty_done']" position="replace">
+                <field name="multi_qty_done"
+                       attrs="{'readonly': ['|', '&amp;', ('state', '=', 'done'), ('is_locked', '=', True), '&amp;', ('package_level_id', '!=', False), ('parent.picking_type_entire_packs', '=', True)]}"/>
+                <field name="qty_done" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='product_uom_id']" position="replace">
+                <field name="product_id" invisible="1"/>
+                <field name="multi_uom_line_ids" invisible="1"/>
+                <field name="multi_uom_line_id"
+                       options="{'no_open': True, 'no_create': True}"
+                       string="Unit of Measure"
+                       groups="uom.group_uom"
+                       domain="[('id', 'in', multi_uom_line_ids)]"
+                       attrs="{'readonly': ['|', '|', ('product_uom_qty', '!=', 0.0),
+                               '&amp;',('package_level_id', '!=', False), ('parent.picking_type_entire_packs', '=', True),
+                               '&amp;', ('state', '=', 'done'), ('id', '!=', False)]}"/>
+                <field name="product_uom_id" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_stock_move_line_detailed_operation_tree_inherit" model="ir.ui.view">
+        <field name="name">stock.move.line.form.inherit</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_stock_move_line_detailed_operation_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_uom_qty']" position="replace">
+                <field name="multi_uom_qty" readonly="1" attrs="{'column_invisible': ['|',('parent.immediate_transfer', '=', True),('parent.picking_type_code','=','incoming')]}" optional="show"/>
+                <field name="product_uom_qty" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='qty_done']" position="replace">
+                <field name="multi_qty_done" attrs="{'readonly': [('state', 'in', ('done', 'cancel')), ('is_locked', '=', True)]}" force_save="1"/>
+                <field name="qty_done" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='product_uom_id']" position="replace">
+                <field name="multi_uom_line_id" force_save="1" attrs="{'readonly': [('state', '!=', 'draft'), ('id', '!=', False)]}" groups="uom.group_uom"/>
+                <field name="product_uom_id" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- STOCK ORDER POINT -->
+    <record id="view_warehouse_orderpoint_tree_editable_config_inherit" model="ir.ui.view">
+        <field name="name">stock.warehouse.orderpoint.form.inherit</field>
+        <field name="model">stock.warehouse.orderpoint</field>
+        <field name="inherit_id" ref="stock.view_warehouse_orderpoint_tree_editable_config"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_min_qty']" position="replace">
+                <field name="multi_product_min_qty" optional="show"/>
+                <field name="product_min_qty" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='product_max_qty']" position="replace">
+                <field name="multi_product_max_qty" optional="show"/>
+                <field name="product_max_qty" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='qty_multiple']" position="replace">
+                <field name="multi_qty_multiple" optional="hide"/>
+                <field name="qty_multiple" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='product_uom_name']" position="replace">
+                <field name="multi_uom_line_id"
+                       required="1"
+                       domain="[('id', 'in', multi_uom_line_ids)]"
+                       string="UoM"
+                       groups="uom.group_uom"/>
+                <field name="multi_uom_line_ids" invisible="1"/>
+                <field name="product_uom_name" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_warehouse_orderpoint_tree_editable_inherit" model="ir.ui.view">
+        <field name="name">stock.warehouse.orderpoint.form.inherit</field>
+        <field name="model">stock.warehouse.orderpoint</field>
+        <field name="inherit_id" ref="stock.view_warehouse_orderpoint_tree_editable"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_min_qty']" position="replace">
+                <field name="multi_product_min_qty" optional="show"/>
+                <field name="product_min_qty" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='product_max_qty']" position="replace">
+                <field name="multi_product_max_qty" optional="show"/>
+                <field name="product_max_qty" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='qty_multiple']" position="replace">
+                <field name="multi_qty_multiple" optional="hide"/>
+                <field name="qty_multiple" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='qty_to_order']" position="replace">
+                <field name="multi_qty_to_order"/>
+                <field name="qty_to_order" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='product_uom_name']" position="replace">
+                <field name="multi_uom_line_id"
+                       required="1"
+                       domain="[('id', 'in', multi_uom_line_ids)]"
+                       string="UoM"
+                       groups="uom.group_uom"/>
+                <field name="multi_uom_line_ids" invisible="1"/>
+                <field name="product_uom_name" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- SCRAP -->
+    <record id="view_stock_scrap_form_inherit" model="ir.ui.view">
+        <field name="name">stock.scrap.form.inherit</field>
+        <field name="model">stock.scrap</field>
+        <field name="inherit_id" ref="stock.stock_scrap_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('o_row')]" position="replace">
+                <div class="o_row">
+                    <field name="multi_uom_line_ids" invisible="1"/>
+                    <field name="multi_uom_qty" string="Qty"/>
+                    <field name="multi_uom_line_id" domain="[('id', 'in', multi_uom_line_ids)]" required="1" string="UoM" groups="uom.group_uom" force_save="1"/>
+                </div>
+            </xpath>
+            <xpath expr="//field[@name='lot_id']" position="before">
+                <field name="scrap_qty" invisible="1"/>
+                <field name="product_uom_id" invisible="1"/>
+                <field name="product_uom_category_id" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_stock_scrap_tree_inherit" model="ir.ui.view">
+        <field name="name">stock.scrap.tree.inherit</field>
+        <field name="model">stock.scrap</field>
+        <field name="inherit_id" ref="stock.stock_scrap_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='scrap_qty']" position="replace">
+                <field name="multi_uom_qty" string="Qty"/>
+            </xpath>
+            <xpath expr="//field[@name='product_uom_id']" position="replace">
+                <field name="multi_uom_line_id" string="UoM" groups="uom.group_uom" force_save="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Multi Scrap -->
+
+<!--    <record id="stock_multi_scrap_form_view_inherit" model="ir.ui.view">-->
+<!--        <field name="name">stock.multi.scrap.form.inherit</field>-->
+<!--        <field name="model">stock.multi.scrap</field>-->
+<!--        <field name="inherit_id" ref="stock_multi_scrap.stock_multi_scrap_form_view"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//field[@name='line_ids']/tree//field[@name='product_uom_id']" position="replace"/>-->
+<!--            <xpath expr="//field[@name='line_ids']/tree//field[@name='scrap_qty']" position="replace">-->
+<!--                <field name="multi_uom_line_ids" invisible="1"/>-->
+<!--                <field name="scrap_qty" invisible="1"/>-->
+<!--                <field name="product_uom_id" invisible="1"/>-->
+<!--                <field name="multi_uom_qty" string="Qty"/>-->
+<!--                <field name="multi_uom_line_id"-->
+<!--                       domain="[('id', 'in', multi_uom_line_ids)]"-->
+<!--                       required="1" string="UoM"-->
+<!--                       groups="uom.group_uom"-->
+<!--                       force_save="1"/>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <record id="view_stock_quant_tree_inventory_editable_inherit" model="ir.ui.view">
+        <field name="name">stock.quant.tree.adjustment.inherit</field>
+        <field name="model">stock.quant</field>
+        <field name="inherit_id" ref="stock.view_stock_quant_tree_inventory_editable"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='inventory_diff_quantity']" position="after">
+                <field name="product_uom_id" optional="show"/>
+                <field name="multi_uom_onhand_qty" optional="show"/>
+                <field name="multi_uom_diff_qty" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_stock_quant_tree_inherit">
+        <field name="name">stock.quant.tree.inherit</field>
+        <field name="model">stock.quant</field>
+        <field name="inherit_id" ref="stock.view_stock_quant_tree_editable"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='inventory_quantity_auto_apply']" position="after">
+                <field name="product_uom_id" optional="show"/>
+                <field name="multi_uom_onhand_qty" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,23 @@
+<templates>
+    <div t-name="stock_requestion.qtyAtDate">
+          <a tabindex="0" t-attf-class="fa fa-area-chart  {{ widget.data.on_hand_qty ? 'text-primary' :'text-danger' }}"/>
+    </div>
+    <div t-name="stock_requestion.DetailPopOver">
+        <table class="table table-borderless table-sm">
+            <tbody>
+                <tr>
+                    <td><strong>On Hand Stock</strong></td>
+                    <td><t t-esc='data.on_hand_qty'/>
+                    <t t-if="data.product_uom" t-esc='data.product_uom.data.display_name'/></td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="text-left btn btn-link action_open_forecast2"
+            type="button">
+            <i class="fa fa-fw o_button_icon fa-arrow-right"/>
+            View Forecast1
+        </button>
+    </div>
+
+
+</templates>

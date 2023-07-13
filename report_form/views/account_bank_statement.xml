@@ -1,0 +1,12 @@
+<odoo>
+    <record id="view_account_bank_statement_form_inherit" model="ir.ui.view">
+        <field name="name">account.bank.statement.form</field>
+        <field name="model">account.bank.statement</field>
+        <field name="inherit_id" ref="account.view_bank_statement_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='previous_statement_id']" position="before">
+                <field name="code" readonly="True"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

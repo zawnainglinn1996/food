@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="view_employee_form_inherit" model="ir.ui.view">
+            <field name="name">hr.employee.form.access</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                   <xpath expr="//page[@name='hr_settings']" position="after">
+                      <page name="pos_location" string="POS Counter Access">
+                          <group>
+                                  <field name="pos_location_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+
+                          </group>
+                      </page>
+                   </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

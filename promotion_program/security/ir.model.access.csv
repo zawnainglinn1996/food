@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_promotion_program_all,All access - Promotion Program,model_promotion_program,base.group_user,1,1,1,1
+access_buy_one_get_one_line_all,All access - Buy 1 Get 1 Line,model_buy_one_get_one_line,base.group_user,1,1,1,1
+access_get_sale_promotion_all,All access - Get Sale Promotion,model_get_sale_promotion,base.group_user,1,1,1,1

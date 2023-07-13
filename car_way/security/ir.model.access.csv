@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_car_way_user,User Access for Car Way,model_car_way,base.group_user,1,1,0,0
+access_car_way_line_user,User Access for Car Way line,model_car_way_line,base.group_user,1,1,0,1
+access_car_way_name,User Access for Car Way Name,model_car_way_name,base.group_user,1,1,1,1
+access_car_way_wizard,User Access for Car Way Wizard,model_car_way_wizard,base.group_user,1,1,1,1
+access_car_alert_delivery_user,User Access for Car Way Wizard,model_alert_delivery,base.group_user,1,1,1,1
+access_car_way_total_report_user,User Access for Car Way Total Report,model_car_way_total_report,base.group_user,1,0,0,0
+access_car_way_branch_user,User Access for Car Way Branch Report,model_car_way_branch,base.group_user,1,1,1,1

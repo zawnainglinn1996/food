@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_stock_packaging_form" model="ir.ui.view">
+        <field name="name">stock.packaging.form</field>
+        <field name="model">stock.packaging</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="btn_package"
+                            string="Package"
+                            type="object"
+                            attrs="{'invisible': [('state', '!=', 'draft')]}"
+                            class="oe_highlight"/>
+                    <button name="btn_validate"
+                            string="Validate"
+                            type="object"
+                            attrs="{'invisible': [('state', '!=', 'confirm')]}"
+                            class="oe_highlight"/>
+                    <button name="btn_set_to_draft"
+                            string="Reset to Draft"
+                            type="object"
+                            attrs="{'invisible': [('state', '!=', 'confirm')]}"
+                            class="oe_highlight"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="btn_show_product_moves"
+                                string="Product Moves"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-exchange">
+                        </button>
+                        <button name="btn_show_valuations"
+                                string="Valuations"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-dollar">
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="date" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="location_id" options="{'no_create': True, 'no_open': True}"
+                                   attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="analytic_account_id" required="True"
+                                   attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="company_id" groups="base.group_multi_company"
+                                   options="{'no_create': True, 'no_open': True}"
+                                   attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Operations">
+                            <field name="line_ids" attrs="{'readonly': [('state', '!=', 'draft')]}">
+                                <tree editable="bottom" default_order="sequence, id">
+                                    <field name="sequence" invisible="1"/>
+                                    <field name="product_id"
+                                           domain="[('can_pack', '=', True)]"
+                                           string="Internal Reference"/>
+                                    <field name="product_name"/>
+                                    <field name="available_qty" string="On Hand"/>
+                                    <field name="qty" string="Qty"/>
+                                    <field name="forecasted_qty" string="Balance"/>
+                                    <field name="unit_cost" readonly="1" force_save="1"/>
+                                    <field name="total_cost" string="Amount"/>
+                                    <field name="parent_line_id" invisible="1"/>
+                                    <field name="move_ids" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_stock_packaging_tree" model="ir.ui.view">
+        <field name="name">stock.packaging.tree</field>
+        <field name="model">stock.packaging</field>
+        <field name="arch" type="xml">
+            <tree default_order="date desc">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="location_id"/>
+                <field name="analytic_account_id"/>
+                <field name="state"
+                       decoration-info="state == 'confirm'"
+                       decoration-success="state == 'done'"
+                       widget="badge"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_stock_packaging" model="ir.actions.act_window">
+        <field name="name">Packing (Small -> Big)</field>
+        <field name="res_model">stock.packaging</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new stock packaging here.
+            </p>
+            <p>
+                You'll be able to manage your stock packaging records here.
+            </p>
+        </field>
+    </record>
+    <menuitem id="menu_stock_packaging"
+              name="Packing (Small -> Big)"
+              parent="stock.menu_stock_warehouse_mgmt"
+              action="action_stock_packaging"
+              sequence="10008"/>
+</odoo>

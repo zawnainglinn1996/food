@@ -1,0 +1,110 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_purchase_requisition_tree">
+            <field name="name">purchase.requisition.tree</field>
+            <field name="model">purchase.requisition</field>
+            <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="vendor_id" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_purchase_requisition_form">
+            <field name="name">purchase.requisition.form</field>
+            <field name="model">purchase.requisition</field>
+            <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state']" position="replace">
+                      <field name="state" widget="statusbar" statusbar_visible="draft,in_progress" attrs="{'invisible': [('is_quantity_copy', '=', 'none')]}"/>
+                </xpath>
+                <xpath expr="//field[@name='currency_id']" position="after">
+                    <field name="active_currency"/>
+                    <field name="manual_base_rate" attrs="{'invisible':[('active_currency','=',False)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='type_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[@name='products']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <!--                HIDE 2 BUTTTON OF NEW QUOTATION -->
+                <xpath expr="//button[@name='%(purchase_requisition.action_purchase_requisition_to_so)d']"
+                       position="replace"/>
+                <xpath expr="//button[@name='%(purchase_requisition.action_purchase_requisition_to_so)d']"
+                       position="replace"/>
+                <xpath expr="//div[@name='button_box']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_open']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[@name='products']" position="after">
+                    <page string="Products" name="product">
+                        <field name="line_ids">
+                            <tree string="Products" editable="bottom">
+                                <field name="product_id" context="{'default_purchase_requisition': 'tenders'}"
+                                       domain="[('purchase_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"/>
+                                <field name="brand_id" optional="show"/>
+                                <field name="product_description_variants"
+                                       attrs="{'invisible': [('product_description_variants', '=', '')], 'readonly': [('parent.state', '!=', 'draft')]}"
+                                       optional="hide" string="Description"/>
+<!--                                <field name="product_uom_id" string="UoM" groups="uom.group_uom" optional="show"-->
+<!--                                       attrs="{'required': [('product_id', '!=', False)]}"/>-->
+                                 <field name="multi_uom_line_id" string="UoM" groups="uom.group_uom" optional="show"
+                                       attrs="{'required': [('product_id', '!=', False)]}"/>
+                                <field name="product_qty" string="Allowed Qty" readonly="1"/>
+                                <field name="required_qty" optional="show" string="REQ Qty"/>
+                                <field name="price_unit"/>
+                                <field name="unit_price_mmk" optional="hide" readonly="1"/>
+                                <field name="discount_type" optional="hide"/>
+                                <field name="discount" optional="hide"/>
+                                <field name="discount_amount" optional="hide" readonly="1"/>
+                                <field name="taxes_id" widget="many2many_tags" optional="hide"/>
+                                <field name="amount_mmk" string="Amount MMK" optional="hide" readonly="1"
+                                       force_save="1"/>
+                                <field name="other_charges" optional="hide"/>
+                                <field name="product_uom_category_id" invisible="1"/>
+                                <field name="product_warranty_period" string="Shelf Life"/>
+                                <field name="product_period" nolabel="1"/>
+                                <field name="property_supplier_payment_term_id"/>
+                                <field name="schedule_date" groups="base.group_no_one" invisible="1"/>
+                                <field name="account_analytic_id" optional="hide"
+                                       domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"
+                                       groups="analytic.group_analytic_accounting"/>
+                                <field name="analytic_tag_ids" optional="hide"
+                                       domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"
+                                       groups="analytic.group_analytic_tags" widget="many2many_tags"/>
+                                <field name="remark" optional="hide"/>
+                            </tree>
+                            <form string="Products">
+                                <group>
+                                    <field name="product_id" context="{'default_purchase_requisition': 'tenders'}"
+                                           domain="[('purchase_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"/>
+                                    <field name="product_qty"/>
+                                    <field name="qty_ordered"/>
+                                    <field name="product_uom_category_id" invisible="1"/>
+                                    <field name="product_uom_id"/>
+                                    <field name="schedule_date"/>
+                                    <field name="account_analytic_id"
+                                           domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"
+                                           groups="analytic.group_analytic_accounting"/>
+                                    <field name="company_id" groups="base.group_multi_company"
+                                           options="{'no_create': True}"/>
+                                </group>
+                            </form>
+                        </field>
+                        <separator string="Terms and Conditions"/>
+                        <field name="description" class="oe-bordered-editor"
+                               attrs="{'readonly': [('state','not in',('draft','in_progress','open'))]}"/>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        <menuitem
+                id="purchase_requisition.menu_purchase_requisition_pro_mgt"
+                sequence="215"
+                parent="nilar_purchase_requisition.purchase_req_root"
+                action="purchase_requisition.action_purchase_requisition"/>
+    </data>
+</odoo>

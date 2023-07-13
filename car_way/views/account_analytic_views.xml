@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="account_analytic_inherit" model="ir.ui.view">
+            <field name="name">account.analytic.inherit</field>
+            <field name="model">account.analytic.account</field>
+            <field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="///field[@name='code']" position="after">
+                      <field name="color" widget="color_picker"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

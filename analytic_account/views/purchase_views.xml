@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="purchase_order_form_inherit_analytic_account" model="ir.ui.view">
+        <field name="name">purchase.order.view.form.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='date_order']" position="before">
+                 <field name="allow_analytic_account_ids" widget="many2many_tags"  invisible="1"/>
+                 <field name="analytic_account_id" domain="[('id','in',allow_analytic_account_ids)]" attrs="{'readonly': [('state','not in',('draft','sent','to approve'))]}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

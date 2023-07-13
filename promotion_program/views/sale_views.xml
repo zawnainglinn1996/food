@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_sale_order_form_inherit" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header//button[last()]" position="after">
+                <button name="apply_promotion" 
+                        string="Promotion" 
+                        type="object" 
+                        icon="fa-trophy"
+                        attrs="{'invisible': ['|', ('promotion_ids', '=', []), ('state', '!=', 'draft')]}"
+                        class="oe_highlight"/>
+            </xpath>
+            <xpath expr="//field[@name='currency_id']" position="after">
+                <field name="promotion_ids" widget="many2many_tags" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

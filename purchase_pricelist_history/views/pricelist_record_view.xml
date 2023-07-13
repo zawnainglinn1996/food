@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="product_supplierinfo_form_view_uom" model="ir.ui.view">
+            <field name="name">product.supplierinfo.form.view.uom</field>
+            <field name="model">product.supplierinfo</field>
+            <field name="inherit_id" ref="product.product_supplierinfo_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form//sheet//group//group[2]//div[1]" position="after">
+                    <field name="multi_uom_line_id" string="Final Purchase UOM"/>
+                    <field name="multi_price_unit" string="Final Unit Price"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="product_supplierinfo_tree_view_uom" model="ir.ui.view">
+            <field name="name">product.supplierinfo.tree.view.uom</field>
+            <field name="model">product.supplierinfo</field>
+            <field name="inherit_id" ref="product.product_supplierinfo_tree_view"/>
+            <field name="arch" type="xml">
+                <field name="product_uom" position="after">
+                    <field name="multi_uom_line_id" string="Final Purchase UOM" readonly="1"/>
+                    <field name="multi_price_unit" string="Final Unit Price" readonly="1"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="pricelist_record_form_view" model="ir.ui.view">
+            <field name="name">pricelist.record.form.view</field>
+            <field name="model">pricelist.record</field>
+            <field name="arch" type="xml">
+                <form string="Vendor Information" create="false" edit="false" delete="false">
+                    <group>
+                        <group string="Vendor">
+                            <field name="name" context="{'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1}"/>
+                        </group>
+                        <group string="Price List">
+                            <field name="ticket_number"/>
+                            <field name="product_tmpl_id" string="Product"/>
+                            <label for="price"/>
+                            <div>
+                                <field name="price" class="oe_inline"/><field name="currency_id" class="oe_inline" groups="base.group_multi_currency"/>
+                            </div>
+                            <label for="subtotal"/>
+                            <div>
+                                <field name="subtotal" class="oe_inline"/><field name="currency_id" class="oe_inline" groups="base.group_multi_currency"/>
+                            </div>
+                            <field name="ticket_date"/>
+                            <field name="purchase_qty"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="pricelist_record_search_view" model="ir.ui.view">
+            <field name="name">pricelist.record.search.view</field>
+            <field name="model">pricelist.record</field>
+            <field name="arch" type="xml">
+                <search string="Vendor">
+                    <field name="name"/>
+                    <field name="product_tmpl_id"/>
+                    <field name="ticket_number"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Product" name="groupby_product" domain="[]" context="{'group_by': 'product_tmpl_id'}"/>
+                        <filter string="Vendor" name="groupby_vendor" domain="[]" context="{'group_by': 'name'}"/>
+                        <filter string="PO Number" name="groupby_po_number" domain="[]" context="{'group_by': 'ticket_number'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="pricelist_record_tree_view" model="ir.ui.view">
+            <field name="name">pricelist.record.tree.view</field>
+            <field name="model">pricelist.record</field>
+            <field name="arch" type="xml">
+                <tree string="Vendor Information" create="false" edit="false" delete="false">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="ticket_number"/>
+                    <field name="product_tmpl_id" string="Product"/>
+                    <field name="purchase_qty"/>
+                    <field name="multi_uom_line_id" string="UOM"/>
+                    <field name="price" string="Price"/>
+                    <field name="subtotal" string="Total Price"/>
+                    <field name="currency_id" groups="base.group_multi_currency"/>
+                    <field name="ticket_date"/>
+                </tree>
+            </field>
+        </record>
+        <record id="product_pricelist_record_action" model="ir.actions.act_window">
+            <field name="name">Pricelists Record</field>
+            <field name="res_model">pricelist.record</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="pricelist_record_tree_view"/>
+            <field name="search_view_id" ref="pricelist_record_search_view" />
+        </record>
+        <menuitem action="product_pricelist_record_action" id="pricelist_record" name="Pricelists Record" 
+        parent="purchase.purchase_report_main" sequence="16" />
+
+        <record id="product_template_form_view_inherit" model="ir.ui.view">
+            <field name="name">product.template.form.view</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='uom_po_id']" position="after">
+                    <field name="final_purchase_price"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

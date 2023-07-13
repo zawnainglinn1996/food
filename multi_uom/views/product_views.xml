@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="product_template_form_view_inherit" model="ir.ui.view">
+        <field name="name">product.template.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='uom_po_id']" position="attributes">
+                <attribute name="domain">[('category_id', '=', uom_category_id)]</attribute>
+            </xpath>
+            <xpath expr="//field[@name='uom_po_id']" position="after">
+                <field name="uom_category_id" invisible="0"/>
+            </xpath>
+            <xpath expr="//div[@name='options']//span[last()]" position="inside">
+                <span class="d-inline-block" invisible="1">
+                    <field name="multi_uom_ok"/>
+                    <label for="multi_uom_ok"/>
+                </span>
+            </xpath>
+            <xpath expr="//page[last()]" position="after">
+                <page name="multi_uom" string="Multi UoM">
+                    <field name="multi_uom_line_ids" nolabel="1">
+                        <tree editable="bottom">
+                            <field name="uom_id"
+                                    domain="[('category_id', '=', parent.uom_category_id)]"
+                                    required="1"/>
+                            <field name="ratio" required="1"/>
+                            <field name="is_default_uom" widget="boolean_toggle"/>
+                            <field name="remark"/>
+                            <field name="product_tmpl_id" invisible="1"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_product_pricelist_form_inherit" model="ir.ui.view">
+        <field name="name">product.pricelist.form.inherit</field>
+        <field name="model">product.pricelist</field>
+        <field name="groups_id" eval="[(4, ref('group_uom_price'))]"/>
+        <field name="inherit_id" ref="product.product_pricelist_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='pricelist_rules']" position="replace">
+                <page name="uom_pricelist_rules" string="Rules">
+                    <field name="pricelist_item_uom_ids">
+                        <tree editable="bottom">
+                            <field name="product_id"/>
+                            <field name="product_tmpl_id" invisible="1"/>
+                            <field name="multi_uom_line_id"
+                                   string="UoM"
+                                   domain="[('product_tmpl_id', '=', product_tmpl_id)]"/>
+                            <field name="pricelist_qty"/>
+                            <field name="price" />
+                            <field name="pricelist_id" invisible="1"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_pricelist_item_uom_tree" model="ir.ui.view">
+        <field name="name">pricelist.item.uom.tree</field>
+        <field name="model">pricelist.item.uom</field>
+        <field name="arch" type="xml">
+            <tree editable="top" default_order="pricelist_id,multi_uom_line_id,price">
+                <field name="pricelist_id" required="1"/>
+                <field name="product_id" invisible="1"/>
+                <field name="product_tmpl_id" invisible="1"/>
+                <field name="pricelist_qty" invisible="1"/>
+                <field name="multi_uom_line_id" string="UoM" domain="[('product_tmpl_id', '=', product_tmpl_id)]"/>
+                <field name="price"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

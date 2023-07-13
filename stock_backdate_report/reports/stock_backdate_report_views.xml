@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_stock_backdate_report_filter" model="ir.ui.view">
+        <field name="name">stock.backdate.report.filter</field>
+        <field name="model">stock.backdate.report</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="default_code"/>
+                <field name="product_id"/>
+                <field name="location_id"/>
+                <field name="on_hand_qty"/>
+                <field name="uom_id"/>
+            </search>
+        </field>
+    </record>
+    <record id="view_stock_backdate_report_form" model="ir.ui.view">
+        <field name="name">stock.backdate.report.form</field>
+        <field name="model">stock.backdate.report</field>
+        <field name="arch" type="xml">
+            <form create="false" edit="false" delete="false">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="default_code"/>
+                            <field name="product_id"/>
+                            <field name="location_id"/>
+                            <field name="on_hand_qty"/>
+                            <field name="uom_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_stock_backdate_report_tree" model="ir.ui.view">
+        <field name="name">stock.backdate.report.tree</field>
+        <field name="model">stock.backdate.report</field>
+        <field name="arch" type="xml">
+            <tree create="false" edit="false" delete="false" js_class="stock_at_date_location_wise">
+                <field name="default_code" optional="show"/>
+                <field name="product_id" optional="show"/>
+                <field name="location_id" optional="show"/>
+                <field name="on_hand_qty" optional="show"/>
+                <field name="uom_id" optional="show"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_stock_backdate_report" model="ir.actions.act_window">
+        <field name="name">Stock Backdate Report</field>
+        <field name="res_model">stock.backdate.report</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <!--  REMOVED MENUITEM SINCE THEY DON'T WANT THE REPORT  -->
+<!--    <menuitem id="menu_stock_backdate_report"-->
+<!--              name="Stock Backdate Report"-->
+<!--              parent="stock.menu_warehouse_report"-->
+<!--              action="action_stock_backdate_report"-->
+<!--              sequence="105"/>-->
+</odoo>

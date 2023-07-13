@@ -1,0 +1,4 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+mrp_bom_labour_cost_user,mrp_bom_labour_cost_name,mrp_to_journal.model_mrp_bom_labour_cost,base.group_user,1,1,1,1
+mrp_bom_overhead_cost_user,mrp_bom_overhead_cost_name,mrp_to_journal.model_mrp_bom_overhead_cost,base.group_user,1,1,1,1
+mrp_bom_material_cost_user,mrp_bom_material_cost_name,mrp_to_journal.model_mrp_bom_material_cost,base.group_user,1,1,1,1

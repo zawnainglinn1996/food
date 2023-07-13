@@ -1,0 +1,12 @@
+<odoo>
+    <record id="account_move_tree_view_inherit" model="ir.ui.view">
+        <field name="name">account.move.tree.view.inherit</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='amount_residual_signed']" position="before">
+                <field name="paid_amount" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

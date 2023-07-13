@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="action_inventory_activities_cost_reports_xlsx" model="ir.actions.report">
+        <field name="name">Inventory Activities With Cost Reports</field>
+        <field name="model">inventory.activities.cost.reports</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">inventory_activities_reports.activities_cost_xlsx</field>
+        <field name="report_file">inventory_activities_reports.activities_cost_xlsx</field>
+        <field name="print_report_name">'Inventory Activities With Cost'</field>
+    </record>
+    <record id="view_inventory_activities_cost_reports_form" model="ir.ui.view">
+        <field name="name">inventory.activities.cost.reports.form</field>
+        <field name="model">inventory.activities.cost.reports</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="product_ids" context="{'active_test': False}" nolabel="1"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button special="cancel"
+                            string="CANCEL"
+                            class="btn-danger"/>
+                    -
+                    <button name="btn_print"
+                            string="Print"
+                            type="object"
+                            class="oe_highlight"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_inventory_activities_cost_reports" model="ir.actions.act_window">
+        <field name="name">Inventory Activities With Cost Reports</field>
+        <field name="res_model">inventory.activities.cost.reports</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    <menuitem id="menu_inventory_activities_cost_reports"
+              name="Inventory Activities With Cost Reports"
+              parent="mrp.menu_mrp_reporting"
+              action="action_inventory_activities_cost_reports"
+              sequence="350"/>
+</odoo>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pos_analysis_excel_report" model="ir.actions.report">
+        <field name="name">POS Analysis Report</field>
+        <field name="model">pos.order</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">pos_analysis_excel_report.pos_analysis_excel_report</field>
+        <field name="report_file">pos_analysis_excel_report.pos_analysis_excel_report</field>
+    </record>
+</odoo>

@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_a_partner" model="ir.sequence">
+            <field name="name">A Sequence</field>
+            <field name="code">customer.a.sequence</field>
+            <field name="prefix">%(y)s%(month)sCA</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field eval="True" name="use_date_range"/>
+            <field name="range_reset">monthly</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_b_partner" model="ir.sequence">
+            <field name="name">B Sequence</field>
+            <field name="code">customer.b.sequence</field>
+            <field name="prefix">%(y)s%(month)sCB</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field eval="True" name="use_date_range"/>
+             <field name="range_reset">monthly</field>
+            <field name="number_increment">1</field>
+        </record>
+         <record id="seq_c_partner" model="ir.sequence">
+            <field name="name">C Sequence</field>
+            <field name="code">customer.c.sequence</field>
+            <field name="prefix">%(y)s%(month)sCC</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field eval="True" name="use_date_range"/>
+             <field name="range_reset">monthly</field>
+            <field name="number_increment">1</field>
+        </record>
+         <record id="seq_d_partner" model="ir.sequence">
+            <field name="name">D Sequence</field>
+            <field name="code">customer.d.sequence</field>
+            <field name="prefix">%(y)s%(month)sCD</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field eval="True" name="use_date_range"/>
+              <field name="range_reset">monthly</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_e_partner" model="ir.sequence">
+            <field name="name">E Sequence</field>
+            <field name="code">customer.e.sequence</field>
+            <field name="prefix">%(y)s%(month)sCE</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field eval="True" name="use_date_range"/>
+             <field name="range_reset">monthly</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_f_partner" model="ir.sequence">
+            <field name="name">F Sequence</field>
+            <field name="code">customer.f.sequence</field>
+            <field name="prefix">%(y)s%(month)sCF</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field eval="True" name="use_date_range"/>
+             <field name="range_reset">monthly</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_g_partner" model="ir.sequence">
+            <field name="name">G Sequence</field>
+            <field name="code">customer.g.sequence</field>
+            <field name="prefix">%(y)s%(month)sCG</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field eval="True" name="use_date_range"/>
+             <field name="range_reset">monthly</field>
+            <field name="number_increment">1</field>
+        </record>
+         <record id="seq_h_partner" model="ir.sequence">
+            <field name="name">I Sequence</field>
+            <field name="code">customer.i.sequence</field>
+            <field name="prefix">%(y)s%(month)sCI</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field eval="True" name="use_date_range"/>
+              <field name="range_reset">monthly</field>
+            <field name="number_increment">1</field>
+        </record>
+         <record id="seq_j_partner" model="ir.sequence">
+            <field name="name">J Sequence</field>
+            <field name="code">customer.j.sequence</field>
+            <field name="prefix">%(y)s%(month)sCJ</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field eval="True" name="use_date_range"/>
+              <field name="range_reset">monthly</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_k_partner" model="ir.sequence">
+            <field name="name">K Sequence</field>
+            <field name="code">customer.k.sequence</field>
+            <field name="prefix">%(y)s%(month)sCK</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field eval="True" name="use_date_range"/>
+             <field name="range_reset">monthly</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_l_partner" model="ir.sequence">
+            <field name="name">L Sequence</field>
+            <field name="code">customer.l.sequence</field>
+            <field name="prefix">%(y)s%(month)sCL</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field eval="True" name="use_date_range"/>
+             <field name="range_reset">monthly</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_m_partner" model="ir.sequence">
+            <field name="name">M Sequence</field>
+            <field name="code">customer.m.sequence</field>
+            <field name="prefix">%(y)s%(month)sCM</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field eval="True" name="use_date_range"/>
+             <field name="range_reset">monthly</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_n_partner" model="ir.sequence">
+            <field name="name">N Sequence</field>
+            <field name="code">customer.n.sequence</field>
+            <field name="prefix">%(y)s%(month)sCN</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field eval="True" name="use_date_range"/>
+             <field name="range_reset">monthly</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_o_partner" model="ir.sequence">
+            <field name="name">O Sequence</field>
+            <field name="code">customer.o.sequence</field>
+            <field name="prefix">%(y)s%(month)sCO</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field eval="True" name="use_date_range"/>
+             <field name="range_reset">monthly</field>
+            <field name="number_increment">1</field>
+        </record>
+         <record id="seq_p_partner" model="ir.sequence">
+            <field name="name">P Sequence</field>
+            <field name="code">customer.p.sequence</field>
+            <field name="prefix">%(y)s%(month)sCP</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field eval="True" name="use_date_range"/>
+              <field name="range_reset">monthly</field>
+            <field name="number_increment">1</field>
+        </record>
+         <record id="seq_q_partner" model="ir.sequence">
+            <field name="name">Q Sequence</field>
+            <field name="code">customer.q.sequence</field>
+            <field name="prefix">%(y)s%(month)sCQ</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field eval="True" name="use_date_range"/>
+              <field name="range_reset">monthly</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_r_partner" model="ir.sequence">
+            <field name="name">R Sequence</field>
+            <field name="code">customer.r.sequence</field>
+            <field name="prefix">%(y)s%(month)sCR</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field eval="True" name="use_date_range"/>
+             <field name="range_reset">monthly</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_s_partner" model="ir.sequence">
+            <field name="name">S Sequence</field>
+            <field name="code">customer.s.sequence</field>
+            <field name="prefix">%(y)s%(month)sCS</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field eval="True" name="use_date_range"/>
+             <field name="range_reset">monthly</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_t_partner" model="ir.sequence">
+            <field name="name">T Sequence</field>
+            <field name="code">customer.t.sequence</field>
+            <field name="prefix">%(y)s%(month)sCT</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field eval="True" name="use_date_range"/>
+             <field name="range_reset">monthly</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_u_partner" model="ir.sequence">
+            <field name="name">U Sequence</field>
+            <field name="code">customer.u.sequence</field>
+            <field name="prefix">%(y)s%(month)sCU</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field eval="True" name="use_date_range"/>
+             <field name="range_reset">monthly</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_v_partner" model="ir.sequence">
+            <field name="name">V Sequence</field>
+            <field name="code">customer.v.sequence</field>
+            <field name="prefix">%(y)s%(month)sCV</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field eval="True" name="use_date_range"/>
+             <field name="range_reset">monthly</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_w_partner" model="ir.sequence">
+            <field name="name">W Sequence</field>
+            <field name="code">customer.w.sequence</field>
+            <field name="prefix">%(y)s%(month)sCW</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field eval="True" name="use_date_range"/>
+             <field name="range_reset">monthly</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_x_partner" model="ir.sequence">
+            <field name="name">X Sequence</field>
+            <field name="code">customer.x.sequence</field>
+            <field name="prefix">%(y)s%(month)sCX</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field eval="True" name="use_date_range"/>
+             <field name="range_reset">monthly</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_y_partner" model="ir.sequence">
+            <field name="name">Y Sequence</field>
+            <field name="code">customer.y.sequence</field>
+            <field name="prefix">%(y)s%(month)sCY</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field eval="True" name="use_date_range"/>
+             <field name="range_reset">monthly</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_z_partner" model="ir.sequence">
+            <field name="name">Z Sequence</field>
+            <field name="code">customer.z.sequence</field>
+            <field name="prefix">%(y)s%(month)sCZ</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field eval="True" name="use_date_range"/>
+             <field name="range_reset">monthly</field>
+            <field name="number_increment">1</field>
+        </record>
+    </data>
+</odoo>

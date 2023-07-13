@@ -1,0 +1,42 @@
+<odoo>
+    <data>
+        <record id="view_order_form_inherit" model="ir.ui.view">
+            <field name="name">sale.order.tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form//header//button[@name='action_confirm']" position="after">
+                    <button name="action_sale_requisition" type="object" string="Create Requisition"
+                                class="oe_highlight ml16" attrs="{'invisible':['|',('is_create_done','=',True),('state', '!=', 'sale')]}"/>
+                </xpath>
+                <xpath expr="//field[@name='currency_id']" position="after">
+                    <field name="commitment_date" required="1" string="Expected Date"/>
+                    <field name="is_create_done" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='validity_date']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[@name='other_information']//group[@name='sale_info']//field[@name='analytic_account_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='order_line']//tree//field[@name='product_packaging_qty']" position="attributes">
+                    <attribute name="optional">hide</attribute>
+                </xpath>
+                 <xpath expr="//field[@name='order_line']//tree//field[@name='product_packaging_id']" position="attributes">
+                    <attribute name="optional">hide</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_order_tree_employee" model="ir.ui.view">
+            <field name="name">sale.order.tree.employee</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+                <field name="state" position="after">
+                   <field name="requisition_status" optional="show" widget="badge" decoration-success="requisition_status == 'requisition'" decoration-danger="state == 'cancel'"
+                            decoration-primary="requisition_status == 'not_request'"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

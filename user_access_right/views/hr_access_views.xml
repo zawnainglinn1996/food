@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="view_employee_form_access" model="ir.ui.view">
+            <field name="name">hr.employee.form.access</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='hr_settings']" position="after">
+                    <page name="employee_access" string="Employee Access Right">
+                        <marquee height="20px" style="color:#8B008B;" scrollamount="3">
+                            BUTTON ACCESS  FOR SALE,PURCHASE,SOQ &amp; STOCK REQUISITION
+                        </marquee>
+                        <group style="width:100%">
+
+                            <group name="sale" string="Sales" style="width:33%">
+                                <field name="sale_confirm" widget="boolean_toggle"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

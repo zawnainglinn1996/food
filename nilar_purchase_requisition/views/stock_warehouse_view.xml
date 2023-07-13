@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+            <record id="view_warehouse_inherit" model="ir.ui.view">
+                <field name="name">stock.warehouse</field>
+                <field name="model">stock.warehouse</field>
+                <field name="inherit_id" ref="stock.view_warehouse"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//field[@name='code']" position="after">
+                        <field name="is_main_wh" widget="boolean_toggle" string="IS Main Warehouse ?"/>
+                    </xpath>
+                </field>
+            </record>
+    </data>
+</odoo>

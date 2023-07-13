@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <template id="zawgyi_font_report_assets_pdf" name="zawgyi_font assets pdf" inherit_id="web.report_assets_pdf">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/zawgyi_font/static/src/css/stylesheet.css"></link>
+            </xpath>
+        </template>
+    </data>
+</odoo>

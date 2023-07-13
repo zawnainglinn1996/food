@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="seq_stock_requestion" model="ir.sequence">
+            <field name="name">Stock Requestion</field>
+            <field name="code">stock.requestion</field>
+            <field name="prefix">RF-%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+         <record id="seq_stock_picking_requestion_issued" model="ir.sequence">
+            <field name="name">Stock Requestion Issued</field>
+            <field name="code">stock.picking.issued</field>
+            <field name="prefix">%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_stock_picking_requestion_received" model="ir.sequence">
+            <field name="name">Stock Requestion Received</field>
+            <field name="code">stock.picking.received</field>
+            <field name="prefix">%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+    </data>
+</odoo>

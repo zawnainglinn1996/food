@@ -1,0 +1,11 @@
+<odoo>
+     <data noupdate="1">
+         <record id="seq_mrp_produce_requestion" model="ir.sequence">
+            <field name="name">Manufacturing Order Produce</field>
+            <field name="code">mrp.produce.seq</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+    </data>
+</odoo>

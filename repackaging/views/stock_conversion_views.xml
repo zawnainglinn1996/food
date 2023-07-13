@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_conversion_invoice_forms" model="ir.ui.view">
+    <field name="name">stock.conversion.form</field>
+    <field name="model">stock.conversion</field>
+    <field name="arch" type="xml">
+        <form string="Stock Repacking (Smaller to Bigger)">
+        <header>
+            <button name="action_confirm" string="Repackage" attrs="{'invisible': [('state', 'in', ['confirm','done'])]}" type="object" class="btn-primary"/>
+            <button name="action_done" string="Validate" attrs="{'invisible': [('state', 'in', ['draft','done'])]}" type="object" class="btn-primary"/>
+            <button name="action_resettodraft" string="Reset To Draft" attrs="{'invisible': [('state', 'in', ['draft','done'])]}" type="object" class="btn-secondary"/>
+            <field name="state" widget="statusbar" statusbar_visible="draft,confirm,done"/>
+            <button name="%(action_repacking_report)d" string="Print" type="action" class="oe_highlight"/>
+        </header>
+        <sheet>
+            <group>
+                <group>
+                    <field name="name"/>
+                    <field name="location" invisible="1"/>
+                </group>
+                <group>
+                    <field name="location_id" attrs="{'readonly': [('location', '=', True)]}"/>
+                    <field name="destination_location_id" invisible="1" attrs="{'readonly': [('state', 'in', ('confirm', 'done'))]}"/>
+                    <field name="date" attrs="{'readonly': [('state', 'in', ('confirm', 'done'))]}"/>
+                    <field name="analytic_account_id" options="{'no_create': True, 'no_open': True}"
+                           attrs="{'required': True, 'readonly': [('state', 'in', ('confirm', 'done'))]}"/>
+                </group>
+            </group>
+            <notebook>
+                <page string="Operations">
+                    <field name="stockconversionline_id" attrs="{'readonly': [('state', 'in', ('confirm', 'done'))]}">
+                        <form string="Conversion Lines">
+                            <group>
+                                <group>
+                                    <field name="product_id" options="{'no_open': 1,'no_create': 1}"/>
+                                    <field name="name" readonly="1"/>
+                                    <field name="onhand_qty" readonly="1"/>
+                                    <field name="quantity"/>
+                                    <field name="balance" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="uom_id" readonly="1"/>
+                                    <field name="is_unit" invisible="1"/>
+                                    <field name="unit_cost" readonly="1"/>
+                                    <field name="amount" readonly="1"/>
+                                    <field name="state" invisible="1"/>
+                                </group>
+                            </group>
+                        </form>
+                        <tree string="Conversion Lines"  editable="bottom">
+                            <field name="sequence_number" invisible="0"/>
+                            <field name="state" invisible="1"/>
+                            <field name="product_id" options="{'no_open': 1,'no_create': 1}"/>
+                            <field name="analytic_account_id" optional="hide"/>
+                            <field name="name" readonly="1"/>
+                            <field name="onhand_qty" readonly="1"/>
+                            <field name="quantity" sum="Quantity"/>
+                            <field name="balance" readonly="1"/>
+                            <field name="uom_id" readonly="1"/>
+                            <field name="is_unit" invisible="1"/>
+                            <field name="unit_cost" attrs="{'readonly': [('state', 'in', ['draft','confirm','done'])]}"/>
+                            <field name="amount" readonly="1" sum="Amount"/>
+                            <field name="location_id" invisible="1"/>
+                            <field name="dest_location_id" invisible="1"/>
+                            <button class="oe_stat_button" name="action_get_stock_move_lines" string="Product Move" type="object"
+                                    attrs="{'invisible':[('move_id','=',False)]}" icon="fa-arrows-v"/>
+                            <field name="move_id" invisible="1"/>
+                        </tree>
+                    </field>
+                </page>
+            </notebook>
+        </sheet>
+        </form>
+    </field>
+    </record>
+    <record id="view_stock_conversion_search" model="ir.ui.view">
+        <field name="name">stock.conversion.search.view</field>
+        <field name="model">stock.conversion</field>
+        <field name="arch" type="xml">
+            <search string="Repackaging (Smaller to Bigger) Search">
+                <field name="name"/>
+                <field name="location_id"/>
+                <field name="date"/>
+            </search>
+        </field>
+    </record>
+    <record id="view_stock_conversion_tree" model="ir.ui.view">
+            <field name="name">Stock Repacking (Smaller to Bigger)</field>
+            <field name="model">stock.conversion</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <tree string="Stock Repackaging (Smaller to Bigger)">
+                    <field name="name"/>
+                    <field name="location_id"/>
+                    <field name="date"/>
+                    <field name="analytic_account_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_stock_conversion" model="ir.actions.act_window">
+	        <field name="name">Stock Repackaging (Smaller to Bigger)</field>
+	        <field name="type">ir.actions.act_window</field>
+	        <field name="res_model">stock.conversion</field>
+	        <field name="view_mode">tree,form</field>
+	        <field name="search_view_id" ref="view_stock_conversion_search"/>
+    	</record>
+    <menuitem action="action_stock_conversion" id="menu_stock_conversion"
+              name="Stock Repackaging (Smaller to Bigger)"
+              parent="stock.menu_stock_warehouse_mgmt" sequence="101"/>
+</odoo>

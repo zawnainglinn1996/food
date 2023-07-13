@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_car_way_wizard_form" model="ir.ui.view">
+        <field name="name">car.way.wizard.form</field>
+        <field name="model">car.way.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name_id"  options="{'no_create': True, 'no_open': True}" required="1"/>
+                            <field name="date"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button special="cancel" string="CANCEL" class="btn-danger"/>
+                    -
+                    <button name="assign_way" string="ASSIGN" type="object" class="oe_highlight"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="delivery_assign_alert" model="ir.ui.view">
+        <field name="name">alert_delivery_form</field>
+        <field name="model">alert.delivery</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="alert_name" nolabel="1" readonly="1" style="color:#006400"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="OK" special="cancel" class="oe_highlight"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_car_way_wizard" model="ir.actions.act_window">
+        <field name="name">Car Way Wizard</field>
+        <field name="res_model">car.way.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

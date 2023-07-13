@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_purchase_requisition_form_inherit" model="ir.ui.view">
+        <field name="name">purchase.requistion.form.inherit</field>
+        <field name="model">purchase.stock.requisition</field>
+        <field name="inherit_id" ref="nilar_purchase_requisition.view_purchase_requisition_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='purchase_requisition_line']//tree//field[@name='required_qty']" position="after">
+                <field name="multi_required_qty" string="Required Qty"/>
+            </xpath>
+            <xpath expr="//field[@name='purchase_requisition_line']//tree//field[@name='required_qty']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='purchase_requisition_line']//tree//field[@name='allowed_qty']" position="after">
+                <field name="multi_allowed_qty" string="Allowed Qty" attrs="{'readonly': [('parent.state','in', ('draft','requested'))]}"/>
+            </xpath>
+            <xpath expr="//field[@name='purchase_requisition_line']//tree//field[@name='allowed_qty']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='purchase_requisition_line']//tree//field[@name='product_uom']" position="after">
+                <field name="multi_uom_line_ids" invisible="1"/>
+                <field name="multi_uom_line_id"
+                       domain="[('id', 'in', multi_uom_line_ids)]"
+                       string="UoM"
+                       groups="uom.group_uom"
+                       />
+            </xpath>
+            <xpath expr="//field[@name='purchase_requisition_line']//tree//field[@name='product_uom']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+     <record id="view_purchase_requisition_line_tree_inherit" model="ir.ui.view">
+        <field name="name">purchase.requisitions.line.inherit</field>
+        <field name="model">purchase.requisitions.line</field>
+        <field name="inherit_id" ref="nilar_purchase_requisition.view_purchase_requisition_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_uom']" position="attributes">
+               <attribute name="invisible">1</attribute>
+            </xpath>
+             <xpath expr="//field[@name='product_uom']" position="after">
+               <field name="multi_uom_line_id"/>
+            </xpath>
+             <xpath expr="//field[@name='required_qty']" position="attributes">
+               <attribute name="invisible">1</attribute>
+            </xpath>
+             <xpath expr="//field[@name='required_qty']" position="after">
+               <field name="multi_required_qty"/>
+            </xpath>
+            <xpath expr="//field[@name='allowed_qty']" position="after">
+                <field name="multi_allowed_qty"/>
+            </xpath>
+            <xpath expr="//field[@name='allowed_qty']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,273 @@
+<odoo>
+    <data>
+        <record id="view_sale_requisition_search" model="ir.ui.view">
+            <field name="name">whole.sale.requisition.search</field>
+            <field name="model">whole.sale.requisition</field>
+            <field name="arch" type="xml">
+                <search string="Whole Sale Requisition">
+                    <field name="reference_no"/>
+                    <field name="from_location_id"/>
+                    <field name="to_location_id"/>
+                    <field name="created_date"/>
+                    <group expand="0" string="Group By">
+                        <filter string="State" name="state" domain="[]" context="{'group_by': 'state'}"/>
+                        <filter string="Whole Sale" name="is_whole_sale" domain="[('is_whole_sale', '=', True)]"/>
+                        <filter string="Retail Sale" name="is_retail_sale" domain="[('is_retail_sale','=',True)]"/>
+                        <filter string="Draft State" name="draft" domain="[('state', '=', 'draft')]"/>
+                        <filter string="To Confirm" name="to_confirm" domain="[('state', '=', 'draft')]"/>
+                        <filter string="To Approve" name="to_approve" domain="[('state', '=', 'confirm')]"/>
+                        <filter string="Approved" name="approved" domain="[('state', '=', 'approved')]"/>
+                        <filter string="Employee" name="login_employee_id" context="{'group_by': 'login_employee_id'}"/>
+                        <filter string="Analytic Account" name="analytic_account_id"
+                                context="{'group_by': 'analytic_account_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="view_sale_requisition_tree" model="ir.ui.view">
+            <field name="name">whole.sale.requisition.tree</field>
+            <field name="model">whole.sale.requisition</field>
+            <field name="arch" type="xml">
+                <tree string="Requisition">
+                    <field name="reference_no"/>
+                    <field name="analytic_account_id"/>
+                    <field name="from_location_id"/>
+                    <field name="to_location_id"/>
+                    <field name="login_employee_id"/>
+                    <field name="created_date" optional="hide"/>
+                    <field name="scheduled_date" optional="hide" widget="remaining_days"/>
+                    <field name="state" optional="show" widget="badge" decoration-success="state == 'approved'"
+                           decoration-it="state  in ('draft')" decoration-danger="state == 'cancel'"
+                           decoration-primary="state == 'confirm'"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_sale_requisition_form" model="ir.ui.view">
+            <field name="name">whole.sale.requisition.form</field>
+            <field name="model">whole.sale.requisition</field>
+            <field name="arch" type="xml">
+                <form string="Whole Sale Requisition">
+                    <header>
+                        <button name="action_confirm" string="Confirm" type="object" class="oe_highlight"
+                                attrs="{'invisible': ['|',('state', 'not in', ['draft']),('is_access_confirm','=',False)]}"/>
+                        <button name="action_approved" string="Approved" type="object" class="oe_highlight"
+                                attrs="{'invisible': ['|',('state', 'not in', ['confirm']),('is_access_approve','=',False)]}"/>
+                        <button name="action_cancel" string="Cancel" type="object" class="btn-danger"
+                                attrs="{'invisible': ['|','|',('state', 'in', ['cancel','draft']),('is_picking_done','=',True),('is_access_cancel','=',False)]}"/>
+                        <button name="action_confirm" string="Reset To Confirm" type="object" class="oe_highlight"
+                                attrs="{'invisible': [('state', 'not in', ['cancel'])]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm,approved,cancel,"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button type="object"
+                                    name="action_view_receipt"
+                                    class="oe_stat_button"
+                                    icon="fa-truck"
+                                    groups="base.group_user">
+                                <field name="good_received_count" widget="statinfo" string='Received'/>
+
+                            </button>
+                            <button type="object"
+                                    name="action_view_issued"
+                                    class="oe_stat_button"
+                                    icon="fa-truck"
+
+                                    groups="base.group_user">
+                                <field name="good_issued_count" widget="statinfo" string="Issued"/>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="reference_no" readonly="1"/>
+                                <field name="partner_id"
+                                       attrs="{'invisible':[('is_retail_sale','=',True)],'readonly': [('state', '=', 'approved')]}"/>
+                                <field name="created_date" required="1" readonly="1"
+                                       attrs="{'readonly': [('state', '=', 'approved')]}"/>
+                                <field name="is_whole_sale" widget="boolean_toggle"
+                                       attrs="{'invisible':[('is_retail_sale','=',True)]}"/>
+                                <field name="is_retail_sale" widget="boolean_toggle"
+                                       attrs="{'invisible':[('is_whole_sale','=',True)]}"/>
+                                <field name="sale_picking" attrs="{'invisible':[('is_retail_sale','=',True)]}"
+                                       readonly="1"/>
+                                <field name="company_id" invisible="1"/>
+                                <field name="is_access_confirm" widget="boolean_toggle" invisible="1"/>
+                                <field name="is_access_approve" widget="boolean_toggle" invisible="1"/>
+                                <field name="is_access_cancel" widget="boolean_toggle" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="is_picking_done" invisible="1"/>
+                                <field name="is_first_picking" widget="boolean_toggle" invisible="1"/>
+                                <field name="analytic_account_id"
+                                       attrs="{'readonly': [('state', '=', 'approved')]}" domain="[('id','in',allow_analytic_account_id)]"/>
+                                 <field name="allow_analytic_account_id" widget="many2many_tags" invisible="1"/>
+                                <field name="from_location_id" required="1" domain="[('usage', '=', 'internal')]"
+                                       attrs="{'readonly': [('state', '=', 'approved')]}"
+                                       options="{'no_create': True}"/>
+                                <field name="to_location_id" required="1" domain="[('usage', '=', 'internal')]"
+                                       attrs="{'readonly': [('state', '=', 'approved')]}"
+                                       options="{'no_create': True}"/>
+                                <field name="scheduled_date" required="1" string="Expected Date"
+                                       attrs="{'readonly': [('state', '=', 'approved')]}"/>
+                                <field name="login_employee_id" readonly="1"/>
+                                <field name="user_id" attrs="{'readonly': [('state', '=', 'approved')]}"/>
+                            </group>
+                        </group>
+                        <notebook name="main_book">
+                            <page string="Product Lines" name="order_lines">
+                                <field name="requisition_line_ids" widget="section_and_note_one2many"
+                                       attrs="{'readonly': [('state', 'in', 'approved')]}">
+                                    <form string="Quotation Template Lines">
+                                        <!--
+                                            We need the sequence field to be here for new lines to be added at the correct position.
+                                            TODO: at some point we want to fix this in the framework so that an invisible field is not required.
+                                        -->
+                                        <field name="sequence" invisible="1"/>
+                                        <field name="display_type" invisible="1"/>
+                                        <group attrs="{'invisible': [('display_type', '!=', False)]}">
+                                            <group>
+                                                <field name="product_id" domain="[('sale_ok', '=', True)]"
+                                                       attrs="{'required': [('display_type', '=', False)]}"/>
+                                            </group>
+                                        </group>
+                                        <notebook colspan="4" name="description">
+                                            <page string="Description" name="order_description"
+                                                  attrs="{'invisible': ['|',('display_type', '!=', False),('parent.state', 'in', 'approved')]}">
+                                                <field name="name"/>
+                                            </page>
+                                            <page string="Section" name="order_section"
+                                                  attrs="{'invisible': ['|',('display_type', '!=', 'line_section'),('parent.state', 'in', 'approved')]}">
+                                                <field name="name"/>
+                                            </page>
+                                            <page string="Note" name="order_note"
+                                                  attrs="{'invisible': ['|',('display_type', '!=', 'line_note'),('parent.state', 'in', 'approved')]}">
+                                                <field name="name"/>
+                                            </page>
+                                        </notebook>
+                                    </form>
+                                    <tree string="Sale Requisition Template Lines" editable="bottom">
+                                        <control>
+                                            <create name="add_product_control" string="Add a product"/>
+                                            <create name="add_section_control" string="Add a section"
+                                                    context="{'default_display_type': 'line_section'}"/>
+                                            <create name="add_note_control" string="Add a note"
+                                                    context="{'default_display_type': 'line_note'}"/>
+                                        </control>
+
+                                        <field name="display_type" invisible="1"/>
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="product_id" domain="[('sale_ok', '=', True)]"
+                                               attrs="{'readonly': [('parent.state', 'in', 'approved')]}"/>
+                                        <field name="name" widget="section_and_note_text"
+                                               attrs="{'readonly': [('parent.state', 'in', 'approved')]}"
+                                               force_save="1"/>
+                                        <field name="product_uom_id" invisible="1"/>
+
+                                        <field name="packaging_size" string="Packaging"
+                                               attrs="{'readonly': [('parent.state', 'in', ('draft'))]}"/>
+                                        <field name="product_packaging_id" string="Packaging Size"
+                                               attrs="{'readonly': [('parent.state', 'in', ('draft'))]}"/>
+                                        <field name="on_hand_qty"
+                                               attrs="{'column_invisible':[('parent.is_whole_sale','=',True)]}"/>
+                                        <field name="required_qty"
+                                               attrs="{'readonly':[('parent.state','!=','draft')]}"/>
+                                        <field name="allowed_qty"
+                                               attrs="{'readonly': [('parent.state', '!=', 'confirm')]}"/>
+                                        <field name="issued_qty" readonly="1" optional="hide"/>
+                                        <field name="received_qty" readonly="1" optional="hide"/>
+                                        <field name="remark"
+                                               attrs="{'readonly': [('parent.state', 'in', 'approved')]}"/>
+                                        <field name="scheduled_date" required="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Request &amp; Approval Info" name="approval">
+                                <group>
+                                    <group style="width:33%">
+                                        <separator string="Request By"
+                                                   style="text-align:right;font-weight:bold;font-size:15px;width:"/>
+                                        <br/>
+                                        <br/>
+                                        <field name="req_by_sign" widget='image' readonly="1" style="width:90;height:90"
+                                               string="Sign"/>
+                                        <field name="req_by_name" readonly="1" string="Name"/>
+                                        <!--                                        <field name="req_by_position" readonly="1" string="Position"/>-->
+                                    </group>
+                                    <group style="width:34%">
+                                        <separator string="Confirm By"
+                                                   style="text-align:right;font-weight:bold;font-size:15px"/>
+                                        <br/>
+                                        <br/>
+                                        <field name="confirm_by_sign" widget='image' readonly="1"
+                                               style="width:90;height:90" string="Sign"/>
+                                        <field name="confirm_by_name" readonly="1" string="Name"/>
+                                    </group>
+                                    <group style="width:33%">
+                                        <separator string="Approved By"
+                                                   style="text-align:right;font-weight:bold;font-size:15px"/>
+                                        <br/>
+                                        <br/>
+                                        <field name="approved_by_sign" widget='image' readonly="1"
+                                               style="width:90;height:90" string="Sign"/>
+                                        <field name="approved_by_name" readonly="1" string="Name"/>
+                                        <!--                                        <field name="approved_by_position" readonly="1" string="Position"/>-->
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="sale_requisition_action" model="ir.actions.act_window">
+            <field name="name">Sale Requisition</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">whole.sale.requisition</field>
+            <field name="context">{'search_default_draft': 1,'default_is_retail_sale':1}</field>
+            <field name="view_id" ref="view_sale_requisition_tree"/>
+            <field name="search_view_id" ref="view_sale_requisition_search"/>
+        </record>
+        <record id="action_requisition_confirm" model="ir.actions.act_window">
+            <field name="name">To Confirm</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">whole.sale.requisition</field>
+            <field name="context">{'search_default_to_confirm': 1,'default_is_retail_sale':1}</field>
+            <field name="view_id" ref="view_sale_requisition_tree"/>
+            <field name="search_view_id" ref="view_sale_requisition_search"/>
+        </record>
+        <record id="action_requisition_to_approve" model="ir.actions.act_window">
+            <field name="name">To Approve</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">whole.sale.requisition</field>
+            <field name="domain">[('user_id', '=', uid)]</field>
+            <field name="context">{'search_default_to_approve': 1,'default_is_retail_sale':1}</field>
+            <field name="view_id" ref="view_sale_requisition_tree"/>
+            <field name="search_view_id" ref="view_sale_requisition_search"/>
+        </record>
+        <record id="action_requisition_approved" model="ir.actions.act_window">
+            <field name="name">Approved</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">whole.sale.requisition</field>
+            <field name="domain">[]</field>
+            <field name="context">{'search_default_approved': 1,'default_is_retail_sale':1}</field>
+            <field name="view_id" ref="view_sale_requisition_tree"/>
+            <field name="search_view_id" ref="view_sale_requisition_search"/>
+        </record>
+        <menuitem id="menu_requisition" name="Requisition" parent="sale.sale_menu_root" sequence="3"
+                  groups="sales_team.group_sale_salesman"/>
+        <menuitem id="menu_sale_requisition" name="Sale Requisition" parent="menu_requisition" sequence="3"
+                  action="sale_requisition_action" groups="sales_team.group_sale_salesman"/>
+        <menuitem id="menu_to_confirm" name="To Confirm" parent="menu_requisition" sequence="5"
+                  action="action_requisition_confirm" groups="sales_team.group_sale_salesman"/>
+        <menuitem id="menu_to_approve" name="To Approve" parent="menu_requisition" sequence="7"
+                  action="action_requisition_to_approve" groups="sales_team.group_sale_salesman"/>
+        <menuitem id="menu_approved_id" name="Approved" parent="menu_requisition" sequence="17"
+                  action="action_requisition_approved" groups="sales_team.group_sale_salesman"/>
+    </data>
+</odoo>

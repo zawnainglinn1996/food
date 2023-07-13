@@ -1,0 +1,209 @@
+<odoo>
+    <data>
+        <record id="view_order_form" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header//field[@name='state']" position="replace">
+                     <field name="state" widget="statusbar" statusbar_visible="draft,sent,confirm,verified,sale"/>
+                </xpath>
+                <xpath expr="//button[@name='action_view_invoice']" position="before">
+                    <button name="action_open_requisition_order" type="object" class="oe_stat_button"
+                            icon="fa-list-alt"
+                            attrs="{'invisible': [('state', '=', 'draft')]}">
+                        <field name="order_count" widget="statinfo" string="Requisition"/>
+                    </button>
+                </xpath>
+                <xpath expr="//field[@name='order_line']//tree//field[@name='price_subtotal']" position="after">
+                    <field name="remark"/>
+                </xpath>
+                <xpath expr="//field[@name='payment_term_id']" position="after">
+                    <field name="actual_start_time"/>
+                    <field name="is_sale_confirm_user" widget="boolean_toggle" invisible="1"/>
+                    <field name="is_sale_cancel_user" widget="boolean_toggle" invisible="1"/>
+                    <field name="is_sale_verify_user" widget="boolean_toggle" invisible="1"/>
+                    <field name="is_sale_approve_user" widget="boolean_toggle" invisible="1"/>
+                    <field name="analytic_account_ids" widget="many2many_tags" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='analytic_account_id']" position="attributes">
+                    <attribute name="domain">[('id', 'in', analytic_account_ids)]</attribute>
+                </xpath>
+                 <xpath expr="//button[@id='action_confirm']" position="replace">
+                    <button name="action_confirm" id="action_confirm" data-hotkey="v"
+                        string="Confirm" class="btn-primary" type="object"
+                        attrs="{'invisible': ['|', ('is_sale_confirm_user', '=', False), ('state', 'not in', ['sent'])]}"/>
+                </xpath>
+
+                <xpath expr="//button[@name='action_quotation_send']" position="after">
+                    <button name="confirm_so" string="Confirm" type="object"  icon="fa-check"  attrs="{'invisible': ['|', ('is_sale_confirm_user', '=', False), ('state', 'not in', ['draft'])]}" class="oe_highlight"/>
+                     <button name="verify_so" string="Verify" type="object"   icon="fa-bookmark-o" attrs="{'invisible': ['|', ('is_sale_verify_user', '=', False), ('state', 'not in', ['confirm'])]}" class="oe_highlight"/>
+                </xpath>
+                <xpath expr="//button[@name='action_confirm'][2]" position="replace">
+                    <button name="action_confirm" data-hotkey="v"  icon="fa-thumbs-o-up"
+                        string="Approve" type="object"
+                        attrs="{'invisible': ['|', ('is_sale_approve_user', '=', False), ('state', 'not in', ['verified'])]}" class="oe_highlight"/>
+
+                </xpath>
+                <xpath expr="//button[@name='action_cancel']" position="replace">
+                    <button name="action_cancel" type="object" string="Cancel" attrs="{'invisible': ['|','|',('is_sale_cancel_user','=',False), ('state', 'not in', ['draft', 'sent','sale']), ('id', '=', False)]}" data-hotkey="z"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="sale_branch_view_order_stockform_inherit" model="ir.ui.view">
+            <field name="name">sale.order.form.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_stock.view_order_form_inherit_sale_stock"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='warehouse_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_shipping_id']" position="after">
+                    <field name="sale_picking" required="1"/>
+                    <field name="contact_partner_id" string="Contact Name"/>
+                    <field name="contact_ph" string="Contact Ph"/>
+                    <field name="from_shop_ph" force_save="1" readonly="1"/>
+                    <field name="to_shop_name" force_save="1"/>
+                    <field name="to_shop_ph" force_save="1" readonly="1"/>
+                </xpath>
+                <xpath expr="//field[@name='date_order']" position="after">
+                     <field name="approve_user_id" string="To Approve Person" attrs="{'invisible': [('state', 'not in', ['confirm','verified','sale'])],'required': [('state', '=', 'confirm')]}" options="{'no_create': True, 'no_open': True}"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_quotation_tree_inherit" model="ir.ui.view">
+            <field name="name">sale.quotation.tree.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='create_date']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='expected_date']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="field[@name='create_date']" position="before">
+                    <field name="date_order" string="Order Date" optional="show"/>
+                    <field name="analytic_account_id" optional="show"/>
+
+                </xpath>
+                <xpath expr="field[@name='commitment_date']" position="replace">
+                    <field name="commitment_date" string="Expected Date" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_order_tree_inherit" model="ir.ui.view">
+            <field name="name">sale.quotation.tree.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="before">
+                    <field name="analytic_account_id" optional="show"/>
+                </xpath>
+                <xpath expr="field[@name='expected_date']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='commitment_date']" position="replace">
+                    <field name="commitment_date" optional="show" string="Expected Date"/>
+                </xpath>
+                <xpath expr="//field[@name='date_order']" position="replace">
+                    <field name="date_order" string="Order Date" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_sales_order_filter_inherit" model="ir.ui.view">
+            <field name="name">sale.order.list.select</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='my_sale_orders_filter']" position="after">
+                     <filter name="to_confirm" string="To Confirm" domain="[('state','in',['draft','sent'])]"/>
+                     <filter name="to_verify" string="To Verify" domain="[('state','=','confirm')]"/>
+                     <filter name="to_approve" string="To Approve" domain="[('state','=','verified')]"/>
+                </xpath>
+                <xpath expr="//filter[@name='salesperson']" position="before">
+                    <filter name="analytic_account_id" string="Shop" domain="[]"
+                            context="{'group_by': 'analytic_account_id'}"/>
+                </xpath>
+            </field>
+        </record>
+        <!-- hide tax column -->
+        <record id="view_sale_order_hide_tax_column" model="ir.ui.view">
+            <field name="name">sale.order.hide.tax.column</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[1]//field[@name='order_line']//tree//field[@name='tax_id']" position="attributes">
+                    <attribute name="groups">sale_order_extend.group_hide_tax</attribute>
+                </xpath>
+                <xpath expr="//page[1]//field[@name='order_line']//form//field[@name='tax_id']" position="attributes">
+                    <attribute name="groups">sale_order_extend.group_hide_tax</attribute>
+                </xpath>
+            </field>
+        </record>
+
+
+          <record id="action_to_approve_so" model="ir.actions.act_window">
+                    <field name="name">To Approve</field>
+                    <field name="type">ir.actions.act_window</field>
+                    <field name="res_model">sale.order</field>
+                    <field name="domain">['|',('approve_user_id', '=', uid),('state','=','sale')]</field>
+                    <field name="context">{'search_default_to_approve': 1}</field>
+                    <field name="search_view_id" ref="sale.view_sales_order_filter"/>
+        </record>
+        <record id="action_to_verify_so" model="ir.actions.act_window">
+                    <field name="name">To Verify</field>
+                    <field name="type">ir.actions.act_window</field>
+                    <field name="res_model">sale.order</field>
+                    <field name="domain">['|',('approve_user_id', '=', uid),('state','=','confirm')]</field>
+                    <field name="context">{'search_default_to_verify': 1}</field>
+                    <field name="search_view_id" ref="sale.view_sales_order_filter"/>
+        </record>
+        <record id="action_to_confirm_so" model="ir.actions.act_window">
+                    <field name="name">To Confirm</field>
+                    <field name="type">ir.actions.act_window</field>
+                    <field name="res_model">sale.order</field>
+                    <field name="domain">[]</field>
+                    <field name="context">{'search_default_to_confirm': 1}</field>
+                    <field name="search_view_id" ref="sale.view_sales_order_filter"/>
+        </record>
+
+         <menuitem id="sale.menu_sale_quotations"
+                action="sale.action_quotations_with_onboarding"
+                parent="sale.sale_order_menu"
+                sequence="1" groups="sales_team.group_sale_salesman"/>
+
+         <menuitem id="menu_sale_confirm"
+                action="action_to_confirm_so"
+                parent="sale.sale_order_menu"
+                sequence="2" />
+         <menuitem id="menu_sale_verify"
+                action="action_to_verify_so"
+                parent="sale.sale_order_menu"
+                sequence="3" />
+         <menuitem id="menu_sale_approve"
+                action="action_to_approve_so"
+                parent="sale.sale_order_menu"
+                sequence="4" />
+
+
+
+        <menuitem id="sale.menu_sale_order"
+            name="Orders"
+            action="sale.action_orders"
+            parent="sale.sale_order_menu"
+            sequence="6" groups="sales_team.group_sale_salesman"/>
+
+        <menuitem id="sale.report_sales_team"
+            name="Sales Teams"
+            parent="sale.sale_order_menu"
+            groups="sales_team.group_sale_manager"
+            action="sales_team.crm_team_action_sales"
+            sequence="7"/>
+        <menuitem id="sale.res_partner_menu"
+            parent="sale.sale_order_menu"
+            action="account.res_partner_action_customer"
+            sequence="8" groups="sales_team.group_sale_salesman"/>
+
+    </data>
+</odoo>

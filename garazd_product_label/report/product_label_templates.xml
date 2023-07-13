@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="label_57x35">
+          <table class="table table-bordered col-xs-4" style="padding-top:4px !important;">
+            <tr style="border:0;margin:0;padding:0;">
+                <td class="col-xs-4 text-center" style="border:0;margin:0;padding:0;">
+                   <div style="overflow:hidden; !important;line-height: 1.1;font-size: 10px; text-align:left;padding-top:5px;padding-bottom:5px">
+                        <span t-field="label.product_id.zawgyi_product_name" style="padding-left:8px; display: block; float:left;  width: 100px;"/>
+                        <span t-field="label.product_id.currency_id.symbol" style="display: block;float:right;margin-right:8px"/>
+                        <span t-esc="'{0:,.0f}'.format(int(label.product_id.list_price))" style="display    : block;float:right;" />
+
+                    </div>
+                    <t t-if="label.product_id.barcode">
+                        <img alt="Barcode" t-if="len(label.product_id.barcode) == 13" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', label.product_id.barcode, 600, 100)" style="width:100%;height:53%;padding:3px 3px;"/>
+                        <img alt="Barcode" t-else="" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', label.product_id.barcode, 600, 100)" style="width:100%;height:53%;padding:3px 3px;"/>
+
+<!--                        <img alt="Barcode" t-if="len(label.product_id.barcode) == 13" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', label.product_id.barcode, 500, 45)" style="width:90%;height:20%;padding:3px 3px;margin-left:7.5px"/>-->
+<!--                        <img alt="Barcode" t-elif="len(label.product_id.barcode) == 8" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN8', label.product_id.barcode, 500, 45)" style="width:90%;height:20%;padding:3px 3px;margin-left:7.5px"/>-->
+<!--                        <img alt="Barcode" t-else="" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', label.product_id.barcode, 500, 45)" style="width:90%;height:16%;padding:0;margin-left:7.5px"/>-->
+                    </t>
+                      <div t-if="label.product_id.default_code" style="width: 100%; padding: 0; margin: 0; font-size: 13px;">
+                        <span t-field="label.product_id.default_code"/>
+                    </div>
+                    <div class="row" style="margin-top:-5px">
+                        <div class="col-6" style="font-size: 9px; text-align:left;margin-left:5px;">
+                         Mfg:<strong t-field="label.product_id.mf_date"/>
+                        </div>
+                        <div class="col-6" style="font-size: 9px; text-align:center;margin-left:-11px">
+                         Exp:<strong t-field="label.exp_date"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </template>
+    <template id="report_product_label_custom_template">
+        <t t-call="web.html_container">
+            <t t-call="web.basic_layout">
+              <t t-set="count" t-value="0" />
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <t t-foreach="docs" t-as="label">
+                        <t t-set="qty" t-value="1" />
+                        <t t-if="label.qty">
+                            <t t-set="qty" t-value="label.qty" />
+                        </t>
+                        <t t-foreach="list(range(qty))" t-as="index_qty">
+                            <div t-if="count % 21 == 0" style="page-break-after:always;"/>
+                             <div t-if="count % 3 == 0" style="clear:both;"/>
+                            <div style="width:26%;float:left;height:90%;margin:0;padding-left:0;padding-right:15px;padding-bottom:0;">
+                                <t t-call="garazd_product_label.label_57x35"/>
+                            </div>
+                            <t t-set="count" t-value="count+1" />
+                        </t>
+                    </t>
+                </div>
+
+            </t>
+        </t>
+    </template>
+</odoo>

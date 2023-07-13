@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sale_summary_report_tree" model="ir.ui.view">
+        <field name="name">sale.summary.report.tree</field>
+        <field name="model">whole.sale.summary.report</field>
+        <field name="arch" type="xml">
+            <tree string="Sale Summary Report" create="false">
+                <field name="order_id" string="Sequence"/>
+                <field name="order_date" widget="date"/>
+                <field name="analytic_account_id" optional="shop" string="မှာယူသည့်ဆိုင်"/>
+                <field name="expected_datetime" optional="show"/>
+                <field name="to_shop_name" optional="show"/>
+                <field name="partner_id" optional="show"/>
+                <field name="phone_no" optional="show"/>
+                <field name="product_id" optional="show"/>
+                <field name="qty" optional="show"/>
+                <field name="uom_id" optional="show"/>
+                <field name="remark" optional="show"/>
+                <field name="state" optional="show"/>
+            </tree>
+        </field>
+    </record>
+    <record id="sale_summary_report_search" model="ir.ui.view">
+        <field name="name">whole.sale.summary.report.search</field>
+        <field name="model">whole.sale.summary.report</field>
+        <field name="arch" type="xml">
+            <search string="Sale Summary Report Search">
+                <field name="order_date"/>
+                <separator/>
+                <separator/>
+                <field name="order_date"/>
+                <field name="expected_datetime"/>
+                <field name="partner_id"/>
+                <field name="phone_no"/>
+                <field name="product_id"/>
+                <field name="qty"/>
+                <field name="order_id"/>
+                <field name="uom_id"/>
+                <field name="remark"/>
+                <field name="state"/>
+                <field name="analytic_account_id"/>
+                <filter string="Tomorrow" name="tomorrow"
+                        domain="[('expected_datetime','&gt;=', ((context_today()+datetime.timedelta(days=1)).strftime('%Y-%m-%d'))),
+                                ('expected_datetime','&lt;=', ((context_today()+datetime.timedelta(days=1)).strftime('%Y-%m-%d 23:59:59')))]"/>
+                <filter name="this_week_filter" string="This Week" domain="[
+                        ('order_date', '>=', (datetime.datetime.combine(context_today() + relativedelta(weeks=-1,days=1,weekday=0), datetime.time(0,0,0)).to_utc()).strftime('%Y-%m-%d %H:%M:%S')),
+                        ('order_date', '&lt;', (datetime.datetime.combine(context_today() + relativedelta(days=1,weekday=0), datetime.time(0,0,0)).to_utc()).strftime('%Y-%m-%d %H:%M:%S'))]"/>
+                <filter name="current_month" string="This Month"
+                        domain="[('order_date','&lt;',(context_today()+relativedelta(months=1)).strftime('%%Y-%%m-01')),
+                                     ('order_date','&gt;=',time.strftime('%%Y-%%m-01'))]"/>
+
+                <filter string="This Year" name="year"
+                        domain="[('order_date','&lt;=', time.strftime('%%Y-12-31')),('order_date','&gt;=',time.strftime('%%Y-01-01'))]"/>
+                <group expand="1" string="Group By">
+
+                    <separator/>
+                    <filter string="Customer" name="partner_id" context="{'group_by':'partner_id'}"/>
+                    <filter string="Shop" name="analytic_account_id" context="{'group_by':'analytic_account_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_sale_summary_report" model="ir.actions.act_window">
+        <field name="name">Whole Sale Summary</field>
+        <field name="res_model">whole.sale.summary.report</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id"/>  <!-- force empty -->
+        <field name="search_view_id" ref="sale_summary_report_search"/>
+        <field name="context">{'search_default_tomorrow':1}</field>
+        <field name="help">Whole Sale Summary Data</field>
+         <field name="target">current</field>
+    </record>
+
+    <menuitem
+            id="menu_sale_summary_report"
+            name="Whole Sale Summary"
+            action="action_sale_summary_report"
+            parent="sale.menu_sale_report"
+            sequence="100"/>
+</odoo>

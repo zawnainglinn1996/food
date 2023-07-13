@@ -1,0 +1,57 @@
+<odoo>
+<data>
+    <record id="location_tree" model="ir.ui.view">
+        <field name="name">pos.location.tree</field>
+        <field name="model">pos.location</field>
+        <field name="arch" type="xml">
+            <tree string="Location" editable="top">
+                <field name="name"/>
+                <field name="color" widget="color_picker"/>
+                <field name="description"/>
+
+            </tree>
+        </field>
+    </record>
+    <record id="pos_location_form" model="ir.ui.view">
+        <field name="name">pos.location.form</field>
+        <field name="model">pos.location</field>
+        <field name="arch" type="xml">
+            <form string="Location">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                        </group>
+                    </group>
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+    <record id="location_search" model="ir.ui.view">
+        <field name="name">pos.location</field>
+        <field name="model">pos.location</field>
+        <field name="arch" type="xml">
+            <search string="Location">
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
+    <record id="pos_location_action" model="ir.actions.act_window">
+        <field name="name">POS Location</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">pos.location</field>
+        <field name="view_id" ref="location_tree"/>
+    </record>
+
+    <menuitem id="pos_location_id"
+               name="POS Location"
+               action="pos_location_action"
+               parent="point_of_sale.menu_point_config_product"
+               sequence="114"/>
+
+
+
+  </data>
+</odoo>

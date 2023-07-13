@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="action_report_sale_order_a4" model="ir.actions.report">
+        <field name="name">Sale Order ( A4 )</field>
+        <field name="model">sale.order</field>
+        <field name="report_name">report_form.sale_order_report</field>
+        <field name="report_file">report_form.sale_order_report</field>
+        <field name="report_type">py3o</field>
+        <field name="py3o_filetype">pdf</field>
+        <field name="module">report_form</field>
+        <field name="py3o_template_fallback">report/sale_order_a4.odt</field>
+        <field name="print_report_name">'Sale Order ( A4 )'</field>
+    </record>
+    <record id="action_report_sale_order_a4_server" model="ir.actions.server">
+        <field name="name">Sale Order ( A4 )</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = records.action_sale_order_a4_report()
+        </field>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Stock Requisition Report -->
+    <record id="action_stock_requestion_pdf_report" model="ir.actions.report">
+        <field name="name">Stock Requisition A4</field>
+        <field name="model">stock.requestion</field>
+        <field name="report_type">py3o</field>
+        <field name="report_name">report_form.stock_requestion_pdf_report</field>
+        <field name="report_file">report_form.stock_requestion_pdf_report</field>
+        <field name="py3o_filetype">pdf</field>
+        <field name="module">report_form</field>
+        <field name="py3o_template_fallback">report/stock_requestion_a4.odt</field>
+    </record>
+    <record id="action_stock_requestion_pdf_report_server" model="ir.actions.server">
+        <field name="name">Stock Requisition A4</field>
+        <field name="model_id" ref="model_stock_requestion"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = records.get_stock_requestion()
+        </field>
+        <field name="binding_model_id" ref="model_stock_requestion"/>
+        <field name="binding_type">report</field>
+    </record>
+    <!-- Stock Requisition Report -->
+
+    <!-- Stock Picking Good Issued Note Report -->
+    <record id="action_stock_picking_issued_pdf_report" model="ir.actions.report">
+        <field name="name">Good Issued Note A4</field>
+        <field name="model">stock.picking</field>
+        <field name="report_type">py3o</field>
+        <field name="report_name">report_form.good_issue_note_pdf_report</field>
+        <field name="report_file">report_form.good_issue_note_pdf_report</field>
+        <field name="py3o_filetype">pdf</field>
+        <field name="module">report_form</field>
+        <field name="py3o_template_fallback">report/good_issue_note_a4.odt</field>
+    </record>
+    <record id="action_stock_picking_issued_pdf_report_server" model="ir.actions.server">
+        <field name="name">Good Issued Note A4</field>
+        <field name="model_id" ref="model_stock_picking"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = records.get_stock_picking_issued()
+        </field>
+        <field name="binding_model_id" ref="model_stock_picking"/>
+        <field name="binding_type">report</field>
+    </record>
+    <!-- Stock Picking Good Issued Note Report -->
+
+    <!-- Stock Picking Good Received Note Report -->
+    <record id="action_stock_picking_received_pdf_report" model="ir.actions.report">
+        <field name="name">Good Received Note A4</field>
+        <field name="model">stock.picking</field>
+        <field name="report_type">py3o</field>
+        <field name="report_name">report_form.good_received_note_pdf_report</field>
+        <field name="report_file">report_form.good_received_note_pdf_report</field>
+        <field name="py3o_filetype">pdf</field>
+        <field name="module">report_form</field>
+        <field name="py3o_template_fallback">report/good_received_note_a4.odt</field>
+    </record>
+    <record id="action_stock_picking_received_pdf_report_server" model="ir.actions.server">
+        <field name="name">Good Received Note A4</field>
+        <field name="model_id" ref="model_stock_picking"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = records.get_stock_picking_received()
+        </field>
+        <field name="binding_model_id" ref="model_stock_picking"/>
+        <field name="binding_type">report</field>
+    </record>
+    <!-- Stock Picking Good Received Note Report -->
+
+    <!-- Purchase Order A4 Report -->
+    <record id="action_purchase_order_pdf_report" model="ir.actions.report">
+        <field name="name">Purchase Order A4</field>
+        <field name="model">purchase.order</field>
+        <field name="report_type">py3o</field>
+        <field name="report_name">report_form.purchase_order_pdf_report</field>
+        <field name="report_file">report_form.purchase_order_pdf_report</field>
+        <field name="py3o_filetype">pdf</field>
+        <field name="module">report_form</field>
+        <field name="py3o_template_fallback">report/purchase_order_a4.odt</field>
+    </record>
+    <record id="action_purchase_order_pdf_report_server" model="ir.actions.server">
+        <field name="name">Purchase Order A4</field>
+        <field name="model_id" ref="model_purchase_order"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = records.get_purchase_order_a4()
+        </field>
+        <field name="binding_model_id" ref="model_purchase_order"/>
+        <field name="binding_type">report</field>
+    </record>
+    <!-- Purchase Order A4 Report -->
+
+    <!-- Submission Quotation A4 Report -->
+    <record id="action_submission_quotation_pdf_report" model="ir.actions.report">
+        <field name="name">Submission Quotation A4</field>
+        <field name="model">submission.quotation</field>
+        <field name="report_type">py3o</field>
+        <field name="report_name">report_form.submission_quotation_pdf_report</field>
+        <field name="report_file">report_form.submission_quotation_pdf_report</field>
+        <field name="py3o_filetype">pdf</field>
+        <field name="module">report_form</field>
+        <field name="py3o_template_fallback">report/submission_quotation_a4.odt</field>
+    </record>
+    <record id="action_submission_quotation_pdf_report_server" model="ir.actions.server">
+        <field name="name">Submission Quotation A4</field>
+        <field name="model_id" ref="model_submission_quotation"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = records.get_submission_quotation_a4()
+        </field>
+        <field name="binding_model_id" ref="model_submission_quotation"/>
+        <field name="binding_type">report</field>
+    </record>
+    <!-- Submission Quotation A4 Report -->
+
+    <!-- Purchase Stock Requisition A4 Report -->
+    <record id="action_purchase_stock_requisition_pdf_report" model="ir.actions.report">
+        <field name="name">Purchase Stock Requisition A4</field>
+        <field name="model">purchase.stock.requisition</field>
+        <field name="report_type">py3o</field>
+        <field name="report_name">report_form.purchase_stock_requisition_pdf_report</field>
+        <field name="report_file">report_form.purchase_stock_requisition_pdf_report</field>
+        <field name="py3o_filetype">pdf</field>
+        <field name="module">report_form</field>
+        <field name="py3o_template_fallback">report/purchase_stock_requisition_a4.odt</field>
+    </record>
+    <record id="action_purchase_stock_requisition_pdf_report_server" model="ir.actions.server">
+        <field name="name">Purchase Stock Requisition A4</field>
+        <field name="model_id" ref="model_purchase_stock_requisition"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = records.get_purchase_stock_requisition_a4()
+        </field>
+        <field name="binding_model_id" ref="model_purchase_stock_requisition"/>
+        <field name="binding_type">report</field>
+    </record>
+    <!-- Purchase Stock Requisition A4 Report -->
+
+
+    <!--  Hr Expense Inherit-->
+    <record id="hr_expense.action_report_hr_expense_sheet" model="ir.actions.report">
+        <field name="name">Expenses Report</field>
+        <field name="model">hr.expense.sheet</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">report_form.report_expense_sheet_inherit</field>
+        <field name="report_file">report_form.report_expense_sheet_inherit</field>
+        <field name="print_report_name">'Expenses - %s - %s' % (object.employee_id.name, (object.name).replace('/', ''))</field>
+        <field name="binding_model_id" ref="hr_expense.model_hr_expense_sheet"/>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="paperformat_a4_customize_report" model="report.paperformat">
+            <field name="name">A4 Customize Paper Format</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">23</field>
+            <field name="margin_bottom">35</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">23</field>
+            <field name="dpi">90</field>
+            <field name="report_ids" eval="[(6, 0, [ref('hr_expense.action_report_hr_expense_sheet')])]"/>
+        </record>
+
+    <!-- Statement Payment A4 Report -->
+    <record id="action_statement_payment_pdf" model="ir.actions.report">
+        <field name="name">Offical Payment</field>
+        <field name="model">account.bank.statement</field>
+        <field name="report_type">py3o</field>
+        <field name="report_name">report_form.statement_payment_pdf</field>
+        <field name="report_file">report_form.statement_payment_pdf</field>
+        <field name="py3o_filetype">pdf</field>
+        <field name="module">report_form</field>
+        <field name="py3o_template_fallback">report/statement_payment_pdf.odt</field>
+    </record>
+    <record id="action_statement_payment_pdf_server" model="ir.actions.server">
+        <field name="name">Offical Payment</field>
+        <field name="model_id" ref="model_account_bank_statement"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = records.get_statement_payment_report()
+        </field>
+        <field name="binding_model_id" ref="model_account_bank_statement"/>
+        <field name="binding_type">report</field>
+    </record>
+    <!-- Statement Payment A4 Report  -->
+
+    <!-- Statement Received A4 Report -->
+    <record id="action_statement_receipt_report_pdf" model="ir.actions.report">
+        <field name="name">Offical Receipt</field>
+        <field name="model">account.bank.statement</field>
+        <field name="report_type">py3o</field>
+        <field name="report_name">report_form.statement_receipt_pdf</field>
+        <field name="report_file">report_form.statement_receipt_pdf</field>
+        <field name="py3o_filetype">pdf</field>
+        <field name="module">report_form</field>
+        <field name="py3o_template_fallback">report/statement_receipt_pdf.odt</field>
+    </record>
+    <record id="action_statement_receipt_report_pdf_server" model="ir.actions.server">
+        <field name="name">Offical Receipt</field>
+        <field name="model_id" ref="model_account_bank_statement"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = records.get_statement_receipt_report()
+        </field>
+        <field name="binding_model_id" ref="model_account_bank_statement"/>
+        <field name="binding_type">report</field>
+    </record>
+    <!-- Statement Receipt A4 Report  -->
+
+    <!-- Statement Advance A4 Report -->
+    <record id="action_statement_advance_report_pdf" model="ir.actions.report">
+        <field name="name">Advance Payment</field>
+        <field name="model">account.bank.statement</field>
+        <field name="report_type">py3o</field>
+        <field name="report_name">report_form.statement_advance_pdf</field>
+        <field name="report_file">report_form.statement_advance_pdf</field>
+        <field name="py3o_filetype">pdf</field>
+        <field name="module">report_form</field>
+        <field name="py3o_template_fallback">report/statement_advance_pdf.odt</field>
+    </record>
+    <record id="action_statement_advance_report_pdf_server" model="ir.actions.server">
+        <field name="name">Advance Payment</field>
+        <field name="model_id" ref="model_account_bank_statement"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = records.get_statement_advance_report()
+        </field>
+        <field name="binding_model_id" ref="model_account_bank_statement"/>
+        <field name="binding_type">report</field>
+    </record>
+    <!-- Statement Advance A4 Report  -->
+
+</odoo>

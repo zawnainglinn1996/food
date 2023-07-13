@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_stock_packaging_all,stock.packaging.all,model_stock_packaging,base.group_user,1,1,1,1
+access_stock_packaging_line_all,stock.packaging.line.all,model_stock_packaging_line,base.group_user,1,1,1,1
+access_show_insufficient_qty_all,show.insufficient.qty.all,model_show_insufficient_qty,base.group_user,1,1,1,1
+access_show_insufficient_qty_line_all,show.insufficient.qty.line.all,model_show_insufficient_qty_line,base.group_user,1,1,1,1

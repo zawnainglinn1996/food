@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_promotion_program_form" model="ir.ui.view">
+        <field name="name">promotion.program.form</field>
+        <field name="model">promotion.program</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active"
+                                type="object"
+                                icon="fa-archive"
+                                class="oe_stat_button">
+                            <span class="text-success" attrs="{'invisible': [('active', '!=', True)]}">Active</span>
+                            <span class="text-danger" attrs="{'invisible': [('active', '=', True)]}">Inactive</span>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="color" widget="color_picker" required="1"/>
+                            <field name="type"/>
+                        </group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="company_id"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="buy_one_get_one" string="Rules"
+                              attrs="{'invisible':[('type','!=','buy_one_get_one')]}">
+                            <field name="buy_one_get_one_line_ids" mode="tree">
+                                <tree editable="tree">
+                                    <field name="product_x_id" required="1" domain="[('detailed_type', '!=', 'service')]"/>
+                                    <field name="operator" required="1"/>
+                                    <field name="product_x_qty" string="Qty" required="1"/>
+                                    <field name="product_y_id" required="1"/>
+                                    <field name="product_y_qty" string="Qty" required="1"/>
+                                    <field name="account_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="discount_amount" string="Invoices"
+                              attrs="{'invisible':[('type','!=','discount_total_amount')]}">
+                            <group>
+                                <group>
+                                    <field name="total_invoice_amount" string="Total Invoice Amount" required="1"/>
+                                    <field name="operator" required="1"/>
+                                    <field name="discount_product_id" attrs="{'required':[('type','=','discount_total_amount')]}"/>
+                                    <field name="product_qty" attrs="{'invisible':[('reward_type','!=','foc_product')]}"/>
+                                </group>
+                                <group>
+                                    <field name="reward_type"/>
+                                    <div class="o_td_label">
+                                        <label for="fixed_discount" string="Fixed Discount"
+                                               attrs="{'invisible':[('reward_type','!=','discount_amount')]}"/>
+                                        <label for="fixed_discount" string="Percentage"
+                                               attrs="{'invisible':[('reward_type','!=','percentage')]}"/>
+                                    </div>
+                                    <field name="fixed_discount" nolabel="1" attrs="{'invisible':[('reward_type','=','foc_product')]}"/>
+                                    <field name="account_id" attrs="{'invisible':[('reward_type','!=','foc_product')]}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="sales_teams" string="Sales Teams">
+                            <field name="team_ids"/>
+                        </page>
+                        <page name="pos_configs" string="POS Counters">
+                            <field name="config_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_ids"/>
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="view_promotion_program_tree" model="ir.ui.view">
+        <field name="name">promotion.program.tree</field>
+        <field name="model">promotion.program</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="type"/>
+                <field name="company_id"/>
+                <field name="active" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_promotion_program" model="ir.actions.act_window">
+        <field name="name">Promotion Program</field>
+        <field name="res_model">promotion.program</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new promotion program here.
+            </p>
+            <p>
+                You'll be able to manage your promotion programs here.
+            </p>
+        </field>
+    </record>
+    <menuitem id="menu_promotion_program_sale"
+              name="Promotion Programs"
+              parent="sale.product_menu_catalog"
+              action="action_promotion_program"
+              sequence="100"/>
+    <menuitem id="menu_promotion_program_pos"
+              name="Promotion Programs"
+              parent="point_of_sale.pos_config_menu_catalog"
+              action="action_promotion_program"
+              sequence="100"/>
+</odoo>

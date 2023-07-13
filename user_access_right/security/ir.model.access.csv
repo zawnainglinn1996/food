@@ -1,0 +1,5 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"base.access_ir_actions_act_window_system","ir_actions_act_window_system","base.model_ir_actions_act_window","base.group_user",1,1,1,1
+"base.access_ir_actions_act_window_view_group_system","ir_actions_act_window_view_group_system","base.model_ir_actions_act_window_view","base.group_user",1,1,1,1
+"base.access_ir_actions_act_window_close_group_system","ir_actions_act_window_close_group_system","base.model_ir_actions_act_window_close","base.group_user",1,1,1,1
+"access_ir_config_parameter","ir_config_parameter","base.model_ir_config_parameter","base.group_user",1,1,1,1

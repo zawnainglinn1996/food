@@ -1,0 +1,29 @@
+<odoo>
+     <record id="get_sale_promotion" model="ir.ui.view">
+        <field name="name">get.sale.promotion.form</field>
+        <field name="model">get.sale.promotion</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="date_order" invisible="1"/>
+                            <field name="order_id" invisible="1"/>
+                        </group>
+                        <separator string="PLEASE CHOOSE PROMOTIONS!"/>
+                        <field name="promotion_ids" widget="many2many_tags"
+                               colspan="8" string="Promotion Program"
+                                 options="{'no_create': True, 'no_copy': True, 'no_open': True,'color_field': 'color'}"/>
+
+                    </group>
+
+                </sheet>
+                <footer>
+                    <button name="action_select_promotion" string="Apply" type="object" class="oe_highlight"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

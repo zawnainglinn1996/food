@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_whole_sale_order_pivot" model="ir.ui.view">
+         <field name="name">whole.retail.summary.report.pivot</field>
+         <field name="model">whole.retail.summary.report</field>
+         <field name="arch" type="xml">
+             <pivot string="Whole Retail Summary" sample="1">
+                 <field name="analytic_account_id" type="col"/>
+<!--                 <field name="uom_id" type="col"/>-->
+                 <field name="product_id" type="row"/>
+                 <field name="uom_id" type="row"/>
+                 <field name="allowed_qty" type="measure" string="Allowed Qty"/>
+                 <field name="request_qty" type="measure" string="Request Qty"/>
+                 <field name="packaging_size" type="measure"/>
+<!--                 <field name="product_packaging_id" type="measure"/>-->
+             </pivot>
+         </field>
+    </record>
+    <record id="whole_retail_sale_summary_report_tree" model="ir.ui.view">
+        <field name="name">whole.retail.summary.report.tree</field>
+        <field name="model">whole.retail.summary.report</field>
+        <field name="arch" type="xml">
+            <tree string="Whole Sale Retail Summary Report" create="false">
+                <field name="product_id"/>
+                <field name="allowed_qty"/>
+                <field name="request_qty" optional="hide"/>
+                <field name="uom_id"/>
+                <field name="packaging_size" string="Packaging"/>
+                <field name="product_packaging_id" string="Packaging Size"/>
+                <field name="expected_date" optional="hide"/>
+                <field name="sale_picking" optional="hide"/>
+                <field name="sale_type" optional="hide"/>
+                <field name="analytic_account_id" optional="hide"/>
+                <field name="remark" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="whole_retail_sale_summary_report_search" model="ir.ui.view">
+        <field name="name">whole.retail.summary.report.search</field>
+        <field name="model">whole.retail.summary.report</field>
+        <field name="arch" type="xml">
+            <search string="Sale Summary Report Search">
+                <field name="product_id"/>
+                <field name="allowed_qty"/>
+                <field name="request_qty"/>
+                <field name="uom_id"/>
+
+                <field name="product_packaging_id"/>
+                <field name="analytic_account_id"/>
+                <filter string="Tomorrow" name="tomorrow"
+                        domain="[('expected_date','&gt;=', ((context_today()+datetime.timedelta(days=1)).strftime('%Y-%m-%d'))),
+                                ('expected_date','&lt;=', ((context_today()+datetime.timedelta(days=1)).strftime('%Y-%m-%d 23:59:59')))]"/>
+                <filter string="Whole Sale" name="whole_sale" domain="[('sale_type','=','whole_sale')]"/>
+                <filter string="Retail Sale" name="retail_sale" domain="[('sale_type','=','retail_sale')]"/>
+                <group expand="1" string="Group By">
+                    <separator/>
+                    <filter string="Sale Type" name="sale_type" context="{'group_by':'sale_type'}"/>
+                    <filter string="Picking Type" name="sale_picking" context="{'group_by':'sale_picking'}"/>
+                    <filter string="Shop" name="analytic_account_id" context="{'group_by':'analytic_account_id'}"/>
+                    <separator/>
+                    <filter string="Product Category" name="product_category_id" context="{'group_by':'product_category_id'}"/>
+                    <filter string="Product Group" name="product_family_id" context="{'group_by':'product_family_id'}"/>
+                    <filter string="Product Family" name="product_group_id" context="{'group_by':'product_group_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_whole_retail_sale_summary_report" model="ir.actions.act_window">
+        <field name="name">Requisition Summary ( Whole Sale + Retail Sale )</field>
+        <field name="res_model">whole.retail.summary.report</field>
+        <field name="view_mode">pivot,tree</field>
+        <field name="view_id"/>  <!-- force empty -->
+        <field name="search_view_id" ref="whole_retail_sale_summary_report_search"/>
+        <field name="context">{'search_default_tomorrow':1}</field>
+        <field name="help">This report performs analysis on your Sales orders and Sale Requisition
+
+        </field>
+    </record>
+
+    <menuitem
+            id="menu_whole_retail_sale_summary_report"
+            name="Requisition Summary( Whole Sale + Retail Sale )"
+            action="action_whole_retail_sale_summary_report"
+            parent="sale.menu_sale_report"
+            sequence="105"/>
+</odoo>

@@ -1,0 +1,34 @@
+<odoo>
+    <data>
+        <record id="view_purchase_requisition_form_inherit" model="ir.ui.view">
+            <field name="name">purchase.requisition.form</field>
+            <field name="model">purchase.stock.requisition</field>
+            <field name="inherit_id" ref="nilar_purchase_requisition.view_purchase_requisition_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='reference_code']" position="after">
+                    <field name="login_employee_id" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_purchase_requisition_tree" model="ir.ui.view">
+            <field name="name">purchase.requisition.tree</field>
+            <field name="model">purchase.stock.requisition</field>
+            <field name="inherit_id" ref="nilar_purchase_requisition.view_purchase_requisition_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='department_id']" position="after">
+                    <field name="login_employee_id" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_purchase_requisition_line_tree" model="ir.ui.view">
+            <field name="name">purchase.requisition.tree</field>
+            <field name="model">purchase.requisitions.line</field>
+            <field name="inherit_id" ref="nilar_purchase_requisition.view_purchase_requisition_line_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state']" position="before">
+                    <field name="login_employee_id" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

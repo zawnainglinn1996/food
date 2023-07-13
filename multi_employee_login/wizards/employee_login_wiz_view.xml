@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="hr_employee_login_form">
+            <field name="name">hr.employee.login.form</field>
+            <field name="model">hr.employee.login</field>
+            <field name="arch" type="xml">
+                <form string="Employee Login Form">
+                    <group>
+                        <group>
+                            <field name="user_id" invisible="1"/>
+                            <field name="employee_id"  options="{'no_open': True, 'no_create': True}" domain="[('user_id.id','=',user_id)]"/>
+                            <field name="employee_pin" password="True"/>
+                        </group>
+                        <h2 colspan="4" style="color:red;">
+                            <field name="alert_message" attrs="{'invisible':[('alert_message','=',False)]}" readonly="1"/>
+                        </h2>
+                    </group>
+                    <footer>
+                        <button name="action_login" string="Submit" class="btn btn-primary" type="object"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+         <record model="ir.actions.act_window" id="action_hr_employee_login">
+             <field name="name">Select your Employee name!</field>
+             <field name="res_model">hr.employee.login</field>
+             <field name="type">ir.actions.act_window</field>
+             <field name="view_mode">form</field>
+             <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

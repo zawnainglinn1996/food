@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="view_order_form_customer" model="ir.ui.view">
+            <field name="name">sale.order.form.customer</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="domain">[('customer', '=', True)]</attribute>
+                    <attribute name="context">{'default_supplier':0, 'default_customer':1, 'show_address':1, 'show_vat':True, 'display_website': True}</attribute>
+                </xpath>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

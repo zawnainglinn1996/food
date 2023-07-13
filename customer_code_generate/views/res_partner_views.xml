@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <record id="view_partner_tree_supplier" model="ir.ui.view">
+            <field name="name">res.partner.tree.supplier</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree//field[@name='display_name']" position="before">
+                    <field name="customer_code" invisible="context.get('default_supplier')"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_partner_form_code" model="ir.ui.view">
+            <field name="name">res.partner.form.code</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet//field[@name='vat']" position="before">
+                    <field name="company_id"/>
+                    <field name="company_code" invisible="1"/>
+                </xpath>
+                <xpath expr="//sheet//field[@name='company_type']" position="after">
+                    <div class="row">
+                        <h1>
+                            <field name="customer_code" nolabel="1" attrs="{'invisible': [('supplier', '=', True)]}"/>
+                        </h1>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_res_partner_filter_customer" model="ir.ui.view">
+            <field name="name">res.partner.select.customer</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search//field[@name='parent_id']" position="after">
+                    <field name="ref"/>
+                    <field name="customer_code"/>
+                </xpath>
+                <group expand="0" name="group_by" string="Group By">
+                    <filter name="ref" string="Reference ID" domain="[]" context="{'group_by' : 'ref'}"/>
+                    <filter name="customer_code" string="Customer Code" domain="[]"
+                            context="{'group_by' : 'customer_code'}"/>
+                </group>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,39 @@
+<odoo>
+  <data>
+    <record id="view_partner_form_extension" model="ir.ui.view">
+      <field name="name">res.partner.form.extension</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form"/>
+      <field name="arch" type="xml">
+          <xpath expr="//sheet//h1//field[@name='name']" position="before">
+              <div class="row">
+                  <h1><field name="supplier_code" nolabel="1" attrs="{'invisible': [('supplier', '=', False)]}"/></h1>
+              </div>
+          </xpath>
+      </field>
+    </record>
+    <record id="view_partner_tree_supplier" model="ir.ui.view">
+      <field name="name">res.partner.tree.supplier</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_tree"/>
+      <field name="arch" type="xml">
+          <xpath expr="//tree//field[@name='display_name']" position="before">
+              <field name="supplier_code" invisible="context.get('default_customer')"/>
+          </xpath>
+      </field>
+    </record>
+    <record id="view_res_partner_filter_vendor" model="ir.ui.view">
+      <field name="name">res.partner.select.vendor</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_res_partner_filter"/>
+      <field name="arch" type="xml">
+          <xpath expr="//search//field[@name='parent_id']" position="after">
+              <field name="supplier_code"/>
+          </xpath>
+          <group expand="0" name="group_by" string="Group By">
+              <filter name="supplier_code" string="Supplier Code" domain="[]" context="{'group_by' : 'supplier_code'}" />
+          </group>
+      </field>
+    </record>
+  </data>
+</odoo>

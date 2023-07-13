@@ -1,0 +1,12 @@
+<odoo>
+     <data noupdate="1">
+         <record id="seq_purchase_stock_requestion" model="ir.sequence">
+            <field name="name">Purchase Stock Requestion</field>
+            <field name="code">purchase.stock.requisition</field>
+            <field name="prefix">PRF-%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+    </data>
+</odoo>

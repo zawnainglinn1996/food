@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="stock_repacking_report_document">
+        <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                    <br/>
+                    <center class="row" style="width:100%">
+
+                            <img class="img img-responsive" t-att-src="'/report_form/static/description/nilar.png'"
+                             style="width:219px;height:26.9px; align:center"/>
+
+                    </center>
+                    <h2><center>Repackaging Form</center></h2>
+                    <hr/>
+
+
+                    <div class="row" style="padding-bottom:50px;font-size:14px;">
+                        <div class="row" style="width:50%;">
+                            <div style="color:black;font-weight: bold;width: 50%;padding-left: 40px">
+                                <div style="padding-top:10px;padding-bottom:10px;;height:43px;">
+                                    <strong>Repacking Reference</strong>
+                                </div>
+                                <div style="padding-top:10px;padding-bottom:10px;;height:43px;">
+                                    <strong>Locations</strong>
+                                </div>
+                                <div style="padding-top:10px;padding-bottom:10px;height:43px;">
+                                    <strong>Date</strong>
+                                </div>
+                            </div>
+                            <div class="col-xs-6" style="width: 50%;">
+                                <div style="padding-top:10px;padding-bottom:10px;height:43px;">
+                                    <t t-if="o.name">
+                                        <span t-field="o.name"/>
+                                    </t>
+                                </div>
+                                <div style="padding-top:10px;padding-bottom:10px;height:43px;">
+                                    <t t-if="o.location_id">
+                                        <span t-field="o.location_id"/>
+                                    </t>
+                                </div>
+                                <div style="padding-top:10px;padding-bottom:10px;height:43px;">
+                                    <t t-if="o.date">
+                                        <span t-field="o.date"/>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <table class="table table-sm" style="padding-top:20px;font-size:14px;">
+                        <thead>
+                            <tr>
+                                <th class="text-left"><strong>CODE</strong></th>
+                                <th class="text-left"><strong>Product</strong></th>
+                                <th class="text-right"><strong>On Hand</strong></th>
+                                <th class="text-right"><strong>Qty</strong></th>
+                                <th class="text-right"><strong>Balance</strong></th>
+                                <th class="text-center"><strong>Uom</strong></th>
+                                <th class="text-right"><strong>Unit Cost</strong></th>
+                                <th class="text-right"><strong>Amount</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.stockrepackagingline_id" t-as="line">
+                                <td class="text-left"><span t-field="line.product_id"/></td>
+                                <td class="text-left"><span t-field="line.name"/></td>
+                                <td class="text-right"><span t-field="line.onhand_qty"/></td>
+                                <td class="text-right"><span t-field="line.quantity"/> </td>
+                                <td class="text-right"><span t-field="line.balance"/> </td>
+                                <td class="text-center"><span t-field="line.uom_id" groups="uom.group_uom"/></td>
+                                <td class="text-right"><span t-field="line.unit_cost"/></td>
+                                <td class="text-right"><span t-field="line.amount"/></td>
+                            </tr>
+                            <tr></tr>
+                            <tr>
+                                <th ></th>
+                                <th></th>
+                                <th></th>
+                                <th class="text-right"><t t-esc="sum (l.quantity for l in o.stockrepackagingline_id)" /></th>
+                                <th class="text-right"></th>
+                                <th class="text-right"></th>
+                                <th class="text-right"></th>
+                                <th class="text-right"><t t-esc="sum(l.amount for l in o.stockrepackagingline_id)" /></th>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <br/><br/><br/><br/><br/><br/>
+                    <div class="row" style="page-break-inside:avoid;font-size:14px;">
+                        <div  class="text-center" style="width:20%;align:left;">
+                            -----------------------------------<br/>
+                            Repackaged By  
+                        </div>
+                        <div class="text-center" style="width:60%;align:center;">
+                            -----------------------------------<br/>
+                            Authorised Signature
+                        </div>
+                        <div class="text-center" style="width:20%;align:right;">
+                            -----------------------------------<br/>
+                            Checked By
+                        </div>
+                    </div>
+                </div>
+                </t>
+             </t>
+         </t>
+
+    </template>
+</odoo>

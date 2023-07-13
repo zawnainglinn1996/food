@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+	<style>
+		  @font-face {
+			font-family: "PyinGDaunsu";
+			src: url("kitchen_pos_receipt/static/src/fonts/PyinGDaunsu.ttf");
+
+		  }
+	</style>
+	<t t-inherit="pos_restaurant.OrderChangeReceipt" t-inherit-mode="extension" owl="1">
+
+	 	<xpath expr="//div[hasclass('pos-receipt')]" position="replace">
+	 		<div class="pos-receipt" style="width:width: 187px;top:0;margin-top:0;">
+                <table style="font-family: 'PyinGDaunsu', sans-serif;font-size:12px;font-weight:bold;color:#575555;width:187px">
+					<tr style="text-align:left;align-item:center">
+						<td style="text-align:left;vertical-align: middle;">
+							Table No
+						</td>
+						<td style="text-align:left;vertical-align: middle;">:
+							<t t-if="changes.floor || changes.table">
+								<t t-esc="changes.floor" /> / <t t-esc="changes.table"/>
+							</t>
+						</td>
+
+					</tr>
+					<tr style="line-height:12pt;text-align:left;align-item:center;">
+						<td style="text-align:left;vertical-align: middle;">
+							Cashier Name
+						</td>
+						<td style="text-align:left;vertical-align: middle;">:
+							<t t-esc="changes.user_id"/>
+						</td>
+					</tr>
+                    <tr style="line-height:12pt;text-align:left;align-item:center;">
+						<td style="text-align:left;vertical-align: middle;">
+							Slip ID
+						</td>
+						<td style="text-align:left;vertical-align: middle;">:
+							<t t-if="changes.name">
+								<t t-esc="changes.name"/>
+							</t>
+						</td>
+					</tr>
+					<tr style="line-height:12pt;text-align:left;align-item:center;">
+						<td style="text-align:left;vertical-align: middle;">
+							Date &amp; Time
+						</td>
+						<td style="text-align:left;vertical-align: middle;">:
+							<t t-if="changes.time">
+								<t t-esc='changes.date.toLocaleString()'/>
+							</t>
+						</td>
+					</tr>
+				</table>
+                <div class="page" style="">
+					<t t-if="changes.cancelled.length > 0">
+						<table style="font-family: 'PyinGDaunsu', sans-serif;font-size:12px;font-weight:bold;color:#575555;width:189px;">
+							<tr style="font-weight:bold">
+								<td colspan="3" style="text-align:center;align-item:center;">
+									Cancel Order
+								</td>
+							</tr>
+							<tr style="border-top: dotted 1px #000;border-bottom: dotted 1px #000;align-item:center">
+								<th style='text-align:center;align-item:center'>Sr</th>
+								<th style='text-align:center;align-item:center'>Product</th>
+								<th style='text-align:center;align-item:center'>Qty</th>
+							</tr>
+							<t t-set="no" t-value="1"/>
+							<t t-foreach="changes.cancelled" t-as="change" style="font-family: 'PyinGDaunsu', sans-serif;font-size:12px;font-weight:bold;font-weight: bold;">
+								<tr style="border-bottom: dotted 1px #000;align-item:center">
+									<td style="vertical-align: middle;font-family: 'PyinGDaunsu', sans-serif;font-size:12px;font-weight:bold;text-align:center;">
+										<t t-esc="no"/>
+									</td>
+									<td style="vertical-align: middle;text-align:center;font-family: 'PyinGDaunsu', sans-serif;font-size:12px;font-weight:bold;">
+										<t t-esc="change.name"/>
+									</td>
+									<td style="vertical-align: middle;text-align:center;font-family: 'PyinGDaunsu', sans-serif;font-size:12px;font-weight:bold;">
+										<t t-esc="change.qty"/>
+									</td>
+									<t t-if="change.note">
+										<td style="vertical-align: middle;text-align:center;font-family: 'PyinGDaunsu', sans-serif;font-size:12px;font-weight:bold;">
+											<t t-esc="change.note" />
+										</td>
+									</t>
+								</tr>
+								<t t-set="no" t-value="no+1"/>
+						   </t>
+
+						</table>
+					</t>
+					<br/>
+					<t t-if="changes.new.length > 0">
+						<table style="font-family: 'PyinGDaunsu', sans-serif;font-size:12px;font-weight: bold;color:#575555;width:187px;">
+							<tr style ="font-weight:bold">
+								<td colspan="3" style="text-align:center;align-item:center;">
+									New Order
+								</td>
+							</tr>
+							<tr style="border-top: dotted 1px #000;border-bottom: dotted 1px #000;align-item:center">
+								<th style='text-align:center;align-item:center'>Sr</th>
+								<th style='text-align:center;align-item:center'>Product</th>
+								<th style='text-align:center;align-item:center'>Qty</th>
+							</tr>
+							<t t-set="no" t-value="1"/>
+							<t t-foreach="changes.new" t-as="change" style="font-weight: bold;font-family: 'PyinGDaunsu', sans-serif;font-size:12px;font-weight:bold">
+								<tr style="border-bottom: dotted 1px #000;align-item:center">
+									<td style="vertical-align: middle;font-family: 'PyinGDaunsu', sans-serif;font-size:12px;text-align:center;font-weight:bold">
+										<t t-esc="no"/>
+									</td>
+									<td style="vertical-align: middle;text-align:center;font-family: 'PyinGDaunsu', sans-serif;font-size:12px;font-weight:bold">
+										<t t-esc="change.name"/>
+									</td>
+									<td style="vertical-align: middle;text-align:center;font-family: 'PyinGDaunsu', sans-serif;font-size:12px;font-weight:bold">
+										<t t-esc="change.qty"/>
+									</td>
+									<t t-if="change.note">
+										<td style="vertical-align: middle;text-align:center;font-family: 'PyinGDaunsu', sans-serif;font-size:12px;font-weight:bold">
+											<t t-esc="change.note" />
+										</td>
+									</t>
+								</tr>
+								<t t-set="no" t-value="no+1"/>
+						   </t>
+						</table>
+					</t>
+				</div>
+			</div>
+	    </xpath>
+	</t>
+</templates>

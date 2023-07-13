@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="paperformat_a4_clear" model="report.paperformat">
+        <field name="name">A4 w/o header</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">5</field>
+        <field name="margin_bottom">3</field>
+        <field name="margin_left">3</field>
+        <field name="margin_right">3</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">90</field>
+    </record>
+
+<!--    FOR custom paper size-->
+    <record id="paperformat_custom_clear" model="report.paperformat">
+        <field name="name">custom</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">36</field>
+        <field name="page_width">160</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">0</field>
+        <field name="margin_bottom">1.2</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">95</field>
+    </record>
+
+
+    <record id="paperformat_a5_clear" model="report.paperformat">
+        <field name="name">A5 w/o header</field>
+        <field name="default" eval="True"/>
+        <field name="format">A5</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">0.1</field>
+        <field name="margin_bottom">0</field>
+        <field name="margin_left">0.1</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">99</field>
+
+    </record>
+
+    <!-- *****************label barcode A5********************* -->
+    <!-- <report
+        id="report_product_label_A5_57x35"
+        string="Product labels 57x35mm"
+        model="print.product.label.line"
+        report_type="qweb-pdf"
+        paperformat="garazd_product_label.paperformat_a5_clear"
+        name="garazd_product_label.report_product_label_57x35_template"
+        file="garazd_product_label.report_product_label_57x35_template"
+    /> -->
+    <record id="report_product_label_A5_57x35" model="ir.actions.report">
+        <field name="name">Product labels 57x35mm</field>
+        <field name="model">print.product.label.line</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="paperformat_id" ref="garazd_product_label.paperformat_a5_clear"/>
+        <field name="report_name">garazd_product_label.report_product_label_57x35_template</field>
+        <field name="report_file">garazd_product_label.report_product_label_57x35_template</field>
+    </record>
+    <record id="report_product_label_A5_57x35_preview" model="ir.actions.report">
+        <field name="name">Product labels A5 (preview)</field>
+        <field name="model">print.product.label.line</field>
+        <field name="report_type">qweb-html</field>
+        <field name="paperformat_id" ref="garazd_product_label.paperformat_a5_clear"/>
+        <field name="report_name">garazd_product_label.report_product_label_57x35_template</field>
+        <field name="report_file">garazd_product_label.report_product_label_57x35_template</field>
+    </record>
+
+     <!-- label barcode A5 without price -->
+    <!-- <report
+        id="report_product_label_A5_without_price"
+        string="Product labels without price"
+        model="print.product.label.line"
+        report_type="qweb-pdf"
+        paperformat="garazd_product_label.paperformat_a5_clear"
+        name="garazd_product_label.report_product_label_without_price_template"
+        file="garazd_product_label.report_product_label_without_price_template"
+    /> -->
+    <record id="report_product_label_A5_without_price" model="ir.actions.report">
+        <field name="name">Product labels without price</field>
+        <field name="model">print.product.label.line</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="paperformat_id" ref="garazd_product_label.paperformat_a5_clear"/>
+        <field name="report_name">garazd_product_label.report_product_label_without_price_template</field>
+        <field name="report_file">garazd_product_label.report_product_label_without_price_template</field>
+    </record>
+    <record id="report_product_label_A5_without_price_preview" model="ir.actions.report">
+        <field name="name">Product labels A5 without price(preview)</field>
+        <field name="model">print.product.label.line</field>
+        <field name="report_type">qweb-html</field>
+        <field name="paperformat_id" ref="garazd_product_label.paperformat_a5_clear"/>
+        <field name="report_name">garazd_product_label.report_product_label_without_price_template</field>
+        <field name="report_file">garazd_product_label.report_product_label_without_price_template</field>
+    </record>
+
+    <!-- label barcode A4 -->
+    <!-- <report
+        id="report_product_label_A4_40x35"
+        string="Product labels 40x35mm"
+        model="print.product.label.line"
+        report_type="qweb-pdf"
+        paperformat="garazd_product_label.paperformat_a4_clear"
+        name="garazd_product_label.report_product_label_40x35_template"
+        file="garazd_product_label.report_product_label_40x35_template"
+    /> -->
+    <record id="report_product_label_A4_40x35" model="ir.actions.report">
+        <field name="name">Product labels 40x35mm</field>
+        <field name="model">print.product.label.line</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="paperformat_id" ref="garazd_product_label.paperformat_a4_clear"/>
+        <field name="report_name">garazd_product_label.report_product_label_40x35_template</field>
+        <field name="report_file">garazd_product_label.report_product_label_40x35_template</field>
+    </record>
+    <record id="report_product_label_A4_40x35_preview" model="ir.actions.report">
+        <field name="name">Product labels A4 (preview)</field>
+        <field name="model">print.product.label.line</field>
+        <field name="report_type">qweb-html</field>
+        <field name="paperformat_id" ref="garazd_product_label.paperformat_a4_clear"/>
+        <field name="report_name">garazd_product_label.report_product_label_40x35_template</field>
+        <field name="report_file">garazd_product_label.report_product_label_40x35_template</field>
+    </record>
+
+    <!-- custom barcode -->
+    <record id="report_product_label_custom" model="ir.actions.report">
+        <field name="name">Product labels custom</field>
+        <field name="model">print.product.label.line</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="paperformat_id" ref="garazd_product_label.paperformat_custom_clear"/>
+        <field name="report_name">garazd_product_label.report_product_label_custom_template</field>
+        <field name="report_file">garazd_product_label.report_product_label_custom_template</field>
+    </record>
+
+    <record id="report_product_label_custom_preview" model="ir.actions.report">
+        <field name="name">Product labels custom (preview)</field>
+        <field name="model">print.product.label.line</field>
+        <field name="report_type">qweb-html</field>
+        <field name="paperformat_id" ref="garazd_product_label.paperformat_a4_clear"/>
+        <field name="report_name">garazd_product_label.report_product_label_custom_template</field>
+        <field name="report_file">garazd_product_label.report_product_label_custom_template</field>
+    </record>
+
+    <record id="report_product_label_19x32" model="ir.actions.report">
+        <field name="name">Product labels 19x32</field>
+        <field name="model">print.product.label.line</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="paperformat_id" ref="garazd_product_label.paperformat_custom_clear"/>
+        <field name="report_name">garazd_product_label.report_product_label_19x32_template</field>
+        <field name="report_file">garazd_product_label.report_product_label_19x32_template</field>
+    </record>
+
+    <record id="report_product_label_19x32_preview" model="ir.actions.report">
+        <field name="name">Product labels 19x32 (preview)</field>
+        <field name="model">print.product.label.line</field>
+        <field name="report_type">qweb-html</field>
+        <field name="paperformat_id" ref="garazd_product_label.paperformat_a4_clear"/>
+        <field name="report_name">garazd_product_label.report_product_label_19x32_template</field>
+        <field name="report_file">garazd_product_label.report_product_label_19x32_template</field>
+    </record>
+
+    <record id="a4_paper_profoma_invoice" model="report.paperformat">
+        <field name="name">Customized A4 Shelve Tab</field>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top" eval="9"/>
+        <field name="margin_bottom" eval="0"/>
+        <field name="margin_left" eval="1"/>
+        <field name="margin_right" eval="1"/>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing" eval="35"/>
+        <field name="dpi" eval="90"/>
+        <!-- <field name="report_ids" eval="[(6, 0, [ref('garazd_product_label.report_product_template_label')])]"/> -->
+    </record>
+
+    <record id="a4_paper_shelve_tab_uom" model="report.paperformat">
+        <field name="name">Customized A4 Shelve Tab uom</field>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top" eval="2"/>
+        <field name="margin_bottom" eval="0"/>
+        <field name="margin_left" eval="1"/>
+        <field name="margin_right" eval="1"/>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing" eval="35"/>
+        <field name="dpi" eval="90"/>
+        <!-- <field name="report_ids" eval="[(6, 0, [ref('product.report_product_template_label')])]"/> -->
+    </record>
+
+    <!-- Shelve Tag UOM -->
+    <!-- <report
+            id="report_product_template_label_uom"
+            string="Product Shelve Tab Label(UOM)"
+            model="product.template"
+            report_type="qweb-pdf"
+            name="garazd_product_label.shelve_product_label_uom"
+            file="garazd_product_label.shelve_product_label_uom"
+            paperformat="garazd_product_label.a4_paper_shelve_tab_uom"
+        /> -->
+    <record id="report_product_template_label_uom" model="ir.actions.report">
+        <field name="name">Product Shelve Tab Label(UOM)</field>
+        <field name="model">product.template</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="paperformat_id" ref="garazd_product_label.a4_paper_shelve_tab_uom"/>
+        <field name="report_name">garazd_product_label.shelve_product_label_uom</field>
+        <field name="report_file">garazd_product_label.shelve_product_label_uom</field>
+        <field name="binding_model_id" ref="product.model_product_template"/>
+    </record>
+    <!-- Shelve Tag Blue -->
+    <!-- <report
+            id="report_product_template_label_blue"
+            string="Product Shelve Tab Label(Blue)"
+            model="product.template"
+            report_type="qweb-pdf"
+            name="garazd_product_label.shelve_product_label_blue"
+            file="garazd_product_label.shelve_product_label_blue"
+            paperformat="garazd_product_label.a4_paper_profoma_invoice"
+        /> -->
+    <record id="report_product_template_label_blue" model="ir.actions.report">
+        <field name="name">Product Shelve Tab Label(Blue)</field>
+        <field name="model">product.template</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="paperformat_id" ref="garazd_product_label.a4_paper_profoma_invoice"/>
+        <field name="report_name">garazd_product_label.shelve_product_label_blue</field>
+        <field name="report_file">garazd_product_label.shelve_product_label_blue</field>
+        <field name="binding_model_id" ref="product.model_product_template"/>
+    </record>
+
+</odoo>

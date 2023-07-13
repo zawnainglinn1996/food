@@ -1,0 +1,13 @@
+<odoo>
+      <record id="view_company_form" model="ir.ui.view">
+        <field name="name">res.company.form.inherit.account</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <br/>
+                <field name="short_code" placeholder="Company Short Code" style="width:55%"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

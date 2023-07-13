@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="group_product_cost_access" model="res.groups">
+        <field name="name">Allow Product Cost</field>
+    </record>
+</odoo>

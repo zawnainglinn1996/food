@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<templates>
+    <t t-inherit="point_of_sale.Orderline" t-inherit-mode="extension">
+        <xpath expr="//t[@t-if='customerNote']" position="before">
+            <t t-if="props.line.promotion_description">
+                <li class="info promotion-description">
+                    <i class="fa fa-gift" role="img" aria-label="Promotion" title="Promotion"/>
+                    <span style="margin-left: 8px;font-style: italic;" t-esc="props.line.promotion_description" />
+                </li>
+            </t>
+        </xpath>
+    </t>
+</templates>

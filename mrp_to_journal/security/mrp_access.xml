@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="group_cost" model="res.groups">
+        <field name="name">Allow Cost Field</field>
+    </record>
+    <record id="group_costing" model="res.groups">
+        <field name="name">Allow Costing Tab</field>
+    </record>
+</odoo>

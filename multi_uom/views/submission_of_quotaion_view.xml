@@ -1,0 +1,18 @@
+<odoo>
+    <data>
+        <record id="view_submission_quo_form_inherit" model="ir.ui.view">
+            <field name="name">submission.quotation.form</field>
+            <field name="model">submission.quotation</field>
+            <field name="inherit_id" ref="submission_of_quotation.view_purchase_requisition_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_uom']" position="attributes">
+                   <attribute name="invisible">1</attribute>
+                </xpath>
+                 <xpath expr="//field[@name='product_uom']" position="after">
+                   <field name="multi_uom_line_ids" invisible="1"/>
+                   <field name="multi_uom_line_id" string="UOM" domain="[('id', 'in', multi_uom_line_ids)]" options="{'no_open': True, 'no_create': True}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

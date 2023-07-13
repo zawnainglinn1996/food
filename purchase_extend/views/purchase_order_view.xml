@@ -1,0 +1,287 @@
+<odoo>
+    <data>
+          <record id="view_purchase_order_filter_inherit" model="ir.ui.view">
+            <field name="name">request.quotation.select</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='to_approve']" position="replace">
+                      <filter name="to_approve" string="To Approve" domain="[('state', '=', 'verified')]"/>
+                </xpath>
+                <xpath expr="//filter[@name='approved']" position="before">
+                     <filter name="to_confirm" string="To Confirm" domain="[('state','in',['draft','sent'])]"/>
+                    <filter name="to_verify" string="To Verify" domain="[('state','=','confirm')]"/>
+                </xpath>
+            </field>
+          </record>
+        <record id="purchase_order_form" model="ir.ui.view">
+            <field name="name">purchase.order.form</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//form//header//field[@name='state']" position="replace">
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,sent,confirm,verified,purchase" readonly="1"/>
+                </xpath>
+                <xpath expr="//form//header//button[@name='button_confirm'][@states='draft']" position="before">
+                    <button name="action_confirm"
+                            string="Confirm"
+                            type="object"
+                            class="oe_highlight"
+                            attrs="{'invisible': ['|',('state', 'not in', ['draft','sent','to approved']),('is_access_confirm','=',False)]}"
+                            groups="purchase_extend.group_purchase_supervisor"
+                    />
+                    <button name="action_verified"
+                            string="Verified"
+                            type="object"
+                            class="oe_highlight"
+                            attrs="{'invisible': ['|',('state', 'not in', ['confirm']),('is_access_verified','=',False)]}"
+                            groups="purchase.group_purchase_manager"
+                    />
+                </xpath>
+                <xpath expr="//form//header//button[@name='button_confirm'][@states='draft']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//form//header//button[@name='button_confirm'][@states='sent']" position="replace">
+                    <button name="button_confirm"
+                            string="Approve"
+                            type="object"
+                            class="oe_highlight"
+                            id="bid_confirm"
+                            attrs="{'invisible': ['|',('state', 'not in', ['verified']),('is_access_approve','=',False)]}"
+                            />
+                </xpath>
+                <xpath expr="//form//header//button[@name='button_cancel']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                 <xpath expr="//form//header//button[@name='button_cancel']" position="after">
+                     <button name="button_cancel"
+
+                             string="Cancel" type="object"
+                              attrs="{'invisible': ['|',('state', 'not in', ['draft','sent','to approve','confirm','verified','purchased']),('is_access_cancel','=',False)]}"
+                             data-hotkey="x"/>
+
+                </xpath>
+                <xpath expr="//field[@name='date_order']" position="before">
+                    <field name="submission_no" string="SQ Number"/>
+                </xpath>
+                <xpath expr="//field[@name='currency_id']" position="after">
+                    <field name="is_access_confirm" widget="boolean_toggle" invisible="1"/>
+                    <field name="is_access_verified" widget="boolean_toggle" invisible="1"/>
+                    <field name="is_access_approve" widget="boolean_toggle" invisible="1"/>
+                    <field name="is_access_cancel" widget="boolean_toggle" invisible="1"/>
+                    <field name="user_id" string="To Approve Person" attrs="{'invisible': [('state', 'not in', ['confirm','verified','purchase','done'])]}"/>
+                </xpath>
+                <xpath expr="//page[@name='purchase_delivery_invoice']" position="after">
+                    <page string="Request &amp; Approval Info" name="approval">
+                        <div class="row" style="width:100%">
+                            <div style="width:25%;">
+                                <separator string="Prepared By"
+                                           style="text-align:center;font-weight:bold;font-size:15px"/>
+                                <br/>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="prepare_by_sign" string="Sign"/>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="image" style="width:86px;height:66px">
+                                            <field name="prepare_by_sign" widget='image' readonly="1"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="prepare_by_date" string="Date"/>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <field name="prepare_by_date" nolabel="1"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="prepare_by_name" string="Name"/>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <field name="prepare_by_name" nolabel="1"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="width:25%;">
+                                <separator string="Confirm By"
+                                           style="text-align:center;font-weight:bold;font-size:15px"/>
+                                <br/>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="confirm_by_sign" string="Sign"/>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="image" style="width:86px;height:66px">
+                                            <field name="confirm_by_sign" widget='image' readonly="1"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="confirm_by_date" string="Date"/>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <field name="confirm_by_date" nolabel="1"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="confirm_by_name" string="Name"/>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <field name="confirm_by_name" nolabel="1"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="width:25%;">
+                                <separator string="Verified By"
+                                           style="text-align:center;font-weight:bold;font-size:15px"/>
+                                <br/>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="verified_by_sign" string="Sign"/>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="image" style="width:86px;height:66px">
+                                            <field name="verified_by_sign" widget='image' readonly="1"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="verified_by_date" string="Date"/>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <field name="verified_by_date" nolabel="1"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="verified_by_name" string="Name"/>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <field name="verified_by_name" nolabel="1"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="width:25%;">
+                                <separator string="Approved By"
+                                           style="text-align:center;font-weight:bold;font-size:15px"/>
+                                <br/>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="approved_by_sign" string="Sign"/>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="image" style="width:86px;height:66px">
+                                            <field name="approved_by_sign" widget='image' readonly="1"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="approved_by_date" string="Date"/>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <field name="approved_by_date" nolabel="1"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="approved_by_name" string="Name"/>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <field name="approved_by_name" nolabel="1"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </page>
+                </xpath>
+                <xpath expr="//notebook//page//tree//field[@name='price_unit']" position="after">
+                    <field name="discount_type" optional="hide"/>
+                    <field name="discount" optional="hide"/>
+                    <field name="discount_amount" optional="hide"/>
+                </xpath>
+                <xpath expr="//notebook//page//tree//field[@name='name']" position="after">
+                    <field name="country_origin" optional="show"/>
+                </xpath>
+
+            </field>
+        </record>
+        <record id="action_to_approve_po" model="ir.actions.act_window">
+                    <field name="name">To Approve</field>
+                    <field name="type">ir.actions.act_window</field>
+                    <field name="res_model">purchase.order</field>
+                    <field name="domain">[('user_id', '=', uid)]</field>
+                    <field name="context">{'search_default_to_approve': 1}</field>
+                    <field name="search_view_id" ref="purchase.view_purchase_order_filter"/>
+        </record>
+        <record id="action_to_verify_po" model="ir.actions.act_window">
+                    <field name="name">To Verify</field>
+                    <field name="type">ir.actions.act_window</field>
+                    <field name="res_model">purchase.order</field>
+                    <field name="domain">[]</field>
+                    <field name="context">{'search_default_to_verify': 1}</field>
+                    <field name="search_view_id" ref="purchase.view_purchase_order_filter"/>
+        </record>
+        <record id="action_to_confirm_po" model="ir.actions.act_window">
+                    <field name="name">To Confirm</field>
+                    <field name="type">ir.actions.act_window</field>
+                    <field name="res_model">purchase.order</field>
+                    <field name="domain">[]</field>
+                    <field name="context">{'search_default_to_confirm': 1}</field>
+                    <field name="search_view_id" ref="purchase.view_purchase_order_filter"/>
+        </record>
+
+           <record id="purchase_order_view_tree_inherit" model="ir.ui.view">
+            <field name="name">purchase.order.inherit.purchase.order.tree.employee</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_view_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date_order']" position="after">
+                   <field name="submission_no" string="SQ NO"/>
+                </xpath>
+            </field>
+        </record>
+           <record id="purchase_order_kpis_tree_inherit" model="ir.ui.view">
+            <field name="name">purchase.order.inherit.purchase.order.tree.employee</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_kpis_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='origin']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='origin']" position="after">
+                   <field name="submission_no" string="SQ NO"/>
+                </xpath>
+            </field>
+        </record>
+
+       <menuitem id="menu_purchase_to_confirm" action="action_to_confirm_po"
+            parent="purchase.menu_procurement_management"
+            sequence="0"/>
+        <menuitem id="menu_purchase_to_verify" action="action_to_verify_po"
+            parent="purchase.menu_procurement_management"
+            sequence="1"/>
+        <menuitem id="menu_purchase_to_approve" action="action_to_approve_po"
+            parent="purchase.menu_procurement_management"
+            sequence="2"/>
+        <menuitem action="purchase.purchase_rfq" id="purchase.menu_purchase_rfq"
+            parent="purchase.menu_procurement_management"
+            sequence="3"/>
+        <menuitem action="purchase.purchase_form_action" id="purchase.menu_purchase_form_action"
+                    parent="purchase.menu_procurement_management" sequence="6"/>
+
+        <menuitem id="menu_action_move_in_invoice_type_purchase" parent="purchase.menu_purchase_root" action="account.action_move_in_invoice_type" sequence="2"/>
+    </data>
+</odoo>

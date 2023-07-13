@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="action_inventory_activities_reports_xlsx" model="ir.actions.report">
+        <field name="name">Inventory Activities Reports</field>
+        <field name="model">inventory.activities.reports</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">inventory_activities_reports.activities_xlsx</field>
+        <field name="report_file">inventory_activities_reports.activities_xlsx</field>
+        <field name="print_report_name">'Inventory Activities Reports'</field>
+    </record>
+    <record id="view_inventory_activities_reports_form" model="ir.ui.view">
+        <field name="name">inventory.activities.reports.form</field>
+        <field name="model">inventory.activities.reports</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="start_date"/>
+
+                        </group>
+                        <group>
+                             <field name="end_date"/>
+
+                        </group>
+                    </group>
+                    <group>
+                         <field name="location_ids"  widget="many2many_tags" />
+                    </group>
+                    <group>
+                        <field name="product_ids" context="{'active_test': False}" nolabel="1"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button special="cancel"
+                            string="CANCEL"
+                            class="btn-danger"/>
+                            -
+                    <button name="btn_print"
+                            string="Print"
+                            type="object"
+                            class="oe_highlight"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_inventory_activities_reports" model="ir.actions.act_window">
+        <field name="name">Inventory Activities Reports</field>
+        <field name="res_model">inventory.activities.reports</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    <menuitem id="menu_inventory_activities_reports"
+              name="Inventory Activities Reports"
+              parent="mrp.menu_mrp_reporting"
+              action="action_inventory_activities_reports"
+              sequence="300"/>
+</odoo>

@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_stock_multi_scrap_manager,stock.multi.scrap manager,model_stock_multi_scrap,stock.group_stock_manager,1,1,1,1
+access_stock_multi_scrap_user,stock.multi.scrap.user,model_stock_multi_scrap,base.group_user,1,1,1,0
+access_multi_scrap_line_manager,multi.scrap.line manager,model_multi_scrap_line,stock.group_stock_manager,1,1,1,1
+access_multi_scrap_line_user,multi.scrap.line.user,model_multi_scrap_line,base.group_user,1,1,1,0
+access_multi_scrap_report,multi.scrap.report,model_multi_scrap_report,,1,1,1,1
+access_stock_warn_insufficient_qty_scarp_multi_user,stock.warn.insufficient.qty.scrap.multi.user,model_stock_warn_insufficient_qty_scrap_multi,base.group_user,1,1,1,1

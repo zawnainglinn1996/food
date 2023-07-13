@@ -1,0 +1,26 @@
+<odoo>
+    <data>
+        <record id="view_pos_config_kanban_inherit" model="ir.ui.view">
+            <field name="name">pos.config.kanban.view</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_config_kanban"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@role='menu']//a[@name='%(point_of_sale.action_pos_order_filtered)d']"
+                       position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//div[@role='menu']//a[@name='%(point_of_sale.action_pos_order_filtered)d']"
+                       position="after">
+                    <a name="action_pos_order" type="object">Orders</a>
+                </xpath>
+
+                <xpath expr="//div[@role='menu']//a[@name='%(point_of_sale.action_pos_session_filtered)d']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//div[@role='menu']//a[@name='%(point_of_sale.action_pos_session_filtered)d']" position="after">
+                    <a name="action_pos_session" type="object">Sessions</a>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,26 @@
+<odoo>
+    <record id="action_report_car_way" model="ir.actions.report">
+        <field name="name">Car Way PDF</field>
+        <field name="model">car.way</field>
+        <field name="report_name">car_way.car_way_report</field>
+        <field name="report_file">car_way.car_way_report</field>
+        <field name="report_type">py3o</field>
+        <field name="py3o_filetype">pdf</field>
+        <field name="module">car_way</field>
+        <field name="py3o_template_fallback">report/car_way_report.odt</field>
+        <field name="print_report_name">'Car Way List'</field>
+        <field name="binding_model_id"/>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="action_car_way_pdf_server" model="ir.actions.server">
+        <field name="name">Car Way PDF</field>
+        <field name="model_id" ref="model_car_way"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = records.action_car_way_report()
+        </field>
+        <field name="binding_model_id" ref="model_car_way"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

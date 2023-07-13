@@ -1,0 +1,47 @@
+<odoo>
+    <data>
+        <record id="sale.action_order_report_all" model="ir.actions.act_window">
+            <field name="name">Sales Analysis</field>
+            <field name="res_model">sale.report</field>
+            <field name="view_mode">graph,pivot</field>
+            <field name="view_id"/>  <!-- force empty -->
+            <field name="search_view_id" ref="sale.view_order_product_search"/>
+            <field name="context">{
+                'search_default_Sales':1,
+                'group_by_no_leaf':1,
+                'group_by':[],
+                'product_name_only': True,
+                }
+            </field>
+            <field name="help">This report performs analysis on your quotations and sales orders. Analysis check your
+                sales revenues and sort it by different group criteria (salesman, partner, product, etc.) Use this
+                report to perform analysis on sales not having invoiced yet. If you want to analyse your turnover, you
+                should use the Invoice Analysis report in the Accounting application.
+            </field>
+        </record>
+
+
+        <record id="view_order_product_search_inherit" model="ir.ui.view">
+            <field name="name">sale.report.search</field>
+            <field name="model">sale.report</field>
+            <field name="inherit_id" ref="sale.view_order_product_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='Product']" position="after">
+                    <filter string="Product Code" name="default_code" context="{'group_by':'default_code'}"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_order_product_pivot_inherit" model="ir.ui.view">
+            <field name="name">sale.report.pivot</field>
+            <field name="model">sale.report</field>
+             <field name="inherit_id" ref="sale.view_order_product_pivot"/>
+            <field name="arch" type="xml">
+                <xpath expr="//pivot//field[@name='price_subtotal']" position="after">
+                    <field name="default_code" type="col"/>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

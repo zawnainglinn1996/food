@@ -1,0 +1,45 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_order_form_inherit_">
+            <field name="name">view.sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//field[@name='team_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='payment_term_id']" position="after">
+                	<field name="login_employee_id" readonly="1"/>
+                     <field name="analytic_account_id"
+                           context="{'default_partner_id':partner_invoice_id, 'default_name':name}"
+                           attrs="{'readonly': ['|',('invoice_count','!=',0),('state','=','sale')]}"
+                           groups="analytic.group_analytic_accounting" force_save="1"/>
+                    <field name="warehouse_id"/>
+                    <field name="team_id" kanban_view_ref="459" options="{'no_create': True}"/>
+				</xpath>
+
+            </field>
+        </record>
+        <record id="view_quotation_tree_employee" model="ir.ui.view">
+            <field name="name">sale.order.tree.employee</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="after">
+                    <field name="login_employee_id"/>
+                </field>
+            </field>
+        </record>
+        <record id="view_order_tree_employee" model="ir.ui.view">
+            <field name="name">sale.order.tree.employee</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="after">
+                    <field name="login_employee_id"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>
+

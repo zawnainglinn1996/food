@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_stock_landed_cost_form_inherit_analytic_account" model="ir.ui.view">
+        <field name="name">stock.landed.cost.view.form.inherit</field>
+        <field name="model">stock.landed.cost</field>
+        <field name="inherit_id" ref="stock_landed_costs.view_stock_landed_cost_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//label[@for='account_journal_id']" position="before">
+                <field name="allow_analytic_account_ids" widget="many2many_tags"  invisible="1"/>
+                <field name="analytic_account_id" domain="[('id','in',allow_analytic_account_ids)]" />
+                <field name="login_employee_id" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

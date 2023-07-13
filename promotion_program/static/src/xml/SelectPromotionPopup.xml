@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="SelectPromotionPopup" owl="1">
+        <div role="dialog" class="modal-dialog">
+            <Draggable>
+                <div class="popup popup-selection">
+                    <header class="title drag-handle">
+                        Select Promotions to Apply
+                    </header>
+                    <div class="select-promotion-container mt-2">
+                        <t t-foreach="props.promotions" t-as="promotion" t-key="promotion.id">
+                            <div class="select-promotion-item"
+                                 t-attf-id="promotion-item-{{ promotion.id }}"
+                                 t-att-data-id="promotion.id"
+                                 t-on-click="selectPromotion(promotion.id)">
+                                <div style="font-size: 35px;">
+                                    <i t-if="promotion.type == 'buy_one_get_one'" class="fa fa-gift" style="color:#4B0082"/>
+                                </div>
+                                <div style="font-size: 35px;">
+                                    <i t-if="promotion.type == 'discount_total_amount'" class="fa fa-gift" style="color:#4B0082"/>
+                                </div>
+                                <span t-esc="promotion.code"/>
+                            </div>
+                        </t>
+                    </div>
+                    <footer class="footer">
+                        <div class="button cancel" t-on-click="cancel">
+                            Cancel
+                        </div>
+                        <div class="button" t-on-click="applyPromotions(true)">
+                            All
+                        </div>
+                        <div class="button" t-on-click="applyPromotions(false)">
+                            Selected Only
+                        </div>
+                    </footer>
+                </div>
+            </Draggable>
+        </div>
+    </t>
+
+</templates>

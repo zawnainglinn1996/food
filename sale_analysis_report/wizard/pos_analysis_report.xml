@@ -1,0 +1,40 @@
+<odoo>
+        <record id="view_pos_detail_wizard_form" model="ir.ui.view">
+        <field name="name">pos.detail.report.wizard.form</field>
+        <field name="model">pos.detail.report</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="date_from" />
+                        </group>
+                        <group>
+                             <field name="date_to" />
+                        </group>
+                    </group>
+                    <group>
+                    <field name="analytic_account_id" required="1" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button special="cancel" string="CANCEL" class="btn-danger"/>
+                    -
+                    <button name="btn_print" string="PRINT" type="object" class="oe_highlight"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_pos_detail_report" model="ir.actions.act_window">
+        <field name="name">POS Detail Report</field>
+        <field name="res_model">pos.detail.report</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+      <menuitem id="pos_detail_report"
+            name="POS Detail Report"
+            parent="point_of_sale.menu_point_rep"
+            action="action_pos_detail_report"
+            sequence="100"
+           />
+</odoo>

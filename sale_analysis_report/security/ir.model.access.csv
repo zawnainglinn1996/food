@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sale_detail_report_user, User Access For Sale Detail Report,model_sale_detail_report,base.group_user,1,1,1,1
+access_pos_detail_report_user, User Access For POS Detail Report,model_pos_detail_report,base.group_user,1,1,1,1
+
+
+

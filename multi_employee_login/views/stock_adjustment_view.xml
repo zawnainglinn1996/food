@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_stock_quant_tree_inventory_editable_inherit">
+            <field name="name">view.stock.quant.form</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock.view_stock_quant_tree_inventory_editable"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_id']" position="after">
+                	<field name="login_employee_id" readonly="1" options="{'no_create': True, 'no_open': True}"/>
+				</xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
+

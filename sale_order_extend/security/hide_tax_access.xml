@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="group_hide_tax" model="res.groups">
+        <field name="name">Access Tax Column</field>
+    </record>
+</odoo>

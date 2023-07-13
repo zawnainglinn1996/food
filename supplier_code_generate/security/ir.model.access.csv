@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_generate_supplier_sequence,generate.supplier.sequence,model_generate_supplier_sequence,base.group_user,1,1,1,1

@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_whole_sale_requisition,User Access for Whole Sale Requisition,model_whole_sale_requisition,base.group_user,1,1,1,1
+access_whole_sale_requisition_user,User Access for Whole Sale Requisition Line,model_whole_sale_requisition_line,base.group_user,1,1,1,1
+access_whole_retail_summary_report_user,User Access for Whole Retail Summary Report,model_whole_retail_summary_report,base.group_user,1,1,1,1
+access_whole_retail_summary_production_user,User Access For Whole Retail Production,model_whole_retail_production_report,base.group_user,1,1,1,1

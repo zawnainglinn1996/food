@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_stock_backdate_report_all,stock.backdate.report.all,model_stock_backdate_report,base.group_user,1,1,1,1
+access_stock_backdate_report_wizard_all,stock.backdate.report.wizard.all,model_stock_backdate_report_wizard,base.group_user,1,1,1,1

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_sale_order_form_inherit" model="ir.ui.view">
+            <field name="name">sale.order.form.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='order_line']//tree//field[@name='product_uom_qty']" position="replace">
+                    <field name="multi_uom_qty"/>
+                    <field name="product_uom_qty" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='order_line']//tree//field[@name='product_uom']" position="after">
+                    <field name="multi_uom_line_ids" invisible="1"/>
+                    <field name="multi_uom_line_id" domain="[('id', 'in', multi_uom_line_ids)]"/>
+                </xpath>
+                <xpath expr="//field[@name='order_line']//tree//field[@name='product_uom']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree//field[@name='qty_delivered_manual']" position="after">
+                    <field name="multi_qty_delivered_manual" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree//field[@name='qty_delivered']" position="replace">
+                    <field name="multi_qty_delivered"
+                           decoration-info="(not display_type and invoice_status == 'to invoice')" decoration-bf="(not display_type and invoice_status == 'to invoice')"
+                           string="Delivered"
+                           attrs="{'column_invisible': [('parent.state', 'not in', ['sale', 'done'])],
+                                   'readonly': [('qty_delivered_method', '!=', 'manual')]}"
+                           optional="show"/>
+                    <field name="qty_delivered" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree//field[@name='qty_to_invoice']" position="after">
+                    <field name="multi_qty_to_invoice" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree//field[@name='qty_invoiced']" position="replace">
+                    <field name="multi_qty_invoiced"
+                           decoration-info="(not display_type and invoice_status == 'to invoice')" decoration-bf="(not display_type and invoice_status == 'to invoice')"
+                           string="Invoiced"
+                           attrs="{'column_invisible': [('parent.state', 'not in', ['sale', 'done'])]}"
+                           optional="show"/>
+                    <field name="qty_invoiced" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree//field[@name='price_unit']" position="replace">
+                    <field name="multi_price_unit" string="Price Unit"/>
+                    <field name="price_unit" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree//field[@name='discount']" position="replace">
+                    <field name="multi_uom_discount" string="Dis/Refund" invisible="1"/>
+                    <field name="discount_amt" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

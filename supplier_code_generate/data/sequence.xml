@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_a_partner" model="ir.sequence">
+            <field name="name">A Sequence</field>
+            <field name="code">supplier.a.sequence</field>
+            <field name="prefix">SA</field>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_b_partner" model="ir.sequence">
+            <field name="name">B Sequence</field>
+            <field name="code">supplier.b.sequence</field>
+            <field name="prefix">SB</field>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_c_partner" model="ir.sequence">
+            <field name="name">C Sequence</field>
+            <field name="code">supplier.c.sequence</field>
+            <field name="prefix">SC</field>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_d_partner" model="ir.sequence">
+            <field name="name">D Sequence</field>
+            <field name="code">supplier.d.sequence</field>
+            <field name="prefix">SD</field>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_e_partner" model="ir.sequence">
+            <field name="name">E Sequence</field>
+            <field name="code">supplier.e.sequence</field>
+            <field name="prefix">SE</field>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_f_partner" model="ir.sequence">
+            <field name="name">F Sequence</field>
+            <field name="code">supplier.f.sequence</field>
+            <field name="prefix">SF</field>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_g_partner" model="ir.sequence">
+            <field name="name">G Sequence</field>
+            <field name="code">supplier.g.sequence</field>
+            <field name="prefix">SG</field>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_h_partner" model="ir.sequence">
+            <field name="name">H Sequence</field>
+            <field name="code">supplier.h.sequence</field>
+            <field name="prefix">SH</field>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_i_partner" model="ir.sequence">
+            <field name="name">I Sequence</field>
+            <field name="code">supplier.i.sequence</field>
+            <field name="prefix">SI</field>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_j_partner" model="ir.sequence">
+            <field name="name">J Sequence</field>
+            <field name="code">supplier.j.sequence</field>
+            <field name="prefix">SJ</field>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_k_partner" model="ir.sequence">
+            <field name="name">K Sequence</field>
+            <field name="code">supplier.k.sequence</field>
+            <field name="prefix">SK</field>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_l_partner" model="ir.sequence">
+            <field name="name">L Sequence</field>
+            <field name="code">supplier.l.sequence</field>
+            <field name="prefix">SL</field>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_m_partner" model="ir.sequence">
+            <field name="name">M Sequence</field>
+            <field name="code">supplier.m.sequence</field>
+            <field name="prefix">SM</field>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_n_partner" model="ir.sequence">
+            <field name="name">N Sequence</field>
+            <field name="code">supplier.n.sequence</field>
+            <field name="prefix">SN</field>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_o_partner" model="ir.sequence">
+            <field name="name">O Sequence</field>
+            <field name="code">supplier.o.sequence</field>
+            <field name="prefix">SO</field>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_p_partner" model="ir.sequence">
+            <field name="name">P Sequence</field>
+            <field name="code">supplier.p.sequence</field>
+            <field name="prefix">SP</field>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_q_partner" model="ir.sequence">
+            <field name="name">Q Sequence</field>
+            <field name="code">supplier.q.sequence</field>
+            <field name="prefix">SQ</field>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_r_partner" model="ir.sequence">
+            <field name="name">R Sequence</field>
+            <field name="code">supplier.r.sequence</field>
+            <field name="prefix">SR</field>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_s_partner" model="ir.sequence">
+            <field name="name">S Sequence</field>
+            <field name="code">supplier.s.sequence</field>
+            <field name="prefix">SS</field>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_t_partner" model="ir.sequence">
+            <field name="name">T Sequence</field>
+            <field name="code">supplier.t.sequence</field>
+            <field name="prefix">ST</field>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_u_partner" model="ir.sequence">
+            <field name="name">U Sequence</field>
+            <field name="code">supplier.u.sequence</field>
+            <field name="prefix">SU</field>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_v_partner" model="ir.sequence">
+            <field name="name">V Sequence</field>
+            <field name="code">supplier.v.sequence</field>
+            <field name="prefix">SV</field>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_w_partner" model="ir.sequence">
+            <field name="name">W Sequence</field>
+            <field name="code">supplier.w.sequence</field>
+            <field name="prefix">SW</field>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_x_partner" model="ir.sequence">
+            <field name="name">X Sequence</field>
+            <field name="code">supplier.x.sequence</field>
+            <field name="prefix">SX</field>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_y_partner" model="ir.sequence">
+            <field name="name">Y Sequence</field>
+            <field name="code">supplier.y.sequence</field>
+            <field name="prefix">SY</field>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_z_partner" model="ir.sequence">
+            <field name="name">Z Sequence</field>
+            <field name="code">supplier.z.sequence</field>
+            <field name="prefix">SZ</field>
+            <field name="padding">3</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+    </data>
+</odoo>

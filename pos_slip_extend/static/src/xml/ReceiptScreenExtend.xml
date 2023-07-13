@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<templates>
+
+    <t t-name="ReceiptScreenExtend" t-inherit="point_of_sale.ReceiptScreen" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('receipt-screen')]//div[hasclass('screen-content')]//div[hasclass('default-view')]//div[hasclass('pos-receipt-container')]" position="inside">
+            
+                        <p style="page-break-before:always;"> </p>
+                <OrderReceiptNoAmount order="currentOrder" t-ref="order-receipt" />
+         </xpath>
+    </t>
+</templates>

@@ -1,0 +1,30 @@
+<odoo>
+     <record id="mrp_production_form_view_inherit" model="ir.ui.view">
+            <field name="name">mrp.production.material.cost.form.view</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='bom_id']" position="before">
+                    <field name="standard_quantity" attrs = "{'invisible': [('state', '=', 'draft')]}"/>
+                    <field name="difference_quantity" attrs = "{'invisible': [('state', '=', 'draft')]}"/>
+                    <field name="is_mo_create" invisible="1"/>
+                </xpath>
+                <xpath expr="//button[@name='button_mark_done']" position="before">
+                    <button name="button_mo_produce" attrs="{'invisible': ['|',('state', 'not in', ('confirmed', 'progress')),('is_mo_create', '=', True)]}" type="object" string="Create MO Produce" class="oe_highlight"/>
+                </xpath>
+                <div class="oe_button_box" position="inside">
+                    <button type="object" class="oe_stat_button" name="action_mo_produce" icon="fa-list-alt" attrs="{'invisible': [('is_mo_create', '=', False)]}">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value"><field name="mrp_produce_count"/></span>
+                            <span class="o_stat_text">MO Produce</span>
+                        </div>
+                    </button>
+                </div>
+                <xpath expr="//field[@name='move_raw_ids']//field[@name='product_uom']" position="after">
+                    <field name="standard_quantity" attrs = "{'column_invisible': [('parent.state', '=', 'draft')]}"/>
+                    <field name="difference_quantity" attrs = "{'column_invisible': [('parent.state', '=', 'draft')]}"/>
+                </xpath>
+            </field>
+     </record>
+</odoo>

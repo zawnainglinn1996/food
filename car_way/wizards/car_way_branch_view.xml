@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="car_way_branch_report" model="ir.actions.report">
+            <field name="name">Car Way Branch Report</field>
+            <field name="model">stock.move</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">car_way.car_way_branch_report</field>
+            <field name="report_file">car_way.car_way_branch_report</field>
+            <field name="print_report_name">'Car Way Branch Report'</field>
+        </record>
+        <record id="car_way_branch_report_wizard" model="ir.ui.view">
+            <field name="name">car.way.branch.wizard</field>
+            <field name="model">car.way.branch</field>
+            <field name="arch" type="xml">
+                <form string="Car Way Branch Report">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="date" required="1" string="Date"/>
+                                <field name="analytic_account_id" required="1" string="Shop Name"  options="{'no_create': True, 'no_open': True}"/>
+                            </group>
+                            <group>
+                                <field name="car_way_id"  string="Car Way Name" required="1"  options="{'no_create': True, 'no_open': True}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="print_report"
+                                string="Print"
+                                type="object"
+                                class="oe_highlight"/>
+                        -
+                        <button string="Cancel"
+                                special="cancel"
+                                class="oe_highlight btn-danger"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_car_way_branch_report" model="ir.actions.act_window">
+            <field name="name">Car Way Branch Report</field>
+            <field name="res_model">car.way.branch</field>
+            <field name="target">new</field>
+            <field name="view_mode">form</field>
+        </record>
+
+        <menuitem id="menu_car_way_branch_report"
+                  name="Car Way Branch Report"
+                  parent="car_way.menu_car_way_sale_root"
+                  action="action_car_way_branch_report"
+                  sequence="200"/>
+    </data>
+</odoo>

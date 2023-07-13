@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="supplier_generate_view" model="ir.ui.view">
+            <field name="name">supplier.generate.view</field>
+            <field name="model">generate.supplier.sequence</field>
+            <field name="arch" type="xml">
+                <form string="Generate Sequence">
+                    <group>
+                        <p>This wizard will generate sequence number for selected suppliers!</p>
+                    </group>
+                    <footer>
+                        <button string="Generate" name="action_generate_sequence" type="object" class="oe_highlight"/>
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="action_view_supplier_sequence" model="ir.actions.act_window">
+            <field name="name">Generate Sequence</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">generate.supplier.sequence</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="supplier_generate_view"/>
+            <field name="target">new</field>
+        </record>
+        <record id="res_partner_act_generate_seq_list" model="ir.actions.act_window">
+            <field name="name">Generate Supplier Code</field>
+            <field name="res_model">generate.supplier.sequence</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{
+                'default_res_id': active_id,
+            }</field>
+            <field name="binding_model_id" ref="base.model_res_partner"/>
+            <field name="binding_view_types">list</field>
+        </record>
+        <record id="res_partner_act_generate_seq_form" model="ir.actions.act_window">
+            <field name="name">Generate Supplier Code</field>
+            <field name="res_model">generate.supplier.sequence</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{
+                'default_res_id': active_id,
+            }</field>
+            <field name="binding_model_id" ref="base.model_res_partner"/>
+            <field name="binding_view_types">form</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,59 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_purchase_order_form_inherit_">
+            <field name="name">purchase.order.form.view.inherit</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='picking_type_id']" position="after">
+                    <field name="login_employee_id" readonly="0" required="1"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="purchase_order_kpis_tree_employee" model="ir.ui.view">
+            <field name="name">purchase.order.inherit.purchase.order.tree.employee</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_kpis_tree"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="after">
+                    <field name="login_employee_id"/>
+                </field>
+            </field>
+        </record>
+        <record id="purchase_order_view_tree_employee" model="ir.ui.view">
+            <field name="name">purchase.order.view.tree.employee</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_view_tree"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="after">
+                    <field name="login_employee_id"/>
+                </field>
+            </field>
+        </record>
+
+        <!--        FOR PURCHASE AGREEMENT-->
+        <record model="ir.ui.view" id="view_purchase_requisition_form">
+            <field name="name">purchase.requisition.form</field>
+            <field name="model">purchase.requisition</field>
+            <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='picking_type_id']" position="after">
+                    <field name="login_employee_id" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_purchase_requisition_tree_inherit">
+            <field name="name">purchase.requisition.tree</field>
+            <field name="model">purchase.requisition</field>
+            <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='origin']" position="after">
+                    <field name="login_employee_id" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>
+

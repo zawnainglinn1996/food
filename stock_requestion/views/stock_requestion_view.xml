@@ -1,0 +1,332 @@
+<odoo>
+    <data>
+        <record id="view_stock_requestion_search" model="ir.ui.view">
+            <field name="name">stock.requestion.search</field>
+            <field name="model">stock.requestion</field>
+            <field name="arch" type="xml">
+                <search string="Product Family">
+                    <field name="document_no"/>
+                    <field name="product_id"/>
+                    <field name="product_family_id"/>
+                    <field name="request_from"/>
+                    <field name="request_to"/>
+                    <field name="created_date"/>
+                    <filter string="Draft" name="to_submit" domain="[('state', '=','draft')]"/>
+                    <filter string="Verified" name="verify" domain="[('state', '=', 'submit')]"/>
+                    <filter string="To Approve" name="to_approve" domain="[('state', '=', 'verified')]"/>
+                    <filter string="To Confirm" name="to_confirm" domain="[('state', '=', 'approved')]"
+                            help="Refused Expenses"/>
+                    <group expand="0" string="Group By">
+                        <filter string="State" name="state" domain="[]" context="{'group_by': 'state'}"/>
+                        <filter name="product_family_id" string="Product Family" domain="[]"
+                                context="{'group_by': 'product_family_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="view_stock_requestion_tree" model="ir.ui.view">
+            <field name="name">stock.requestion.tree</field>
+            <field name="model">stock.requestion</field>
+            <field name="arch" type="xml">
+                <tree string="Requestion">
+                    <field name="document_no"/>
+                    <field name="product_family_id"/>
+                    <field name="request_from"/>
+                    <field name="request_to"/>
+                    <field name="created_date" optional="hide"/>
+                    <field name="scheduled_date" optional="hide" widget="remaining_days"/>
+                    <field name="state" optional="show" widget="badge" decoration-success="state == 'approved'"
+                           decoration-info="state not in ('confirm', 'cancel', 'draft','verfied', 'checked')"
+                           decoration-muted="state == 'draft'"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_requestion_form" model="ir.ui.view">
+            <field name="name">stock.requestion.form</field>
+            <field name="model">stock.requestion</field>
+            <field name="arch" type="xml">
+                <form string="Requestion">
+                    <header>
+                        <button name="action_submit" string="Submit" type="object" class="oe_highlight"
+                                attrs="{'invisible': ['|',('state', 'not in', ['draft']),('is_access_submit','=',False)]}"/>
+                        <button name="action_verified" string="Verified" type="object" class="oe_highlight"
+                                attrs="{'invisible': ['|',('state', 'not in', ['submit']),('is_access_verified','=',False)]}"/>
+                        <button name="action_approved" string="Approved" type="object" class="oe_highlight"
+                                attrs="{'invisible': ['|',('state', 'not in', ['verified']),('is_access_approve','=',False)]}"/>
+                        <button name="action_confirm" string="Confirm" type="object" class="oe_highlight"
+                                attrs="{'invisible': ['|',('state', 'not in', ['approved']),('is_access_confirm','=',False)]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="submit,verified,approved,confirm,cancel"/>
+                        <button name="action_cancel"
+                                string="Cancel" type="object" attrs="{'invisible': ['|',('is_picking_done', '=', True),('state', '=','cancel')]}"/>
+                        <button name="action_verified" states="cancel" string="Set to Verified" type="object"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button type="object"
+                                    name="action_view_receipt"
+                                    class="oe_stat_button"
+                                    icon="fa-truck"
+                                    groups="base.group_user">
+                                <field name="good_received_count" widget="statinfo" string='Received'/>
+
+                            </button>
+                            <button type="object"
+                                    name="action_view_issued"
+                                    class="oe_stat_button"
+                                    icon="fa-truck"
+
+                                    groups="base.group_user">
+                                <field name="good_issued_count" widget="statinfo" string="Issued"/>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="document_no" readonly="1"/>
+                                <field name="created_date" required="1"/>
+                                <field name="product_family_id" required="1"
+                                       attrs="{'readonly': [('state', 'in', ('submit','approved','cancel','verified','confirm'))]}"/>
+
+                                <field name="is_access_submit" widget="boolean_toggle" invisible="1"/>
+                                <field name="is_access_verified" widget="boolean_toggle" invisible="1"/>
+                                <field name="is_access_approve" widget="boolean_toggle" invisible="1"/>
+                                <field name="is_access_confirm" widget="boolean_toggle" invisible="1"/>
+                                <field name="is_access_cancel" widget="boolean_toggle" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="is_picking_done" invisible="1"/>
+                                <field name="is_first_picking" widget="boolean_toggle" invisible="1"/>
+                                <field name="request_from" required="1" domain="[('usage', '=', 'internal')]"
+                                       attrs="{'readonly': [('state', 'in', ('submit','approved','cancel','verified','confirm'))]}"/>
+                                <field name="request_to" required="1" domain="[('usage', '=', 'internal')]"
+                                       attrs="{'readonly': [('state', 'in', ('submit','approved','cancel','verified','confirm'))]}"/>
+                                <field name="scheduled_date" required="1"
+                                       attrs="{'readonly': [('state', 'in', ('submit','approved','cancel','verified','confirm'))]}"/>
+                                <field name="company_id" invisible="1"/>
+                               <field name="user_id" attrs="{'invisible':[('state','in',('draft'))], 'required': [('state', 'not in', ('draft'))]}"/>
+                            </group>
+                        </group>
+                        <notebook name="main_book">
+                            <page string="Product Lines" name="order_lines">
+                                <field name="stock_requestion_line" widget="section_and_note_one2many"
+                                       attrs="{'readonly': [('state', 'in', ('approved','cancel','confirm'))]}">
+                                    <form string="Quotation Template Lines">
+                                        <!--
+                                            We need the sequence field to be here for new lines to be added at the correct position.
+                                            TODO: at some point we want to fix this in the framework so that an invisible field is not required.
+                                        -->
+                                        <field name="sequence" invisible="1"/>
+                                        <field name="display_type" invisible="1"/>
+                                        <group attrs="{'invisible': [('display_type', '!=', False)]}">
+                                            <group>
+                                                <field name="product_id"
+                                                       attrs="{'required': [('display_type', '=', False)]}"/>
+                                                <label for="product_uom_qty"/>
+                                                <div>
+                                                    <field name="product_uom_qty" class="oe_inline"/>
+                                                </div>
+                                            </group>
+                                        </group>
+                                        <notebook colspan="4" name="description">
+                                            <page string="Description" name="order_description"
+                                                  attrs="{'invisible': ['|',('display_type', '!=', False),('parent.state', 'in', 'approved')]}">
+                                                <field name="name"/>
+                                            </page>
+                                            <page string="Section" name="order_section"
+                                                  attrs="{'invisible': ['|',('display_type', '!=', 'line_section'),('parent.state', 'in', 'approved')]}">
+                                                <field name="name"/>
+                                            </page>
+                                            <page string="Note" name="order_note"
+                                                  attrs="{'invisible': ['|',('display_type', '!=', 'line_note'),('parent.state', 'in', 'approved')]}">
+                                                <field name="name"/>
+                                            </page>
+                                        </notebook>
+                                    </form>
+                                    <tree string="Quotation Template Lines" editable="bottom">
+                                        <control>
+                                            <create name="add_product_control" string="Add a product"/>
+                                            <create name="add_section_control" string="Add a section"
+                                                    context="{'default_display_type': 'line_section'}"/>
+                                            <create name="add_note_control" string="Add a note"
+                                                    context="{'default_display_type': 'line_note'}"/>
+                                        </control>
+
+                                        <field name="display_type" invisible="1"/>
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="product_id"
+                                               attrs="{'readonly': [('parent.state', 'in', 'approved')]}"/>
+                                        <field name="name" widget="section_and_note_text"
+                                               attrs="{'readonly': [('parent.state', 'in', 'approved')]}"/>
+                                        <field name="brand_id"/>
+                                        <field name="product_uom"/>
+                                        <field name="product_uom_qty"
+                                               attrs="{'readonly': [('parent.state', 'in', 'approved')]}"/>
+                                        <field name="on_hand_qty" invisible="1"/>
+                                        <widget name="qty_date_widget" width="20px"/>
+                                        <field name="issued_qty" readonly="1"/>
+                                        <field name="received_qty" readonly="1"/>
+                                        <field name="scheduled_date"
+                                               attrs="{'readonly': [('parent.state', 'in', 'approved')]}"/>
+                                        <field name="reason"
+                                               attrs="{'readonly': [('parent.state', 'in', 'approved')]}"/>
+                                        <field name="remark"
+                                               attrs="{'readonly': [('parent.state', 'in', 'approved')]}"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Request &amp; Approval Info" name="approval">
+                                <div class="row" style="width:100%">
+                                        <div  style="width:25%">
+                                            <group>
+                                                <separator string="Submitted By"
+                                                           style="text-align:right;font-weight:bold;font-size:14px;width:"/>
+                                                <br/>
+                                                <br/>
+                                                <field name="req_by_sign" widget='image' readonly="1"
+                                                       style="width:30;height:30" string="Sign"/>
+                                                <field name="req_by_name" readonly="1" string="Name"/>
+                                                <field name="req_by_position" readonly="1" string="Position"/>
+                                            </group>
+                                        </div>
+                                        <div  style="width:25%">
+                                            <group>
+                                                <separator string="Verified By"
+                                                           style="text-align:right;font-weight:bold;font-size:14px"/>
+                                                <br/>
+                                                <br/>
+                                                <field name="verified_by_sign" widget='image' readonly="1"
+                                                       style="width:30;height:30" string="Sign"/>
+                                                <field name="verified_by_name" readonly="1" string="Name"/>
+                                                <field name="verified_by_position" readonly="1" string="Position"/>
+                                            </group>
+                                        </div>
+                                        <div  style="width:25%">
+                                            <group>
+                                                <separator string="Approved By"
+                                                           style="text-align:right;font-weight:bold;font-size:14px"/>
+                                                <br/>
+                                                <br/>
+                                                <field name="approved_by_sign" widget='image' readonly="1"
+                                                       style="width:30;height:30" string="Sign"/>
+                                                <field name="approved_by_name" readonly="1" string="Name"/>
+                                                <field name="approved_by_position" readonly="1" string="Position"/>
+                                            </group>
+                                        </div>
+                                        <div  style="width:25%">
+                                            <group>
+                                                <separator string="Confirmed By"
+                                                           style="text-align:right;font-weight:bold;font-size:14px"/>
+                                                <br/>
+                                                <br/>
+                                                <field name="confirm_by_sign" widget='image' readonly="1"
+                                                       style="width:30;height:30" string="Sign"/>
+                                                <field name="confirm_by_name" readonly="1" string="Name"/>
+                                                <field name="confirm_by_position" readonly="1" string="Position"/>
+                                            </group>
+                                        </div>
+
+                                    </div>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="stock_requestion_action" model="ir.actions.act_window">
+            <field name="name">Requisition</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.requestion</field>
+            <field name="context">{'search_default_to_submit': 1}</field>
+            <field name="view_id" ref="view_stock_requestion_tree"/>
+            <field name="search_view_id" ref="view_stock_requestion_search"/>
+        </record>
+        <record id="action_requesition_sheet_all_to_approve" model="ir.actions.act_window">
+            <field name="name">Stock Requesition To Approve</field>
+            <field name="res_model">stock.requestion</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_stock_requestion_search"/>
+            <field name="domain">[('user_id', '=', uid),('state','=','verified')]</field>
+            <field name="context">{'search_default_to_approve': 1}</field>
+            <field name="view_id" ref="view_stock_requestion_tree"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No Requestion reports found
+                </p>
+                <p>
+                    Approve the new Requestion reports submitted by the employees you manage.
+                </p>
+            </field>
+        </record>
+        <record id="action_requesition_sheet_all_to_confirm" model="ir.actions.act_window">
+            <field name="name">Stock Requesition To Confirm</field>
+            <field name="res_model">stock.requestion</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_stock_requestion_search"/>
+            <field name="domain">[('user_id', '=', uid),('state','=','approved')]</field>
+            <field name="context">{'search_default_to_confirm': 1}</field>
+            <field name="view_id" ref="view_stock_requestion_tree"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No Requestion reports found
+                </p>
+                <p>
+                    Approve the new Requestion reports submitted by the employees you manage.
+                </p>
+            </field>
+        </record>
+        <record id="action_requesition_sheet_all_to_verify" model="ir.actions.act_window">
+            <field name="name">Stock Requesition To Verify</field>
+            <field name="res_model">stock.requestion</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_stock_requestion_search"/>
+            <field name="domain">[('state','=','submit')]</field>
+            <field name="context">{'search_default_verify': 1}</field>
+            <field name="view_id" ref="view_stock_requestion_tree"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No Requestion reports found
+                </p>
+                <p>
+                    Approve the new Requestion reports submitted by the employees you manage.
+                </p>
+            </field>
+        </record>
+        <menuitem id="menu_requestion"
+                  name="Requisition"
+                  parent="stock.menu_stock_root"
+                  sequence="2"/>
+        <menuitem id="menu_stock_id"
+                  name="Stock"
+                  parent="menu_requestion"
+                  sequence="1"/>
+
+        <menuitem id="menu_child_stock_requestion"
+                  name="Requisition"
+                  action="stock_requestion_action"
+                  parent="menu_stock_id"
+                  sequence="1"/>
+
+        <menuitem id="menu_to_approve"
+                  name="To Approve"
+                  action='action_requesition_sheet_all_to_approve'
+                  parent="menu_stock_id"
+                  sequence="30"/>
+
+        <menuitem id="menu_to_verify"
+                  name="To Verify"
+                  action='action_requesition_sheet_all_to_verify'
+                  parent="menu_stock_id"
+                  sequence="20"/>
+
+        <menuitem id="menu_to_confirm"
+                  name="To Confirm"
+                  action='action_requesition_sheet_all_to_confirm'
+                  parent="menu_stock_id"
+                  sequence="40"/>
+
+    </data>
+</odoo>

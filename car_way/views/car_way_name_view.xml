@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_car_way_name_form" model="ir.ui.view">
+        <field name="name">car.way.name.form</field>
+        <field name="model">car.way.name</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_car_way_name_tree" model="ir.ui.view">
+        <field name="name">car.way.name.tree</field>
+        <field name="model">car.way.name</field>
+        <field name="arch" type="xml">
+            <tree  editable="top">
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+    <record id="action_car_way_name" model="ir.actions.act_window">
+        <field name="name">Car Way Name</field>
+        <field name="res_model">car.way.name</field>
+        <field name="view_mode">tree</field>
+
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Car Way Name.
+            </p>
+        </field>
+    </record>
+    <menuitem id="menu_car_way_name" name="Car Way Name" parent="car_way.menu_car_way_sale_root" action="action_car_way_name" sequence="20"/>
+</odoo>

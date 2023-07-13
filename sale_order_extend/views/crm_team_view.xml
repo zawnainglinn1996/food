@@ -1,0 +1,20 @@
+
+<odoo>
+
+<record id="view_crm_team_form_inherit1" model="ir.ui.view">
+        <field name="name">crm.team.form.inherit</field>
+        <field name="model">crm.team</field>
+        <field name="inherit_id" ref="sales_team.crm_team_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet//widget[@name='web_ribbon']" position="after">
+                 <field name="team_logo" widget="image" class="oe_avatar"/>
+            </xpath>
+            <xpath expr="//page[@name='members_users']" position="after">
+                <page name="logo_and_header" string="Logo and Header">
+                     <field name="header" placeholder="HEADER DESCRIPTION ..............................."> </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    </odoo>

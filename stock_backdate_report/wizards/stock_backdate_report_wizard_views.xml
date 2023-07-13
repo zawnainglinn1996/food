@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_stock_backdate_report_wizard" model="ir.ui.view">
+        <field name="name">stock.backdate.report.wizard.form</field>
+        <field name="model">stock.backdate.report.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="date"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button special="cancel"
+                            string="CANCEL"
+                            class="btn-danger"/>
+                    -
+                    <button name="btn_show_report"
+                            string="SHOW REPORT"
+                            type="object"
+                            class="oe_highlight"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

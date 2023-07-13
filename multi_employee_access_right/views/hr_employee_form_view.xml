@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="view_employee_form_inherit" model="ir.ui.view">
+            <field name="name">hr.employee.form.access</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="user_access_right.view_employee_form_access"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='employee_access']//group//group[@name='sale']" position="after">
+
+                    <group name="sale_requisition" string="Sale Requisition Access" style="width:33%">
+                        <field name="is_sale_req_confirm" widget="boolean_toggle" string="Confirm Button "/>
+                        <field name="is_sale_req_approve" widget="boolean_toggle" string="Approve Button "/>
+                        <field name="is_sale_req_cancel" widget="boolean_toggle" string="Cancel Button "/>
+                    </group>
+                     <group name="purchase_order" string="Purchase Order Access" style="width:33%">
+                        <field name="is_po_confirm" widget="boolean_toggle" string="Confirm Button "/>
+                        <field name="is_po_verified" widget="boolean_toggle" string="Verified Button "/>
+                        <field name="is_po_approved" widget="boolean_toggle" string="Approved Button "/>
+                        <field name="is_po_cancel" widget="boolean_toggle" string="Cancel Button "/>
+                    </group>
+
+                    <group name="purchase_requisition" string="Purchase Requisition Access" style="width:33%">
+                        <field name="is_purchase_req_confirm" widget="boolean_toggle" string="Confirm Button "/>
+                        <field name="is_purchase_req_verified" widget="boolean_toggle" string="Verified Button "/>
+                        <field name="is_purchase_req_checked" widget="boolean_toggle" string="Checked Button "/>
+                        <field name="is_purchase_req_approved" widget="boolean_toggle" string="Approved Button "/>
+                        <field name="is_purchase_req_cancel" widget="boolean_toggle" string="Cancel Button "/>
+                    </group>
+                    <group name="sq" string="Submission Of Quotation Access" style="width:33%">
+                        <field name="is_submit_access" widget="boolean_toggle" string="Submit Button"/>
+                        <field name="is_confirm_access" widget="boolean_toggle" string="Confirm Button"/>
+                        <field name="is_check_access" widget="boolean_toggle" string="Check Button"/>
+                        <field name="is_approve_access" widget="boolean_toggle" string="Approve Button"/>
+                        <field name="is_cancel_access" widget="boolean_toggle" string="Cancel Button"/>
+                    </group>
+                     <group name="stock_requisition" string="Stock Requisition Access" style="width:33%">
+                        <field name="is_submit_stock_req" widget="boolean_toggle" string="Submit Button "/>
+                        <field name="is_verified_stock_req" widget="boolean_toggle" string="Confirm Button "/>
+                        <field name="is_approved_stock_req" widget="boolean_toggle" string="Check Button "/>
+                        <field name="is_confirm_stock_req" widget="boolean_toggle" string="Approve Button "/>
+                        <field name="is_cancel_stock_req" widget="boolean_toggle" string="Cancel Button "/>
+                    </group>
+
+                </xpath>
+                 <xpath expr="//page[@name='employee_access']//group//group[@name='sale']//field[@name='sale_confirm']" position="after">
+                      <field name="is_so_verify" widget="boolean_toggle" string="Access Verify Button"/>
+                      <field name="is_so_approve" widget="boolean_toggle" string="Approve Button"/>
+                      <field name="is_so_cancel" widget="boolean_toggle" string="Access Cancel Button"/>
+                 </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

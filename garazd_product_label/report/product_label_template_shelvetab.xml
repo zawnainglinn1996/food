@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_simple_label_blue">
+        <div style="width: 33%; display: inline-table; height:160px;border:dashed;font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif">
+            <table style="height:120px !important;padding:2px;width:100%;">
+                 <tr class="col-xs-4 text-center" style=";overflow:hidden;;border-top:dashed;height:14px;white-space: pre-line;">
+                    <div t-if="len(product.zawgyi_product_name) > 53" style="overflow:hidden; height:75px !important;font-family:'zawgyione'; width: 284px !important; ;font-size:15px;padding-left:5px;padding-top:8px;background-color:#98FB98">
+                        <span  t-field="product.zawgyi_product_name" />
+                    </div>
+                    <div t-else="" style="overflow:hidden; height:55px !important;font-family:'zawgyione'; width: 284px !important; ;font-size:16px;padding-left:5px;padding-top:8px;background-color:#98FB98">
+                        <span t-field="product.zawgyi_product_name" />
+                    </div>
+
+                </tr>
+                <tr>
+                    <td style="height:35px;font-size:22px;font-weight:bold;padding-left:5px !important;">
+                        <div style="margin-top:-9px">
+                            <span t-field="product.currency_id.symbol"/>
+                            <span t-esc="'{0:,.0f}'.format(int(product.list_price))"/>
+                            <t t-set="stt" t-value="0"/>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:100%;">
+                        <div class="row" style="margin-top:4px">
+                            <t t-if="product.barcode">
+                                <div class="col-xs-6" style="height: 24px;width:60%;">
+                                    <img alt="Barcode"
+                                         t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' %
+                                             ('Code128', product.barcode, 500, 25)"
+                                         style="width:100%;height:25px;text-align:left;"/>
+                                </div>
+                                <div class="col-xs-6" style="height:25px;width:40%;font-size:20px;;font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif">
+                                    <strong>
+                                        <span t-field="product.default_code"/>
+                                    </strong>
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <div class="col-xs-12" style="height: 25px;width:100%;">
+                                    <span class="text-muted" style="height:25px;">No barcode available</span>
+                                </div>
+                            </t>
+                        </div>
+                        <t t-if="product.barcode">
+                            <div style="text-align:left;padding-top:2px;padding-left:30px;font-size:16px;font-weight:bold;font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif">
+                                <span t-field="product.barcode"/>
+                            </div>
+                        </t>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </template>
+    <template id="shelve_product_label_blue">
+        <t t-call="web.basic_layout">
+            <div class="page">
+                <t t-foreach="docs" t-as="product">
+                    <t t-call="garazd_product_label.report_simple_label_blue">
+                        <t t-set="product" t-value="product"/>
+                    </t>
+                </t>
+            </div>
+        </t>
+    </template>
+   <template id="report_simple_label_uom">
+         <div style="width: 33%; display: inline-table; height:160px;border:dashed">
+            <table style="border-top:dashed;height:120px !important;padding:2px;width:100%">
+                <tr class="col-xs-4 text-center" style=";overflow:hidden;;border-top:dashed;height:14px;white-space: pre-line;">
+                    <div t-if="len(product.zawgyi_product_name) &gt; 53" style="overflow:hidden;font-family:'zawgyione'; height:75px !important; width: 284px !important; ;font-size:15px;padding-left:5px;padding-top:8px">
+                        <span t-field="product.zawgyi_product_name"/>
+                    </div>
+                    <div t-else="" style="overflow:hidden; height:55px !important;font-family:'zawgyione'; width: 284px !important; ;font-size:16px;padding-left:5px;padding-top:8px">
+                        <span t-field="product.zawgyi_product_name"/>
+                    </div>
+
+                </tr>
+                <tr style="height:15px;font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;">
+                    <td style="height:15px;padding-left:5px !important;font-size:2px;">
+                        <div style="margin-top:-4px">
+                            <table style="margin-top:1px;width:100%">
+                                <tr style="width:100%;">
+                                    <td style="text-align:left;width:32%;font-size:17px;padding-top:0.5px;">
+                                        <strong>
+                                            <span t-field="product.uom_id" style="margin-left:1px"/>
+                                        </strong>
+                                    </td>
+                                    <td style="text-align:left;width:15%;background-color:white">
+                                    </td>
+                                    <td style="text-align:left;width:1%;background-color:#FFFF00">
+                                        <strong>:</strong>
+                                    </td>
+                                    <!--<td style="text-align:left;width:1%;background-color:#FFFF00"/>-->
+                                    <td style="text-align:left;width:34%;background-color:#FFFF00;font-size:21px;font-weight:bold;">
+                                        :
+                                        <strong t-esc="'{0:,.0f}'.format(int(product.list_price))"/>
+                                    </td>
+                                    <td style="width:5%"/>
+                                </tr>
+                                <br/>
+                                <t t-foreach="product.multi_uom_ids" t-as="line" t-if="product.enable_multi_uom">
+
+                                    <tr style="width:100%">
+                                        <td style="font-size:14px;text-align:left;font-size:17px;width:32%">
+                                            <strong>
+                                                <span t-field="line.uom_id" style="margin-left:1px"/>
+                                            </strong>
+                                        </td>
+                                        <td style="width:15%"/>
+                                        <td style="text-align:left;width:1%;background-color:#FFFF00">
+                                            <strong>:</strong>
+                                        </td>
+                                        <!--<td style="text-align:left;width:1%;background-color:#FFFF00"/>-->
+                                        <td style="text-align:left;width:34%;background-color:#FFFF00;;font-size:21px;font-weight:bold;">
+                                            :
+                                            <strong t-esc="'{0:,.0f}'.format(int(line.price))"/>
+                                        </td>
+                                        <td style="width:5%"/>
+                                    </tr>
+                                </t>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <div class="barcode" style="margin-top:-5px;font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;">
+                     <td style="width:100%;">
+                        <div class="row" style="margin-top:4px">
+                            <t t-if="product.barcode">
+                                <div class="col-xs-6" style="height: 24px;width:50%;">
+                                    <img alt="Barcode" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' %                                              ('Code128', product.barcode, 500, 25)" style="width:100%;height:25px;text-align:left;"/>
+                                </div>
+                                <div class="col-xs-6" style="height:25px;width:50%;font-size:20px;padding-left:13px;font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;margin-top:8px">
+                                    <strong>
+                                        <span t-field="product.default_code"/>
+                                    </strong>
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <div class="col-xs-12" style="height: 25px;width:100%;">
+                                    <span class="text-muted" style="height:25px;">No barcode available</span>
+                                </div>
+                            </t>
+                        </div>
+                        <t t-if="product.barcode">
+                            <div style="text-align:left;padding-top:2px;padding-left:5px;font-size:16px;font-weight:bold;font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;">
+                                <span t-field="product.barcode"/>
+                            </div>
+                        </t>
+                    </td>
+                    </div>
+                </tr>
+            </table>
+        </div>
+    </template>
+
+    <template id="shelve_product_label_uom">
+        <t t-call="web.basic_layout">
+            <div class="page">
+                <t t-foreach="docs" t-as="product">
+                    <t t-call="garazd_product_label.report_simple_label_uom">
+                        <t t-set="product" t-value="product"/>
+                    </t>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

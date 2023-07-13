@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_whole_production_order_pivot" model="ir.ui.view">
+         <field name="name">whole.retail.production.report.pivot</field>
+         <field name="model">whole.retail.production.report</field>
+         <field name="arch" type="xml">
+             <pivot string="Whole Retail Summary" sample="1">
+                 <field name="product_id" type="row"/>
+                 <field name="allowed_qty" type="measure" string="Qty"/>
+                 <field name="packaging_size" type="measure"/>
+             </pivot>
+         </field>
+    </record>
+    <record id="whole_retail_production_summary_report_tree" model="ir.ui.view">
+        <field name="name">whole.retail.production.report.tree</field>
+        <field name="model">whole.retail.production.report</field>
+        <field name="arch" type="xml">
+            <tree string="Whole Sale Retail Summary Production Report" create="false">
+                <field name="product_id"/>
+                <field name="allowed_qty"/>
+                <field name="uom_id"/>
+                <field name="packaging_size" string="Packaging"/>
+                <field name="product_packaging_id" string="Packaging Size"/>
+                <field name="expected_datetime" optional="show"/>
+                <field name="sale_type" optional="hide"/>
+                <field name="sale_picking" optional="hide"/>
+                <field name="remark" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="whole_retail_production_summary_report_search" model="ir.ui.view">
+        <field name="name">whole.retail.production.report.search</field>
+        <field name="model">whole.retail.production.report</field>
+        <field name="arch" type="xml">
+            <search string="Sale Summary Report Search">
+                <field name="product_id"/>
+                <field name="allowed_qty"/>
+                <field name="request_qty"/>
+                <field name="uom_id"/>
+                <field name="product_packaging_id"/>
+                <filter string="Tomorrow" name="tomorrow"
+                        domain="[('expected_datetime','&gt;=', ((context_today()+datetime.timedelta(days=1)).strftime('%Y-%m-%d'))),
+                                ('expected_datetime','&lt;=', ((context_today()+datetime.timedelta(days=1)).strftime('%Y-%m-%d 23:59:59')))]"/>
+                <group expand="1" string="Group By">
+                    <separator/>
+                    <filter string="Sale Type" name="sale_type" context="{'group_by':'sale_type'}"/>
+                    <filter string="Picking Type" name="picking_type" context="{'group_by':'sale_picking'}"/>
+
+                     <separator/>
+
+
+                    <filter string="Product Category" name="product_category_id" context="{'group_by':'product_category_id'}"/>
+                    <filter string="Product Group" name="product_family_id" context="{'group_by':'product_family_id'}"/>
+                    <filter string="Product Family" name="product_group_id" context="{'group_by':'product_group_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_whole_retail_production_summary_report" model="ir.actions.act_window">
+        <field name="name">Requisition Summary for Production ( Whole Sale + Retail Sale )</field>
+        <field name="res_model">whole.retail.production.report</field>
+        <field name="view_mode">pivot,tree</field>
+        <field name="view_id"/>  <!-- force empty -->
+        <field name="search_view_id" ref="whole_retail_production_summary_report_search"/>
+        <field name="context">{'search_default_tomorrow':1}</field>
+        <field name="help">This report performs analysis on your Sales orders and Sale Requisition
+        </field>
+    </record>
+
+    <menuitem
+            id="menu_whole_retail_production_summary_report"
+            name="Requisition Summary for Production (Retail + Whole)"
+            action="action_whole_retail_production_summary_report"
+            parent="sale.menu_sale_report"
+            sequence="109"/>
+
+    <menuitem
+            id="menu_whole_retail_production_summary_report_for_manufacturing"
+            name="Requisition Summary for Production (Retail + Whole)"
+            action="action_whole_retail_production_summary_report"
+            parent="mrp.menu_mrp_reporting"
+            sequence="109"/>
+</odoo>

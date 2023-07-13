@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <!--Stock Requestion Button Access Right-->
+        <record model="ir.ui.view" id="stock_requestion_template_access_rigt">
+            <field name="name">stock.requestion.template.access.hide</field>
+            <field name="model">stock.requestion</field>
+            <field name="inherit_id" ref="stock_requestion.view_requestion_form"/>
+            <field name="arch" type="xml">
+                <button name="action_verified" position="attributes">
+                    <attribute name="groups">user_access_right.group_verified_access</attribute>
+                </button>
+                <button name="action_approved" position="attributes">
+                    <attribute name="groups">user_access_right.group_approved_access</attribute>
+                </button>
+            </field>
+         </record>
+
+        <!--Inventory Report Cost Access-->
+        <record id="access_for_inventory_report_tree" model="ir.ui.view">
+            <field name="name">inventory.report.cost</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock_account.view_stock_quant_tree_editable_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='value']" position="attributes">
+                    <attribute name="groups">user_access_right.group_product_cost_access</attribute>
+                </xpath>
+            </field>
+        </record>
+        <!--Inventory Report Cost Access-->
+
+
+        <!--Inventory Valuation Cost Tree and Form Access-->
+        <record id="access_for_inventory_valuation_tree" model="ir.ui.view">
+            <field name="name">inventory.valuation.cost</field>
+            <field name="model">stock.valuation.layer</field>
+            <field name="inherit_id" ref="stock_account.stock_valuation_layer_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='value']" position="attributes">
+                    <attribute name="groups">user_access_right.group_product_cost_access</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="access_for_inventory_valuation_form" model="ir.ui.view">
+            <field name="name">inventory.valuation.cost.form</field>
+            <field name="model">stock.valuation.layer</field>
+            <field name="inherit_id" ref="stock_account.stock_valuation_layer_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='unit_cost']" position="attributes">
+                    <attribute name="groups">user_access_right.group_product_cost_access</attribute>
+                </xpath>
+                <xpath expr="//field[@name='value']" position="attributes">
+                    <attribute name="groups">user_access_right.group_product_cost_access</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="access_for_inventory_valuation_pivot" model="ir.ui.view">
+            <field name="name">inventory.valuation.cost.pivot</field>
+            <field name="model">stock.valuation.layer</field>
+            <field name="inherit_id" ref="stock_account.stock_valuation_layer_pivot"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='value']" position="attributes">
+                    <attribute name="groups">user_access_right.group_product_cost_access</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!--Inventory Valuation Cost Access-->
+
+
+    </data>
+</odoo>

@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_inventory_activities_report,access.activities.inventory.report,model_inventory_activities_reports,base.group_user,1,1,1,1
+access_inventory_activities_cost_report,access.activities.cost.inventory.report,model_inventory_activities_cost_reports,base.group_user,1,1,1,1
+access_production_sav_report,access.production.sav.report,model_production_sav_report,base.group_user,1,1,1,1

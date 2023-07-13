@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="action_production_sav_report_xlsx" model="ir.actions.report">
+        <field name="name">Production SAV Report</field>
+        <field name="model">production.sav.report</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">inventory_activities_reports.production_sav_xlsx</field>
+        <field name="report_file">inventory_activities_reports.production_sav_xlsx</field>
+        <field name="print_report_name">'Production SAV Report'</field>
+    </record>
+    <record id="view_production_sav_report_form" model="ir.ui.view">
+        <field name="name">production.sav.reports.form</field>
+        <field name="model">production.sav.report</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                    </group>
+                    <group string="Products" >
+                        <field name="product_ids" nolabel="1"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button special="cancel"
+                            string="CANCEL"
+                            class="btn-danger"/>
+                    -
+                    <button name="btn_print"
+                            string="Print"
+                            type="object"
+                            class="oe_highlight"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_production_sav_report" model="ir.actions.act_window">
+        <field name="name">Production SAV Reports</field>
+        <field name="res_model">production.sav.report</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    <menuitem id="menu_production_sav_report"
+              name="Production SAV Reports"
+              parent="mrp.menu_mrp_reporting"
+              action="action_production_sav_report"
+              sequence="360"/>
+</odoo>

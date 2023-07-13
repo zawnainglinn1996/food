@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record id="view_requestion_form" model="ir.ui.view">
+            <field name="name">stock.requestion.form</field>
+            <field name="model">stock.requestion</field>
+            <field name="inherit_id" ref="stock_requestion.view_requestion_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_family_id']" position="after">
+                    <field name="login_employee_id" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_multi_scrap_pivot" model="ir.ui.view">
+         <field name="name">multi.scrap.report.pivot</field>
+         <field name="model">multi.scrap.report</field>
+         <field name="arch" type="xml">
+             <pivot string="Multi Scrap Report" disable_linking="True">
+                 <field name="product_id" type="row"/>
+                 <field name="date" interval="month" type="col"/>
+             </pivot>
+         </field>
+    </record>
+
+    <record id="view_multi_scrap_tree" model="ir.ui.view">
+         <field name="name">multi.scrap.report.tree</field>
+         <field name="model">multi.scrap.report</field>
+         <field name="arch" type="xml">
+             <tree string="Multi Scrap Report" create="false">
+                 <field name="document_number"/>
+                 <field name="date"/>
+                 <field name="product_id" optional="show"/>
+                 <field name="lot_id" optional="hide"/>
+                 <field name="product_uom_id" optional="show"/>
+                 <field name="analytic_account_id" optional="hide"/>
+                 <field name="location_id" optional="hide"/>
+                 <field name="scrap_location_id" optional="show"/>
+                 <field name="scrap_qty" optional="show"/>
+                 <field name="standard_price" optional="show"/>
+                 <field name="remark" optional="show"/>
+                 <field name="multi_scrap_id" optional="hide"/>
+                 <field name="picking_id" invisible="1"/>
+                 <field name="move_id" invisible="1"/>
+                 <field name="state" optional="hide"/>
+             </tree>
+         </field>
+    </record>
+
+    <record id="view_multi_scrap_search" model="ir.ui.view">
+        <field name="name">multi.scrap.report.search</field>
+        <field name="model">multi.scrap.report</field>
+        <field name="arch" type="xml">
+            <search string="Multi Scrap Report">
+                <field name="date"/>
+                <filter string="Date" name="year" invisible="1" date="date" default_period="this_year"/>
+                <separator/>
+                 <field name="document_number"/>
+                 <field name="product_id"/>
+                 <field name="location_id"/>
+                 <field name="analytic_account_id"/>
+                 <field name="scrap_location_id"/>
+                 <field name="remark"/>
+                <group expand="0" string="Extended Filters">
+                    <field name="document_number"/>
+                </group>
+                <group expand="1" string="Group By">
+                    <filter string="Product" name="Product" context="{'group_by':'product_id'}"/>
+                    <filter string="Analytic" name="Analytic" context="{'group_by':'analytic_account_id'}"/>
+                    <filter string="Source Location" name="Source Location" context="{'group_by':'location_id'}"/>
+                    <filter string="Scrap Location" name="Scrap Location" context="{'group_by':'scrap_location_id'}"/>
+                    <separator/>
+                    <filter string="Date" name="date" context="{'group_by':'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_multi_scrap_report" model="ir.actions.act_window">
+        <field name="name">Multi Scrap Report</field>
+        <field name="res_model">multi.scrap.report</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="search_view_id" ref="view_multi_scrap_tree"/>
+    </record>
+
+    <menuitem id="menu_print_multi_scrap_report1" name="Multi Scrap Report"
+              action="action_multi_scrap_report" sequence="3" parent="sale.menu_sale_report" />
+     <menuitem id="inventory" name="Multi Scrap Report"
+              action="action_multi_scrap_report"   parent="stock.menu_warehouse_report" sequence ="100" />
+     <menuitem id="menu_mrp_multi_scrap_report" name="Multi Scrap Report"
+              action="action_multi_scrap_report" sequence="200" parent="mrp.menu_mrp_reporting" />
+
+</odoo>

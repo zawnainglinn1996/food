@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_stock_quant_tree_inventory_editable_inherit_stock_account_analytic" model="ir.ui.view">
+        <field name="name">stock.quant.inventory.tree.editable.inherit.stock.account.analytic</field>
+        <field name="model">stock.quant</field>
+        <field name="inherit_id" ref="stock.view_stock_quant_tree_inventory_editable"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='location_id']" position="after">
+                <field name="analytic_account_id" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

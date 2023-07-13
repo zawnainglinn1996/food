@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="action_repacking_report" model="ir.actions.report">
+            <field name="name">Stock Repacking</field>
+            <field name="model">stock.repackaging</field>
+            <field name="report_type">py3o</field>
+            <field name="report_name">repackaging.stock_repacking_report_document</field>
+            <field name="report_file">repackaging.stock_repacking_report_document</field>
+            <field name="py3o_filetype">pdf</field>
+            <field name="module">repackaging</field>
+            <field name="py3o_template_fallback">report/repackaging_report.odt</field>
+        </record>
+<!--        <record id="action_repacking_report_server" model="ir.actions.server">-->
+<!--            <field name="name">Stock Repacking</field>-->
+<!--            <field name="model_id" ref="repackaging.model_stock_repacking"/>-->
+<!--            <field name="state">code</field>-->
+<!--            <field name="code">-->
+<!--                action = records.get_repackaging_pdf()-->
+<!--            </field>-->
+<!--            <field name="binding_model_id" ref="repackaging.model_stock_repacking"/>-->
+<!--            <field name="binding_type">report</field>-->
+<!--        </record>-->
+	</data>
+</odoo>

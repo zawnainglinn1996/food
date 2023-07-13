@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="customer_generate_view" model="ir.ui.view">
+            <field name="name">customer.generate.view</field>
+            <field name="model">generate.customer.sequence</field>
+            <field name="arch" type="xml">
+                <form string="Generate Customer Sequence">
+                    <group>
+                        <p>This wizard will generate sequence number for selected customers!</p>
+                    </group>
+                    <footer>
+                        <button string="Generate" name="action_generate_sequence" type="object" class="oe_highlight"/>
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_view_customer_sequence" model="ir.actions.act_window">
+            <field name="name">Generate Customer Code</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">generate.customer.sequence</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="customer_generate_view"/>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="base.model_res_partner" />
+            <field name="binding_view_types">list</field>
+        </record>
+
+        <record id="action_view_customer_sequence_form" model="ir.actions.act_window">
+            <field name="name">Generate Customer Code</field>
+            <field name="res_model">generate.customer.sequence</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="customer_generate_view"/>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="base.model_res_partner"/>
+            <field name="binding_view_types">form</field>
+        </record>
+    </data>
+</odoo>

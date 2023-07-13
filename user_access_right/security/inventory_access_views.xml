@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <!--Stock Requestion Button Access Right-->
+        <record model="ir.module.category" id="module_stock_requestion">
+            <field name="name">Stock Requestion Access</field>
+            <field name="sequence">204</field>
+        </record>
+        <record id="group_verified_access" model="res.groups">
+            <field name="name">Access Verified Button</field>
+            <field name="category_id" ref="user_access_right.module_stock_requestion"/>
+        </record>
+        <record id="group_approved_access" model="res.groups">
+            <field name="name">Access Approved Button</field>
+            <field name="category_id" ref="user_access_right.module_stock_requestion"/>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="view_pos_config_kanban_access" model="ir.ui.view">
+            <field name="name">pos.config.kanban.view.access</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_config_kanban"/>
+            <field name="arch" type="xml">
+                <xpath expr="//kanban//templates//div[@role='menu']" position="attributes">
+                    <attribute name="groups">user_access_right.group_pos_dashboard_session</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,28 @@
+<odoo>
+    <template id="custom_purchase_track_po_line_template" inherit_id="purchase.track_po_line_template">
+    <xpath expr="//div" position="replace">
+        <div>
+            <strong>Your custom message goes here.</strong>
+            <ul>
+                <li><t t-esc="line.product_id.display_name"/>:</li>
+                <t t-if="new_uom">
+                    <t t-if="line.multi_uom_line_id.uom_id.name != new_uom">
+                        UOM: <t t-esc="new_uom"/> -> <t t-esc="line.multi_uom_line_id.uom_id.name"/> <br/>
+                    </t>
+                </t>
+                <t t-if="old_purchase_uom_qty">
+                    <t t-if="old_purchase_uom_qty != line.purchase_uom_qty">
+                        Ordered Quantity: <t t-esc="old_purchase_uom_qty"/> -> <t t-esc="line.purchase_uom_qty"/><br/>
+                    </t>
+                </t>
+                <t t-if='line.order_id.product_id.type in ("consu", "product")'>
+                    Received Quantity: <t t-esc="line.qty_received"/><br/>
+                </t>
+                Billed Quantity: <t t-esc="line.qty_invoiced"/>
+            </ul>
+        </div>
+    </xpath>
+</template>
+
+
+</odoo>

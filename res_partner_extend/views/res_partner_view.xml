@@ -1,0 +1,86 @@
+<odoo>
+  <data>
+    <record id="view_supplier_form_extension" model="ir.ui.view">
+      <field name="name">res.partner.form.extension</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='vat']" position="after">
+          <field name="discount_type"/>
+          <field name="discount_rate"/>
+        </xpath>
+        <xpath expr="//notebook" position="inside">
+          <page name="supplier_infos" string="Supplier Details Info" attrs="{'invisible': [('supplier', '=', False)]}">
+            <group>
+                <field name="document_checklist" widget="section_and_note_one2many" mode="tree,kanban">
+                  <tree editable="bottom" delete="false" create="false">
+                    <field name="name" readonly="1" force_save="1"/>
+                    <field name="register_no"/>
+                    <field name="date"/>
+                    <field name="attachment" filename="file_name" widget="binary"/>
+                    <field name="file_name" invisible="1"/>
+                    <field name="remark"/>
+                  </tree>
+                </field>
+            </group>
+            <group string="Legal Structure">
+              <group>
+                <field name="corporation"/>
+                <field name="joint_venture"/>
+                <field name="partnership"/>
+              </group>
+              <group>
+                <field name="franchise"/>
+                <field name="sole_proprietorship"/>
+                <field name="non_profit"/>
+              </group>
+            </group>
+            <group string="Type of Business/Commodity Service">
+              <group>
+                <field name="retailer"/>
+                <field name="dealer"/>
+                <field name="professional_services"/>
+                <field name="manufacturer"/>
+                <field name="freight"/>
+                <field name="other"/>
+              </group>
+              <group>
+                <field name="construction_contractor"/>
+                <field name="broadcaster"/>
+                <field name="service_provider"/>
+                <field name="consultant"/>
+                <field name="whole_sealer"/>
+              </group>
+            </group>
+            <group>
+              <group>
+                <label for="tt_payment" string="Payment Method"/>
+                <field name="tt_payment"/>
+                <field name="cheque_payment" no_label="1"/>
+                <field name="others_payment" no_label="1"/>
+              </group>
+              <group>
+              </group>
+            </group>
+            <group string="Attchment">
+              <group>
+                <field name="bank" invisible="1"/>
+                <field name="branch"/>
+                <field name="branch_address" invisible="1"/>
+                <field name="beneficiary"/>
+                <field name="type_of_account"/>
+                <field name="account_number" invisible="1"/>
+                <field name="micr_code"/>
+                <field name="swift_code"/>
+                <field name="ifsc_no"/>
+                <field name="nrc"/>
+              </group>
+              <group>
+              </group>
+            </group>
+          </page>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

@@ -1,0 +1,33 @@
+<odoo>
+    <record id="view_mo_produce_form" model="ir.ui.view">
+        <field name="name">mo.produce.form</field>
+        <field name="model">mrp.produce</field>
+        <field name="inherit_id" ref="mrp_to_produce.view_mo_produce_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='standard_qty']" position="after">
+                <field name="login_employee_id" readonly="1"/>
+            </xpath>
+
+            <xpath expr="//form//sheet" position="inside">
+                <notebook name="main_book">
+                    <page string="CONFIRM BY INFO" name="confirm_info">
+
+                        <group>
+                            <group style="width:33%">
+                                <separator string="Confirm By"
+                                           style="text-align:right;font-weight:bold;font-size:15px"/>
+                                <br/>
+                                <br/>
+                                <field name="confirm_by_sign" widget='image' readonly="1"
+                                       style="width:90;height:90" string="Sign"/>
+                                <field name="confirm_by_emp_id" readonly="1" string="Name"/>
+                            </group>
+                            <group style="width:34%"/>
+                            <group style="width:33%"/>
+                        </group>
+                    </page>
+                </notebook>
+            </xpath>
+        </field>
+    </record>
+</odoo>

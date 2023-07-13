@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_mrp_bom_cost_form_inherit11" model="ir.ui.view">
+        <field name="name">mrp.bom.cost.form.inherit</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp_to_journal.mrp_bom_material_cost_form_view"/>
+        <field name="arch" type="xml">
+
+            <!--MRP Bom Material-->
+            <xpath expr="//field[@name='bom_material_cost_ids']//tree//field[@name='uom_id']" position="after">
+                <field name="multi_uom_line_ids" invisible="1"/>
+                <field name="multi_uom_line_id" string="UOM" domain="[('id', 'in', multi_uom_line_ids)]" options="{'no_open':True,'no_create':True}" groups="uom.group_uom"/>
+            </xpath>
+
+
+            <xpath expr="//field[@name='bom_material_cost_ids']//tree//field[@name='uom_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='bom_material_cost_ids']//tree//field[@name='uom_id']" position="before">
+                <field name="planned_multi_uom_qty"/>
+            </xpath>
+
+
+            <!--MRP Bom Overhead-->
+            <xpath expr="//field[@name='bom_overhead_cost_ids']//tree//field[@name='uom_id']" position="after">
+                <field name="multi_uom_line_ids" invisible="1"/>
+                <field name="multi_uom_line_id" string="UOM" domain="[('id', 'in', multi_uom_line_ids)]" options="{'no_open':True,'no_create':True}" groups="uom.group_uom"/>
+            </xpath>
+            <xpath expr="//field[@name='bom_overhead_cost_ids']//tree//field[@name='uom_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+             <xpath expr="//field[@name='bom_labour_cost_ids']//tree//field[@name='uom_id']" position="after">
+                  <field name="multi_uom_line_id" required="1"/>
+             </xpath>
+
+        </field>
+    </record>
+
+    <record id="view_mrp_production_form_inherit_inherit" model="ir.ui.view">
+        <field name="name">mrp.production.form.inherit</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp_to_journal.mrp_production_material_cost_form_view"/>
+        <field name="arch" type="xml">
+
+            <!--MRP Bom Material-->
+            <xpath expr="//field[@name='pro_material_cost_ids']//tree//field[@name='uom_id']" position="after">
+                 <field name="planned_multi_uom_qty"/>
+                <field name="multi_uom_line_ids" invisible="1"/>
+                <field name="multi_uom_line_id" string="UoM" domain="[('id', 'in', multi_uom_line_ids)]" options="{'no_open':True,'no_create':True}" groups="uom.group_uom"/>
+            </xpath>
+            <xpath expr="//field[@name='pro_material_cost_ids']//tree//field[@name='uom_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <!--MRP Bom Labour-->
+            <xpath expr="//field[@name='pro_labour_cost_ids']//tree//field[@name='uom_id']" position="after">
+                <field name="multi_uom_line_ids" invisible="1"/>
+                <field name="multi_uom_line_id" string="UOM" domain="[('id', 'in', multi_uom_line_ids)]" options="{'no_open':True,'no_create':True}" groups="uom.group_uom"/>
+            </xpath>
+            <xpath expr="//field[@name='pro_labour_cost_ids']//tree//field[@name='uom_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+
+
+
+
+            <!--MRP Bom Overhead-->
+            <xpath expr="//field[@name='pro_overhead_cost_ids']//tree//field[@name='uom_id']" position="after">
+                <field name="multi_uom_line_ids" invisible="1"/>
+                <field name="multi_uom_line_id" string="UOM" domain="[('id', 'in', multi_uom_line_ids)]" options="{'no_open':True,'no_create':True}" groups="uom.group_uom"/>
+            </xpath>
+            <xpath expr="//field[@name='pro_overhead_cost_ids']//tree//field[@name='uom_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+
+
+
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+	<t t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension" owl="1">
+	 	<xpath expr="//div[hasclass('pos-receipt')]" position="after">
+	 		<div class="pos-receipt" style="width:width: 570px;">
+                <div class="contact" style="font-size:12px">
+					 <img class="pos-receipt-logo" t-att-src="env.pos.config.logo" alt="Logo"
+                          style="height:60px;width:100px"/>
+                    <br/>
+                    <t t-if="receipt.header">
+						<div style="white-space: pre-line;color:black;text-align:center;font-size:12px;font-family: sans-serif;;color:#575555">
+							<strong><t t-esc="receipt.header"/></strong>
+						</div>
+					 </t>
+				 </div>
+                <br/>
+                <table style="margin-top: 5px;font-size: 11px;width: 100%;font-family: sans-serif;color:#575555">
+					<tr style="line-height:12pt;width: 100%;">
+						<td style="width: 50%;">
+							<t t-esc="receipt.date.localestring"/>
+						</td>
+                        <td width="width: 50%;"/>
+                        <td>
+							<strong>Counter: </strong>
+                            <t t-esc="env.pos.config.name || ''"/>
+						</td>
+					</tr>
+                    <tr style="line-height:12pt;width: 100%;">
+						<td>
+							<t t-esc="receipt.name"/>
+						</td>
+                        <td width="1px;"/>
+                        <td>
+						  <strong>Casher: </strong>
+                            <t t-esc="receipt.cashier"/>
+						</td>
+					</tr>
+                    <tr style="line-height:12pt;width: 100%;">
+						<td>
+							<strong>Table No:</strong>
+                            <t t-esc="receipt.table_no"/>
+						</td>
+                        <td width="1px;"/>
+                        <td/>
+					</tr>
+				</table>
+
+                <br/>
+                <div class="page" style="width:100%">
+				<table style="font-family: sans-serif;font-size:11px;color:#575555;width:100%">
+					<tr style="border-top: dotted 1px #000;border-bottom: dotted 1px #000; width:100%;">
+
+                        <th style='text-align:left;;width:60%;'>Description</th>
+                        <th style='text-align:center;width:10%;'>Qty</th>
+                        <th style='text-align:right;width:15%;'>Price</th>
+                        <th style='text-align:right;width:15%' colspan="2">Amount</th>
+					</tr>
+                    <t t-set="no" t-value="0"/>
+                    <t t-set="total_discount_amount" t-value="0"/>
+                    <t t-foreach="receipt.orderlines" t-as="line" t-key="line.id" style="font-size: 11px">
+		            	<tr>
+                            <td style="width:60%;font-size:11px;text-align:left;padding-top:4px">
+								<t t-esc="line.product_name"/>
+						    </td>
+                            <td style="width:10%;text-align:center;padding-top:4px;font-size:11px;">
+						        <t t-esc="line.quantity"/>
+						    </td>
+                            <td style="width:15%;text-align:right;padding-top:4px;font-size:11px;">
+								<t t-if="line.promotion_id">
+									 <t t-set="total_discount_amount" t-value="total_discount_amount + line.price"/>
+								</t>
+                                <t t-esc='line.price.toLocaleString()'/>
+							</td>
+                            <td style="width:15%;text-align:right;padding-top:4px;font-size:11px;" colspan="2">
+						        <t t-esc="(line.price * line.quantity).toLocaleString()"/>
+						    </td>
+
+						</tr>
+					   </t>
+                    <br/>
+                    <tr style="width:100%;border-top: dotted 1px #000">
+							<td colspan="2" style="font-size:11px"><b>Subtotal</b></td>
+                        <td colspan="3" style="text-align:right">
+								  <b>
+									  <span t-esc="receipt.subtotal.toLocaleString()"/>
+								  </b>
+							</td>
+						</tr>
+
+                    <tr style="width:100%">
+							<td colspan="2" style="font-size:11px"><b>Discount Amt</b></td>
+                        <td colspan="3" style="text-align:right">
+							  <b>
+								  <t t-esc="receipt.total_discount + total_discount_amount"/>
+							  </b>
+						</td>
+					</tr>
+                    <tr style="width:100%">
+							<td colspan="2" style="font-size:11px"><b>Tax Amount</b></td>
+                        <td colspan="3" style="text-align:right">
+							  <b>
+								  <span t-esc="receipt.total_tax"/>
+							  </b>
+						</td>
+					</tr>
+                    <tr style="width:100%">
+							<td colspan="2" style="font-size:11px"><b>Total</b></td>
+                        <td colspan="3" style="text-align:right">
+								 <b>
+									<span style="font-size:10px"> <span t-esc="receipt.total_with_tax.toLocaleString()"
+                                                                        class="pos-receipt-right-align"/></span>
+								 </b>
+							</td>
+						</tr>
+                    <br/>
+                    <t t-foreach="receipt.paymentlines" t-as="line" t-key="line.cid">
+						<tr style="width:100%;font-size:11px;">
+						 <td colspan="2" class="text-left">
+							  <b>Receipt( MMK )</b>
+						 </td>
+							<td colspan="2" class="text-center">
+							  <t t-esc="line.name"/>
+						</td>
+							<td colspan="2" class="pos-right-align">
+							  <b><t t-esc="line.amount.toLocaleString()"/></b>
+						</td>
+						</tr>
+					</t>
+                    <tr style="width:100%;font-size:11px;">
+							 <td colspan="2" style="border-bottom: dotted 1px #000"><b>Change:</b></td>
+                        <td colspan="3" class="pos-right-align" style="border-bottom: dotted 1px #000">
+							 <b>
+								<t t-esc="receipt.change.toLocaleString()"/>
+							 </b>
+						    </td>
+						</tr>
+				</table>
+				</div>
+
+                <br/>
+                <div class="before-footer"/>
+                <br/>
+                <div class="footer"
+                     style="white-space: pre-line;font-family: sans-serif;font-size:10px;color:#575555;text-align:center">
+					<b> <t t-esc="receipt.footer"/></b><br/>
+
+				</div>
+			</div>
+	    </xpath>
+	</t>
+	<t t-name="OrderReceiptNoAmount" owl="1">
+       <div class="pos-receipt" style="width:width: 570px;">
+                <div class="contact" style="font-size:12px">
+					<center>----------------------------------------------------------------------</center>
+					<br/>
+					<br/>
+					 <img class="pos-receipt-logo" t-att-src="env.pos.config.logo" alt="Logo"
+                          style="height:60px;width:100px"/>
+                    <br/>
+                    <span align="center" style="font-size: 14px; font-weight: bold;margin:auto; text-align: center;display: block">
+                    	Order Check
+                    </span>
+                    <t t-if="receipt.header">
+						<div style="white-space: pre-line;color:black;text-align:center;font-size:12px;font-family: sans-serif;;color:#575555">
+							<strong><t t-esc="receipt.header"/></strong>
+						</div>
+					 </t>
+				 </div>
+                <br/>
+                <table style="margin-top: 5px;font-size: 11px;width: 100%;font-family: sans-serif;color:#575555">
+					<tr style="line-height:12pt;width: 100%;">
+						<td style="width: 50%;">
+							<t t-esc="receipt.date.localestring"/>
+						</td>
+                        <td width="width: 50%;"/>
+                        <td>
+							<strong>Counter: </strong>
+                            <t t-esc="env.pos.config.name || ''"/>
+						</td>
+					</tr>
+                    <tr style="line-height:12pt;width: 100%;">
+						<td>
+							<t t-esc="receipt.name"/>
+						</td>
+                        <td width="1px;"/>
+                        <td>
+						  <strong>Casher: </strong>
+                            <t t-esc="receipt.cashier"/>
+						</td>
+					</tr>
+                    <tr style="line-height:12pt;width: 100%;">
+						<td>
+							<strong>Table No:</strong>
+                            <t t-esc="receipt.table_no"/>
+						</td>
+                        <td width="1px;"/>
+                        <td/>
+					</tr>
+				</table>
+
+                <br/>
+                <div class="page" style="width:100%">
+				<table style="font-family: sans-serif;font-size:11px;color:#575555;width:100%">
+					<tr style="border-top: dotted 1px #000;border-bottom: dotted 1px #000; width:100%;">
+
+                        <th style='text-align:left;;width:60%;'>Description</th>
+                        <th style='text-align:center;width:10%;'>Qty</th>
+					</tr>
+                    <t t-set="no" t-value="0"/>
+                    <t t-set="total_discount_amount" t-value="0"/>
+                    <t t-foreach="receipt.orderlines" t-as="line" t-key="line.id" style="font-size: 11px">
+		            	<tr>
+                            <td style="width:60%;font-size:11px;text-align:left;padding-top:4px">
+								<t t-esc="line.product_name"/>
+						    </td>
+                            <td style="width:10%;text-align:center;padding-top:4px;font-size:11px;">
+						        <t t-esc="line.quantity"/>
+						    </td>
+                          
+						</tr>
+					   </t>
+                    <br/>
+                   
+                   
+                    
+				</table>
+				</div>
+
+                <br/>
+                <div class="before-footer"/>
+                <br/>
+                <div class="footer"
+                     style="white-space: pre-line;font-family: sans-serif;font-size:10px;color:#575555;text-align:center">
+					<b> <t t-esc="receipt.footer"/></b>
+				</div>
+			</div>
+    </t>
+</templates>

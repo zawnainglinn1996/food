@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="multi_price_unit" model="decimal.precision">
+        <field name="name">Multi Product Price</field>
+        <field name="digits">20</field>
+    </record>
+    <record id="multi_uom_discount" model="decimal.precision">
+        <field name="name">Multi UoM Discount</field>
+        <field name="digits">20</field>
+    </record>
+</odoo>

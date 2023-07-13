@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_sale_order_slip_report" model="ir.actions.report">
+        <field name="name">Sale Order ( Slip )</field>
+        <field name="model">sale.order</field>
+        <field name="report_type">py3o</field>
+        <field name="report_name">pos_slip_extend.sale_order_slip_report</field>
+        <field name="report_file">pos_slip_extend.sale_order_slip_report</field>
+        <field name="py3o_filetype">pdf</field>
+        <field name="module">pos_slip_extend</field>
+        <field name="py3o_template_fallback">reports/sale_order_slip_size.odt</field>
+    </record>
+    <record id="action_sale_order_server" model="ir.actions.server">
+        <field name="name">Sale Order ( Slip )</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = records.get_sale_order_slip_report()
+        </field>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>
